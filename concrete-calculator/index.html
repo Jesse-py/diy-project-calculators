@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concrete Calculator: Bags and Cubic Yards for a Slab or Post Holes</title>
+<meta name="description" content="Free concrete calculator for slabs, round pads, and post holes. Get cubic yards and how many 40, 60, or 80 lb bags of concrete mix to buy, with a waste allowance.">
+<link rel="canonical" href="https://jesse-py.github.io/diy-project-calculators/concrete-calculator/">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Concrete Calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="../">DIY <span>Project</span> Calculators</a>
+  <nav class="top"><a href="../#calculators">Calculators</a><a href="../about/">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <h1>Concrete Calculator</h1>
+  <p class="lede">Find out how much concrete a slab, round pad, or set of post holes takes, in cubic yards and in bags of premixed concrete. Everything runs in your browser.</p>
+
+  <section class="card">
+    <div class="fields">
+      <div><label for="shape">What are you pouring?</label>
+        <select id="shape">
+          <option value="slab">Slab or patio</option>
+          <option value="round">Round pad</option>
+          <option value="hole">Post holes or round columns</option>
+        </select></div>
+      <div class="s-slab"><label for="len">Length (ft)</label><input id="len" type="number" min="0" step="0.1" value="10" inputmode="decimal"></div>
+      <div class="s-slab"><label for="wid">Width (ft)</label><input id="wid" type="number" min="0" step="0.1" value="10" inputmode="decimal"></div>
+      <div class="s-round hidden"><label for="diam">Diameter (ft)</label><input id="diam" type="number" min="0" step="0.1" value="8" inputmode="decimal"></div>
+      <div class="s-slab s-round"><label for="thick">Thickness (inches)</label><input id="thick" type="number" min="0" step="0.5" value="4" inputmode="decimal"></div>
+      <div class="s-hole hidden"><label for="hdiam">Hole diameter (inches)</label><input id="hdiam" type="number" min="0" step="0.5" value="10" inputmode="decimal"></div>
+      <div class="s-hole hidden"><label for="hdepth">Hole depth (ft)</label><input id="hdepth" type="number" min="0" step="0.1" value="3" inputmode="decimal"></div>
+      <div><label for="qty">How many of these?</label><input id="qty" type="number" min="1" step="1" value="1" inputmode="numeric"></div>
+      <div><label for="waste">Extra for waste (%)</label><input id="waste" type="number" min="0" max="50" step="1" value="10" inputmode="numeric"></div>
+    </div>
+    <p class="small muted" id="hole-note">For post holes, the calculator fills the whole hole. If a post will sit in it, the post takes up some room, so you'll have a little left over.</p>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <h2 style="margin-top:0">Concrete needed</h2>
+    <div class="stats" id="stats"></div>
+    <p id="summary"></p>
+    <h3>Bags of premixed concrete</h3>
+    <div class="table-scroll"><table id="bags"></table></div>
+    <p class="small muted">Bag yields are from the QUIKRETE Concrete Mix data sheet (an 80 lb bag makes about 0.60 cubic feet). Other brands are similar; the yield is printed on the bag.</p>
+  </section>
+
+  <article>
+    <h2>How much concrete for a 4-inch slab?</h2>
+    <p>These are the amounts for a 4-inch-thick slab (the usual thickness for a patio, walkway, or shed floor), with 10% added for waste and an uneven base.</p>
+    <div class="table-scroll"><table id="slab-table">
+<!--table:concrete-slabs-->
+<thead><tr><th>Slab size</th><th class="num">Cubic yards</th><th class="num">80 lb bags</th><th class="num">60 lb bags</th></tr></thead><tbody>
+<tr><td>4 &times; 4 ft</td><td class="num">0.22</td><td class="num">10</td><td class="num">14</td></tr>
+<tr><td>4 &times; 8 ft</td><td class="num">0.43</td><td class="num">20</td><td class="num">27</td></tr>
+<tr><td>8 &times; 8 ft</td><td class="num">0.87</td><td class="num">40</td><td class="num">53</td></tr>
+<tr><td>10 &times; 10 ft</td><td class="num">1.36</td><td class="num">62</td><td class="num">82</td></tr>
+<tr><td>10 &times; 12 ft</td><td class="num">1.63</td><td class="num">74</td><td class="num">98</td></tr>
+<tr><td>12 &times; 12 ft</td><td class="num">1.96</td><td class="num">88</td><td class="num">118</td></tr>
+<tr><td>10 &times; 20 ft</td><td class="num">2.72</td><td class="num">123</td><td class="num">163</td></tr>
+<tr><td>16 &times; 16 ft</td><td class="num">3.48</td><td class="num">157</td><td class="num">209</td></tr>
+<tr><td>20 &times; 20 ft</td><td class="num">5.43</td><td class="num">245</td><td class="num">326</td></tr>
+<tr><td>24 &times; 24 ft</td><td class="num">7.82</td><td class="num">352</td><td class="num">470</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p>Past about a cubic yard (45 bags of 80 lb mix), it's usually easier to order ready-mix concrete from a truck. Ask your local supplier about their minimum order and any short-load fee.</p>
+
+    <h2>How the calculator works</h2>
+    <p>Volume is length &times; width &times; thickness, with the thickness converted from inches to feet (divide by 12). A 10 &times; 10 ft slab 4 inches thick is 10 &times; 10 &times; 4 &divide; 12 = 33.3 cubic feet. There are 27 cubic feet in a cubic yard, so that's 1.23 cubic yards before waste. A round pad uses &pi; &times; radius&sup2; &times; thickness, and a post hole uses the same formula with the hole's diameter and depth.</p>
+    <p>For bags, the calculator divides the volume (plus your waste allowance) by how much one bag makes, then rounds up. QUIKRETE's data sheet lists these yields:</p>
+    <div class="table-scroll"><table>
+      <thead><tr><th>Bag size</th><th class="num">Yield per bag</th><th class="num">Bags per cubic yard</th></tr></thead>
+      <tbody>
+        <tr><td>40 lb</td><td class="num">0.30 cu ft</td><td class="num">90</td></tr>
+        <tr><td>50 lb</td><td class="num">0.375 cu ft</td><td class="num">72</td></tr>
+        <tr><td>60 lb</td><td class="num">0.45 cu ft</td><td class="num">60</td></tr>
+        <tr><td>80 lb</td><td class="num">0.60 cu ft</td><td class="num">45</td></tr>
+        <tr><td>90 lb</td><td class="num">0.675 cu ft</td><td class="num">40</td></tr>
+      </tbody>
+    </table></div>
+    <p>The weight shown uses the data sheet's density of about 140 lb per cubic foot of mixed concrete, which helps if you're hauling bags in a car or pickup.</p>
+
+    <h2>Tips before you pour</h2>
+    <ul>
+      <li><strong>Add for waste.</strong> Ground is never perfectly flat, forms bow a little, and some concrete gets spilled. 5&ndash;10% extra is a common allowance; use more if the base is uneven. Running short halfway through a pour is much worse than having a bag left over.</li>
+      <li><strong>Measure the real depth.</strong> If your base is dug 4&frac12; inches deep in places, use that. Half an inch over a 10 &times; 10 slab is another 4 cubic feet, about 7 more bags.</li>
+      <li><strong>Check the minimum thickness.</strong> QUIKRETE says its standard Concrete Mix is for pours 2 inches thick or more.</li>
+      <li><strong>Water.</strong> The data sheet calls for about 6 pints (3 quarts) of water per 80 lb bag, so 60 bags is roughly 45 gallons.</li>
+    </ul>
+
+    <h2>FAQ</h2>
+    <details><summary>How many 80 lb bags of concrete are in a yard?</summary><p>45. One cubic yard is 27 cubic feet, and an 80 lb bag makes about 0.60 cubic feet (27 &divide; 0.60 = 45). With 60 lb bags it's 60 per yard.</p></details>
+    <details><summary>How many bags for a 10 &times; 10 slab?</summary><p>At 4 inches thick: 33.3 cubic feet, which is 56 bags of 80 lb mix with no extra, or 62 bags with 10% added for waste.</p></details>
+    <details><summary>How much concrete per fence post?</summary><p>A 10-inch hole 3 feet deep holds about 1.6 cubic feet, which is 3 bags of 80 lb mix (with 10% extra). Set the shape to "Post holes" and enter your hole size and number of posts. The post itself takes up some of the space, so you'll have a bit to spare.</p></details>
+    <details><summary>Does this work for other brands?</summary><p>Yes, if you know the yield. Most bags print it (for example "yields 0.6 cu ft"). Bag yields for the same weight are similar across brands, but check yours if you're ordering exactly.</p></details>
+    <p class="small muted">Estimates for planning. Always check local building codes for footing and slab requirements. Source: <a href="https://www.quikrete.com/PDFs/DATA_SHEET-Concrete%20Mix%201101.pdf">QUIKRETE Concrete Mix No. 1101 data sheet</a> (yield, density, water, minimum thickness).</p>
+  </article>
+</div></main>
+<footer class="site"><div class="wrap">
+  <a href="../">Home</a><a href="../mulch-calculator/">Mulch calculator</a><a href="../paint-calculator/">Paint calculator</a><a href="../about/">About &amp; privacy</a>
+  <p>&copy; <span data-year></span> DIY Project Calculators</p>
+</div></footer>
+<script src="../assets/config.js"></script>
+<script src="../assets/diy-engine.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const E = window.DiyEngine;
+  const num = id => Math.max(0, parseFloat($(id).value) || 0);
+  const fmt = (n, d = 2) => n.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d });
+  const stat = (k, v, win) => `<div class="stat${win ? ' win' : ''}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
+
+  function render() {
+    const shape = $('shape').value;
+    ['slab', 'round', 'hole'].forEach(s => document.querySelectorAll('.s-' + s).forEach(el => el.classList.add('hidden')));
+    document.querySelectorAll('.s-' + shape).forEach(el => el.classList.remove('hidden'));
+    $('hole-note').classList.toggle('hidden', shape !== 'hole');
+    const qty = Math.max(1, Math.round(num('qty')) || 1);
+    const waste = Math.min(50, num('waste'));
+    const one = shape === 'slab' ? E.slab(num('len'), num('wid'), num('thick'))
+      : shape === 'round' ? E.circleSlab(num('diam'), num('thick'))
+      : E.cylinder(num('hdiam'), num('hdepth'));
+    const base = one * qty;
+    if (base <= 0) {
+      $('stats').innerHTML = ''; $('bags').innerHTML = '';
+      $('summary').textContent = 'Enter your measurements to see how much concrete you need.';
+      return;
+    }
+    const c = E.concrete(base, waste);
+    const b80 = c.bags.find(b => b.lb === 80).count;
+    $('stats').innerHTML = stat('Cubic yards', fmt(c.yd3), true) + stat('Cubic feet', fmt(c.ft3, 1)) +
+      stat('80 lb bags', b80.toLocaleString()) + stat('Weight of concrete', `${Math.round(c.lb).toLocaleString()} lb`);
+    $('summary').textContent = `${qty > 1 ? qty + ' pours of ' + fmt(one, 2) + ' cu ft each = ' : ''}${fmt(base, 2)} cubic feet (${fmt(base / 27)} cubic yards) before waste. ` +
+      `With ${waste}% extra, plan for ${fmt(c.ft3, 2)} cubic feet.`;
+    $('bags').innerHTML = '<thead><tr><th>Bag size</th><th class="num">Bags needed</th><th class="num">Total weight to carry</th></tr></thead><tbody>' +
+      c.bags.map(b => `<tr><td>${b.lb} lb (${b.yield} cu ft each)</td><td class="num">${b.count.toLocaleString()}</td><td class="num">${(b.count * b.lb).toLocaleString()} lb</td></tr>`).join('') + '</tbody>';
+  }
+  document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', render));
+  render();
+})();
+</script>
+</body>
+</html>

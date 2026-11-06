@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mulch Calculator: Cubic Yards and Bags for Your Beds</title>
+<meta name="description" content="Free mulch calculator. Enter your bed size and depth to get cubic yards and how many 2 or 3 cu ft bags of mulch, soil, or compost to buy, including top-ups.">
+<link rel="canonical" href="https://jesse-py.github.io/diy-project-calculators/mulch-calculator/">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Mulch Calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="../">DIY <span>Project</span> Calculators</a>
+  <nav class="top"><a href="../#calculators">Calculators</a><a href="../about/">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <h1>Mulch Calculator</h1>
+  <p class="lede">Work out how much mulch to buy for a garden bed or tree ring, in bulk cubic yards or bags. It works the same way for bagged soil, compost, and pea gravel. Everything runs in your browser.</p>
+
+  <section class="card">
+    <div class="fields">
+      <div><label for="shape">Bed shape</label>
+        <select id="shape">
+          <option value="rect">Rectangle</option>
+          <option value="circle">Circle (tree ring)</option>
+          <option value="area">I know the square feet</option>
+        </select></div>
+      <div class="s-rect"><label for="len">Length (ft)</label><input id="len" type="number" min="0" step="0.5" value="20" inputmode="decimal"></div>
+      <div class="s-rect"><label for="wid">Width (ft)</label><input id="wid" type="number" min="0" step="0.5" value="4" inputmode="decimal"></div>
+      <div class="s-circle hidden"><label for="diam">Diameter (ft)</label><input id="diam" type="number" min="0" step="0.5" value="6" inputmode="decimal"></div>
+      <div class="s-area hidden"><label for="area">Area (sq ft)</label><input id="area" type="number" min="0" step="1" value="200" inputmode="decimal"></div>
+      <div><label for="qty">How many beds this size?</label><input id="qty" type="number" min="1" step="1" value="1" inputmode="numeric"></div>
+      <div><label for="depth">Depth you want (inches)</label><input id="depth" type="number" min="0" max="12" step="0.5" value="3" inputmode="decimal"></div>
+      <div><label for="existing">Old mulch already there (inches)</label><input id="existing" type="number" min="0" max="12" step="0.5" value="0" inputmode="decimal"></div>
+    </div>
+    <p class="small muted">Topping up? Enter how deep the old layer is now and the calculator only counts what you need to add.</p>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <h2 style="margin-top:0">Mulch needed</h2>
+    <div id="warning" class="note hidden"></div>
+    <div class="stats" id="stats"></div>
+    <p id="summary"></p>
+    <h3>Bags to buy</h3>
+    <div class="table-scroll"><table id="bags"></table></div>
+    <p class="small muted">The bag size in cubic feet is printed on the front of the bag. Bulk mulch is sold by the cubic yard (27 cubic feet).</p>
+  </section>
+
+  <article>
+    <h2>How much does a yard of mulch cover?</h2>
+<div class="table-scroll"><table id="coverage-table">
+<!--table:mulch-coverage-->
+<thead><tr><th>Depth</th><th class="num">1 cubic yard covers</th><th class="num">Cubic yards per 100 sq ft</th><th class="num">2 cu ft bags per 100 sq ft</th></tr></thead><tbody>
+<tr><td>1 inch</td><td class="num">324 sq ft</td><td class="num">0.31</td><td class="num">5</td></tr>
+<tr><td>2 inches</td><td class="num">162 sq ft</td><td class="num">0.62</td><td class="num">9</td></tr>
+<tr><td>3 inches</td><td class="num">108 sq ft</td><td class="num">0.93</td><td class="num">13</td></tr>
+<tr><td>4 inches</td><td class="num">81 sq ft</td><td class="num">1.23</td><td class="num">17</td></tr>
+<tr><td>6 inches</td><td class="num">54 sq ft</td><td class="num">1.85</td><td class="num">25</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p>So at the usual 3 inches, a cubic yard covers about 108 square feet, roughly a 4 &times; 27 ft bed. A 2 cubic foot bag covers 8 square feet at 3 inches.</p>
+
+    <h2>How deep should mulch be?</h2>
+    <p>The University of Illinois Extension recommends a layer of <strong>2 to 4 inches</strong> on well-drained sites: 2 to 3 inches for composted material and 3 to 4 inches for coarse mulch like wood chips or shredded bark. More is not better: thick layers mat down and keep water and air from reaching roots, and mulch piled against a tree trunk ("volcano mulching") is one of the most common causes of tree decline.</p>
+    <ul>
+      <li>Keep mulch at least 4 inches away from tree trunks, and away from the stems of shrubs.</li>
+      <li>Around a tree, spread it out toward the dripline. Illinois Extension says a ring with a 3-foot radius (a 6-foot circle) is the maximum most trees need.</li>
+      <li>If there's already mulch, measure it before buying more. Often you only need to top it up to the 2&ndash;4 inch range, or just rake the old layer to freshen it.</li>
+    </ul>
+
+    <h2>How the calculator works</h2>
+    <p>Volume is area &times; depth, with the depth converted from inches to feet. A 20 &times; 4 ft bed is 80 square feet; at 3 inches deep that's 80 &times; 3 &divide; 12 = 20 cubic feet. Divide by 27 for cubic yards (0.74), or by the bag size for bags (10 bags of 2 cubic feet). Bags are rounded up. For a circle, the area is &pi; &times; radius&sup2;, so a 6-foot tree ring is about 28 square feet.</p>
+
+    <h2>Bags or bulk?</h2>
+    <p>One cubic yard equals 13.5 bags of 2 cubic feet, or 9 bags of 3 cubic feet. Bagged mulch is easy to carry and store; bulk is usually cheaper per yard for big jobs but often comes with a delivery charge, so compare the total price for your amount.</p>
+
+    <h2>FAQ</h2>
+    <details><summary>How many bags of mulch are in a yard?</summary><p>13.5 bags of 2 cubic feet, 9 bags of 3 cubic feet, or 18 bags of 1.5 cubic feet. A cubic yard is 27 cubic feet.</p></details>
+    <details><summary>How many bags of mulch do I need for 100 square feet?</summary><p>At 3 inches deep, 100 square feet takes 25 cubic feet: 13 bags of 2 cubic feet (12.5, rounded up), or 0.93 cubic yards bulk.</p></details>
+    <details><summary>Does this work for soil, compost, or gravel?</summary><p>Yes. It's the same volume math for anything sold by the cubic foot or cubic yard. Use the depth you need: raised beds and new lawns are usually deeper than mulch.</p></details>
+    <details><summary>Does mulch settle?</summary><p>Fluffy mulches like shredded bark settle a bit after watering and break down over the season, which is why most beds need a top-up each year or two. If you want a full 3 inches after settling, add a little extra.</p></details>
+    <p class="small muted">Source for depth and trunk spacing: University of Illinois Extension, <a href="https://extension.illinois.edu/sites/default/files/proper_mulching_techniques_infosheet.pdf">Proper Mulching Techniques</a>.</p>
+  </article>
+</div></main>
+<footer class="site"><div class="wrap">
+  <a href="../">Home</a><a href="../concrete-calculator/">Concrete calculator</a><a href="../paint-calculator/">Paint calculator</a><a href="../about/">About &amp; privacy</a>
+  <p>&copy; <span data-year></span> DIY Project Calculators</p>
+</div></footer>
+<script src="../assets/config.js"></script>
+<script src="../assets/diy-engine.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const E = window.DiyEngine;
+  const num = id => Math.max(0, parseFloat($(id).value) || 0);
+  const fmt = (n, d = 2) => n.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d });
+  const stat = (k, v, win) => `<div class="stat${win ? ' win' : ''}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
+
+  function render() {
+    const shape = $('shape').value;
+    ['rect', 'circle', 'area'].forEach(s => document.querySelectorAll('.s-' + s).forEach(el => el.classList.toggle('hidden', s !== shape)));
+    const qty = Math.max(1, Math.round(num('qty')) || 1);
+    const one = shape === 'rect' ? num('len') * num('wid') : shape === 'circle' ? Math.PI * Math.pow(num('diam') / 2, 2) : num('area');
+    const area = one * qty;
+    const target = num('depth'), existing = num('existing');
+    const add = Math.max(0, target - existing);
+    const warn = $('warning');
+    warn.classList.toggle('hidden', !(target > 4));
+    warn.textContent = target > 4 ? 'Most extension services recommend 2 to 4 inches of mulch. Deeper layers can starve roots of water and air.' : '';
+    if (area <= 0 || target <= 0) {
+      $('stats').innerHTML = ''; $('bags').innerHTML = '';
+      $('summary').textContent = 'Enter your bed size and depth to see how much mulch you need.';
+      return;
+    }
+    if (add <= 0) {
+      $('stats').innerHTML = stat('Mulch to add', 'None', true); $('bags').innerHTML = '';
+      $('summary').textContent = `Your existing ${existing}-inch layer already reaches ${target} inches. Rake it to freshen it up instead of adding more.`;
+      return;
+    }
+    const b = E.bulk(area, add);
+    const bag2 = b.bags.find(x => x.size === 2).count;
+    $('stats').innerHTML = stat('Cubic yards', fmt(b.yd3), true) + stat('Cubic feet', fmt(b.ft3, 1)) +
+      stat('2 cu ft bags', bag2.toLocaleString()) + stat('Area', `${fmt(area, 0)} sq ft`);
+    $('summary').textContent = `${fmt(area, 0)} square feet at ${add} inch${add === 1 ? '' : 'es'}${existing > 0 ? ` (topping ${existing} in. up to ${target} in.)` : ''} = ${fmt(b.ft3, 1)} cubic feet, or ${fmt(b.yd3)} cubic yards.`;
+    $('bags').innerHTML = '<thead><tr><th>Bag size</th><th class="num">Bags needed</th></tr></thead><tbody>' +
+      b.bags.map(x => `<tr><td>${x.size} cu ft</td><td class="num">${x.count.toLocaleString()}</td></tr>`).join('') + '</tbody>';
+  }
+  document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', render));
+  render();
+})();
+</script>
+</body>
+</html>
