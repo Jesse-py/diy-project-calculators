@@ -51,6 +51,22 @@
   // Area one cubic yard covers at a depth (square feet).
   const yardCovers = depthIn => (pos(depthIn) ? FT3_PER_YD3 * 12 / depthIn : 0);
 
+  // Gravel and crushed stone: sold by the ton in bulk, by the 50 lb bag in stores.
+  // Default weight: a 50 lb bag of all-purpose gravel fills 0.5 cu ft (as retailers list QUIKRETE No. 1151),
+  // i.e. 100 lb/ft3 = 2,700 lb = 1.35 short tons per cubic yard. Suppliers' figures vary; the user can override it.
+  const GRAVEL_BAG = { lb: 50, ft3: 0.5 };
+  const GRAVEL_TONS_PER_YD3 = GRAVEL_BAG.lb / GRAVEL_BAG.ft3 * FT3_PER_YD3 / 2000;
+  function gravel(areaFt2, depthIn, tonsPerYd3 = GRAVEL_TONS_PER_YD3, extraPct = 0) {
+    const base = pos(areaFt2) * pos(depthIn) / 12;
+    const ft3 = base * (1 + pos(extraPct) / 100);
+    const yd3 = ft3 / FT3_PER_YD3;
+    const tons = yd3 * pos(tonsPerYd3);
+    return { baseFt3: base, ft3, yd3, tons, lb: tons * 2000, bags: bagsFor(ft3, GRAVEL_BAG.ft3) };
+  }
+  // Area one short ton covers at a depth (square feet).
+  const tonCovers = (depthIn, tonsPerYd3 = GRAVEL_TONS_PER_YD3) =>
+    (pos(depthIn) && pos(tonsPerYd3) ? FT3_PER_YD3 / tonsPerYd3 * 12 / depthIn : 0);
+
   // Wall paint. Openings are subtracted; ceiling optional. Returns gallons needed (not rounded)
   // and a buy suggestion in gallons + quarts.
   function paint({ perimeterFt, heightFt, doors = 0, windows = 0, doorFt2 = 20, windowFt2 = 15,
@@ -77,7 +93,7 @@
   const perimeter = (lengthFt, widthFt) => 2 * (pos(lengthFt) + pos(widthFt));
 
   root.DiyEngine = {
-    FT3_PER_YD3, CONCRETE_BAGS, CONCRETE_LB_PER_FT3, BULK_BAGS,
-    slab, circleSlab, cylinder, bagsFor, concrete, bulk, yardCovers, paint, buyPaint, perimeter,
+    FT3_PER_YD3, CONCRETE_BAGS, CONCRETE_LB_PER_FT3, BULK_BAGS, GRAVEL_BAG, GRAVEL_TONS_PER_YD3,
+    slab, circleSlab, cylinder, bagsFor, concrete, bulk, yardCovers, gravel, tonCovers, paint, buyPaint, perimeter,
   };
 })(typeof window !== 'undefined' ? window : module.exports);

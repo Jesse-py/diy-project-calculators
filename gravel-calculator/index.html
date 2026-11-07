@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gravel Calculator: Tons, Cubic Yards, and 50 lb Bags</title>
+<meta name="description" content="Free gravel calculator. Enter the area and depth to get cubic yards, tons, and 50 lb bags of gravel or crushed stone, using your supplier's weight per yard.">
+<link rel="canonical" href="https://jesse-py.github.io/diy-project-calculators/gravel-calculator/">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Gravel Calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="../">DIY <span>Project</span> Calculators</a>
+  <nav class="top"><a href="../#calculators">Calculators</a><a href="../about/">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <h1>Gravel Calculator</h1>
+  <p class="lede">Work out how much gravel or crushed stone to order for a path, patio base, parking pad, or driveway: cubic yards, tons, or 50 lb bags. Everything runs in your browser.</p>
+
+  <section class="card">
+    <div class="fields">
+      <div><label for="shape">Area shape</label>
+        <select id="shape">
+          <option value="rect">Rectangle</option>
+          <option value="circle">Circle</option>
+          <option value="area">I know the square feet</option>
+        </select></div>
+      <div class="s-rect"><label for="len">Length (ft)</label><input id="len" type="number" min="0" step="0.5" value="20" inputmode="decimal"></div>
+      <div class="s-rect"><label for="wid">Width (ft)</label><input id="wid" type="number" min="0" step="0.5" value="10" inputmode="decimal"></div>
+      <div class="s-circle hidden"><label for="diam">Diameter (ft)</label><input id="diam" type="number" min="0" step="0.5" value="10" inputmode="decimal"></div>
+      <div class="s-area hidden"><label for="area">Area (sq ft)</label><input id="area" type="number" min="0" step="1" value="200" inputmode="decimal"></div>
+      <div><label for="depth">Depth (inches)</label><input id="depth" type="number" min="0" max="24" step="0.5" value="4" inputmode="decimal"></div>
+      <div><label for="density">Weight (tons per cubic yard)</label><input id="density" type="number" min="0" max="3" step="0.05" value="1.35" inputmode="decimal"></div>
+      <div><label for="extra">Extra for compaction and uneven ground (%)</label><input id="extra" type="number" min="0" max="50" step="1" value="10" inputmode="decimal"></div>
+    </div>
+    <p class="small muted">Bulk gravel is sold by the ton or the cubic yard. Ask your supplier what one cubic yard of the stone you're buying weighs and enter it above; 1.35 is the weight of bagged all-purpose gravel (see below).</p>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <h2 style="margin-top:0">Gravel to order</h2>
+    <div class="stats" id="stats"></div>
+    <p id="summary"></p>
+  </section>
+
+  <article>
+    <h2>How much does a ton of gravel cover?</h2>
+<div class="table-scroll"><table id="depth-table">
+<!--table:gravel-depths-->
+<thead><tr><th>Depth</th><th class="num">1 ton covers</th><th class="num">Tons per 100 sq ft</th><th class="num">Cubic yards per 100 sq ft</th><th class="num">50 lb bags per 100 sq ft</th></tr></thead><tbody>
+<tr><td>2 in</td><td class="num">120 sq ft</td><td class="num">0.83</td><td class="num">0.62</td><td class="num">34</td></tr>
+<tr><td>3 in</td><td class="num">80 sq ft</td><td class="num">1.25</td><td class="num">0.93</td><td class="num">50</td></tr>
+<tr><td>4 in</td><td class="num">60 sq ft</td><td class="num">1.67</td><td class="num">1.23</td><td class="num">67</td></tr>
+<tr><td>6 in</td><td class="num">40 sq ft</td><td class="num">2.50</td><td class="num">1.85</td><td class="num">100</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p>These use 1.35 tons per cubic yard (100 lb per cubic foot) and no extra. At that weight one ton is 20 cubic feet, so it covers 240 square feet divided by the depth in inches. Heavier stone covers less: at 1.5 tons per yard, a ton covers 10% less area.</p>
+
+    <h2>Common jobs</h2>
+<div class="table-scroll"><table id="jobs-table">
+<!--table:gravel-jobs-->
+<thead><tr><th>Job</th><th class="num">Depth</th><th class="num">Cubic yards</th><th class="num">Tons (at 1.35)</th></tr></thead><tbody>
+<tr><td>Path, 3 &times; 30 ft</td><td class="num">3 in</td><td class="num">0.83</td><td class="num">1.13</td></tr>
+<tr><td>Patio base, 10 &times; 10 ft</td><td class="num">4 in</td><td class="num">1.23</td><td class="num">1.67</td></tr>
+<tr><td>Parking pad, 10 &times; 20 ft</td><td class="num">4 in</td><td class="num">2.47</td><td class="num">3.33</td></tr>
+<tr><td>Driveway, 12 &times; 50 ft</td><td class="num">4 in</td><td class="num">7.41</td><td class="num">10.00</td></tr>
+<tr><td>Driveway, 12 &times; 50 ft</td><td class="num">6 in</td><td class="num">11.11</td><td class="num">15.00</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p>Volumes are before any extra for compaction. The depths are examples, not recommendations: a driveway's base depends on your soil, climate, and traffic, so follow your supplier's or local contractor's advice for structural jobs.</p>
+
+    <h2>How much does a yard of gravel weigh?</h2>
+    <p>It depends on the rock, the size and mix of the pieces, how wet it is, and how tightly it's packed, so there's no single right number. Two reference points:</p>
+    <ul>
+      <li><strong>Bagged gravel:</strong> a 50 lb bag of QUIKRETE All-Purpose Gravel (No. 1151, about 3/8 inch stone) is sold as 0.5 cubic feet. That's 100 lb per cubic foot, or 2,700 lb (1.35 tons) per cubic yard. This calculator uses it as the default.</li>
+      <li><strong>Normal-weight aggregate in general:</strong> a Penn State civil engineering course table (after Mindess) puts the dry-rodded unit weight of normal-weight concrete aggregates at 1,100 to 1,750 kg per cubic meter, which is about 0.93 to 1.47 tons per cubic yard. Dry-rodded means compacted in a test container; loose stone in a truck weighs less per yard.</li>
+    </ul>
+    <p>Suppliers often bill by the ton, which is weight, while your project is a volume. That's why the supplier's own figure for the product you're buying matters most: if they say a yard of their #57 stone weighs 1.4 tons, enter 1.4.</p>
+
+    <h2>How the calculator works</h2>
+    <p>Volume is area &times; depth, with the depth converted from inches to feet. The default 20 &times; 10 ft area is 200 square feet; at 4 inches that's 200 &times; 4 &divide; 12 = 66.7 cubic feet. Adding 10% gives 73.3 cubic feet, or 2.72 cubic yards (&divide; 27). At 1.35 tons per yard that's 3.67 tons (7,333 lb), or 147 bags of 0.5 cubic feet, rounded up. For a circle, the area is &pi; &times; radius&sup2;.</p>
+    <p>The extra percentage is a judgment call, not a standard. Loose gravel settles when it's raked, driven on, or run over with a plate compactor, and the ground is rarely perfectly flat, so ordering a little more than the bare volume avoids a second delivery. Set it to 0 to see the bare volume.</p>
+
+    <h2>Bags or bulk?</h2>
+    <p>One cubic yard is 54 bags of 0.5 cubic feet, about 1.35 tons of 50 lb bags. Bags make sense for a small path or a few post bases; for a parking pad or driveway, bulk delivery by the ton is usually far cheaper and saves carrying dozens of bags, but there's often a delivery fee and a minimum load. Compare the total price for your amount.</p>
+
+    <h2>FAQ</h2>
+    <details><summary>How many tons of gravel do I need for a 10 &times; 20 area?</summary><p>At 4 inches deep, 10 &times; 20 ft is 66.7 cubic feet = 2.47 cubic yards, or 3.33 tons at 1.35 tons per yard. With 10% extra, order about 3.7 tons.</p></details>
+    <details><summary>How many cubic yards are in a ton of gravel?</summary><p>About 0.74 cubic yards (20 cubic feet) at 1.35 tons per yard. Divide 1 by your supplier's tons-per-yard figure: at 1.5 tons per yard, a ton is 0.67 cubic yards.</p></details>
+    <details><summary>How many 50 lb bags of gravel are in a yard?</summary><p>54 bags, if each bag is 0.5 cubic feet (27 &divide; 0.5). Check the volume printed on the bag; it's the number that counts.</p></details>
+    <details><summary>Does this work for sand, pea gravel, or river rock?</summary><p>Yes. The volume math is the same for anything spread to a depth. Only the weight per yard changes, so enter your supplier's figure for tons.</p></details>
+    <p class="small muted">Sources: QUIKRETE, <a href="https://www.quikrete.com/pdfs/data_sheet-quikrete%20sand%20&amp;%20gravel%20products.pdf">Sand &amp; Gravel Products data sheet</a> (No. 1151: 50 lb bags, about 3/8 in top size); bag volume as listed by retailers, for example <a href="https://www.doitbest.com/product/276837/quikrete-05-cu-ft-50-lb-all-purpose-gravel-276837/">Do it Best: Quikrete 0.5 Cu. Ft. 50 Lb. All-Purpose Gravel</a>; Penn State CE 584, <a href="https://www.engr.psu.edu/ce/courses/ce584/concrete/library/materials/Aggregate/Classification%20of%20aggregates.htm">Classification of Aggregates</a>, table 1.</p>
+  </article>
+</div></main>
+<footer class="site"><div class="wrap">
+  <a href="../">Home</a><a href="../concrete-calculator/">Concrete calculator</a><a href="../mulch-calculator/">Mulch calculator</a><a href="../paint-calculator/">Paint calculator</a><a href="../about/">About &amp; privacy</a>
+  <p>&copy; <span data-year></span> DIY Project Calculators</p>
+</div></footer>
+<script src="../assets/config.js"></script>
+<script src="../assets/diy-engine.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const E = window.DiyEngine;
+  const num = id => Math.max(0, parseFloat($(id).value) || 0);
+  const fmt = (n, d = 2) => n.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d });
+  const stat = (k, v, win) => `<div class="stat${win ? ' win' : ''}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
+
+  function render() {
+    const shape = $('shape').value;
+    ['rect', 'circle', 'area'].forEach(s => document.querySelectorAll('.s-' + s).forEach(el => el.classList.toggle('hidden', s !== shape)));
+    const area = shape === 'rect' ? num('len') * num('wid') : shape === 'circle' ? Math.PI * Math.pow(num('diam') / 2, 2) : num('area');
+    const depth = num('depth'), density = num('density'), extra = num('extra');
+    if (area <= 0 || depth <= 0 || density <= 0) {
+      $('stats').innerHTML = '';
+      $('summary').textContent = 'Enter the area, depth, and weight per cubic yard to see how much gravel you need.';
+      return;
+    }
+    const g = E.gravel(area, depth, density, extra);
+    $('stats').innerHTML = stat('Tons', fmt(g.tons), true) + stat('Cubic yards', fmt(g.yd3)) +
+      stat('50 lb bags (0.5 cu ft)', g.bags.toLocaleString()) + stat('Area', `${fmt(area, 0)} sq ft`);
+    $('summary').textContent = `${fmt(area, 0)} square feet at ${depth} inch${depth === 1 ? '' : 'es'} = ${fmt(g.baseFt3, 1)} cubic feet` +
+      (extra > 0 ? `, plus ${extra}% = ${fmt(g.ft3, 1)} cubic feet` : '') +
+      `. That's ${fmt(g.yd3)} cubic yards, or ${fmt(g.tons)} tons (${Math.round(g.lb).toLocaleString()} lb) at ${density} tons per yard.`;
+  }
+  document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', render));
+  render();
+})();
+</script>
+</body>
+</html>
