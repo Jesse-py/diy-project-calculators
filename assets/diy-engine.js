@@ -76,6 +76,26 @@
   const tonCovers = (depthIn, tonsPerYd3 = GRAVEL_TONS_PER_YD3) =>
     (pos(depthIn) && pos(tonsPerYd3) ? FT3_PER_YD3 / tonsPerYd3 * 12 / depthIn : 0);
 
+  // Paver patio or walkway: pavers to buy, compacted gravel base, and bedding sand.
+  // Pavers: area / face area of one paver, plus a cutting allowance (percent), rounded up. Joints (1/16-3/16 in, per
+  // CMHA PAV-TEC-009) are ignored, which errs slightly high. The base can be wider than the paved area
+  // (baseAreaFt2), so it's priced like gravel(); bedding sand is spread over the paved area only.
+  const SAND_BAG_FT3 = 0.5; // assumed volume of a 50 lb bag of sand; the page tells users to check the label
+  function pavers({ areaFt2, paverLenIn, paverWidIn, wastePct = 10, baseAreaFt2 = areaFt2, baseIn = 4, sandIn = 1,
+    tonsPerYd3 = GRAVEL_TONS_PER_YD3, baseExtraPct = 0 }) {
+    const area = pos(areaFt2), face = pos(paverLenIn) * pos(paverWidIn) / 144;
+    const exact = face ? area / face : 0;
+    const count = exact ? Math.ceil(exact * (1 + pos(wastePct) / 100) - 1e-9) : 0;
+    const sandFt3 = area * pos(sandIn) / 12;
+    return {
+      perFt2: face ? 1 / face : 0, exact, count,
+      base: gravel(baseAreaFt2, baseIn, tonsPerYd3, baseExtraPct),
+      sand: { ft3: sandFt3, yd3: sandFt3 / FT3_PER_YD3, bags: bagsFor(sandFt3, SAND_BAG_FT3) },
+    };
+  }
+  // Base area for a rectangle when the base extends `extendIn` inches past every edge.
+  const baseArea = (lengthFt, widthFt, extendIn) => (pos(lengthFt) + pos(extendIn) / 6) * (pos(widthFt) + pos(extendIn) / 6);
+
   // Wall paint. Openings are subtracted; ceiling optional. Returns gallons needed (not rounded)
   // and a buy suggestion in gallons + quarts.
   function paint({ perimeterFt, heightFt, doors = 0, windows = 0, doorFt2 = 20, windowFt2 = 15,
@@ -104,5 +124,6 @@
   root.DiyEngine = {
     FT3_PER_YD3, CONCRETE_BAGS, CONCRETE_LB_PER_FT3, BULK_BAGS, SOIL_BAGS, GRAVEL_BAG, GRAVEL_TONS_PER_YD3,
     slab, circleSlab, cylinder, bagsFor, concrete, bulk, yardCovers, soil, gravel, tonCovers, paint, buyPaint, perimeter,
+    SAND_BAG_FT3, pavers, baseArea,
   };
 })(typeof window !== 'undefined' ? window : module.exports);

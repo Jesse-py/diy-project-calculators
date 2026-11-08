@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paver Calculator: Pavers, Base Gravel, and Sand for a Patio</title>
+<meta name="description" content="Free paver calculator for patios and walkways. Get the number of pavers with a cutting allowance, tons of gravel base, and bedding sand to buy.">
+<link rel="canonical" href="https://jesse-py.github.io/diy-project-calculators/paver-calculator/">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Paver Calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="../">DIY <span>Project</span> Calculators</a>
+  <nav class="top"><a href="../#calculators">Calculators</a><a href="../about/">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <h1>Paver Calculator</h1>
+  <p class="lede">Plan a paver patio or walkway: how many pavers to buy (with extra for cuts), how much gravel for the base, and how much bedding sand goes under the pavers. Everything runs in your browser.</p>
+
+  <section class="card">
+    <div class="fields">
+      <div><label for="shape">Area</label>
+        <select id="shape">
+          <option value="rect">Rectangle</option>
+          <option value="area">I know the square feet</option>
+        </select></div>
+      <div class="s-rect"><label for="len">Length (ft)</label><input id="len" type="number" min="0" step="0.5" value="12" inputmode="decimal"></div>
+      <div class="s-rect"><label for="wid">Width (ft)</label><input id="wid" type="number" min="0" step="0.5" value="10" inputmode="decimal"></div>
+      <div class="s-area hidden"><label for="area">Area (sq ft)</label><input id="area" type="number" min="0" step="1" value="120" inputmode="decimal"></div>
+      <div><label for="size">Paver size (inches)</label>
+        <select id="size">
+          <option value="8x4">4 &times; 8 (brick / holland)</option>
+          <option value="6x6">6 &times; 6</option>
+          <option value="9x6" selected>6 &times; 9</option>
+          <option value="12x12">12 &times; 12</option>
+          <option value="16x16">16 &times; 16</option>
+          <option value="24x24">24 &times; 24</option>
+          <option value="custom">Other size</option>
+        </select></div>
+      <div class="s-custom hidden"><label for="plen">Paver length (in)</label><input id="plen" type="number" min="0" step="0.25" value="8" inputmode="decimal"></div>
+      <div class="s-custom hidden"><label for="pwid">Paver width (in)</label><input id="pwid" type="number" min="0" step="0.25" value="4" inputmode="decimal"></div>
+      <div><label for="waste">Extra pavers for cuts and breakage (%)</label><input id="waste" type="number" min="0" max="50" step="1" value="10" inputmode="decimal"></div>
+      <div><label for="base">Gravel base depth, compacted (in)</label><input id="base" type="number" min="0" max="24" step="0.5" value="4" inputmode="decimal"></div>
+      <div class="s-rect"><label for="extend">Base extends past the edges (in)</label><input id="extend" type="number" min="0" max="24" step="1" value="6" inputmode="decimal"></div>
+      <div><label for="sand">Bedding sand depth (in)</label><input id="sand" type="number" min="0" max="4" step="0.25" value="1" inputmode="decimal"></div>
+      <div><label for="density">Base weight (tons per cubic yard)</label><input id="density" type="number" min="0" max="3" step="0.05" value="1.35" inputmode="decimal"></div>
+      <div><label for="extra">Extra base for compaction (%)</label><input id="extra" type="number" min="0" max="50" step="1" value="10" inputmode="decimal"></div>
+    </div>
+    <p class="small muted">Many pavers are metric (a "4 &times; 8" is often 100 &times; 200 mm, about 3.94 &times; 7.87 in). If the pallet or label lists pavers per square foot, compare it with the figure below, or enter the exact size under "Other size".</p>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <h2 style="margin-top:0">What to buy</h2>
+    <div class="stats" id="stats"></div>
+    <p id="summary"></p>
+  </section>
+
+  <article>
+    <h2>Pavers per 100 square feet</h2>
+<div class="table-scroll"><table id="size-table">
+<!--table:paver-sizes-->
+<thead><tr><th>Paver size</th><th class="num">Pavers per sq ft</th><th class="num">Per 100 sq ft (exact)</th><th class="num">Per 100 sq ft (+10%)</th></tr></thead><tbody>
+<tr><td>4 &times; 8 in</td><td class="num">4.50</td><td class="num">450</td><td class="num">495</td></tr>
+<tr><td>6 &times; 6 in</td><td class="num">4.00</td><td class="num">400</td><td class="num">440</td></tr>
+<tr><td>6 &times; 9 in</td><td class="num">2.67</td><td class="num">267</td><td class="num">294</td></tr>
+<tr><td>12 &times; 12 in</td><td class="num">1.00</td><td class="num">100</td><td class="num">110</td></tr>
+<tr><td>16 &times; 16 in</td><td class="num">0.56</td><td class="num">57</td><td class="num">62</td></tr>
+<tr><td>24 &times; 24 in</td><td class="num">0.25</td><td class="num">25</td><td class="num">28</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p>Pavers per square foot is 144 divided by the face area of one paver in square inches: a 4 &times; 8 paver is 32 square inches, so 144 &divide; 32 = 4.5 per square foot. The joints between pavers are ignored, which makes the count very slightly high.</p>
+
+    <h2>Common patio sizes</h2>
+<div class="table-scroll"><table id="patio-table">
+<!--table:paver-patios-->
+<thead><tr><th>Patio</th><th class="num">4 &times; 8 pavers (+10%)</th><th class="num">6 &times; 9 pavers (+10%)</th><th class="num">Base, tons</th><th class="num">Sand, cu ft</th></tr></thead><tbody>
+<tr><td>8 &times; 8 ft</td><td class="num">317</td><td class="num">188</td><td class="num">1.49</td><td class="num">5.3</td></tr>
+<tr><td>10 &times; 10 ft</td><td class="num">495</td><td class="num">294</td><td class="num">2.22</td><td class="num">8.3</td></tr>
+<tr><td>10 &times; 12 ft</td><td class="num">594</td><td class="num">352</td><td class="num">2.62</td><td class="num">10.0</td></tr>
+<tr><td>12 &times; 12 ft</td><td class="num">713</td><td class="num">423</td><td class="num">3.10</td><td class="num">12.0</td></tr>
+<tr><td>12 &times; 16 ft</td><td class="num">951</td><td class="num">564</td><td class="num">4.05</td><td class="num">16.0</td></tr>
+<tr><td>16 &times; 20 ft</td><td class="num">1,584</td><td class="num">939</td><td class="num">6.54</td><td class="num">26.7</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p>Base: 4 inches compacted, extending 6 inches past every edge, plus 10% for compaction, at 1.35 tons per cubic yard. Sand: 1 inch over the paved area. These are the calculator's defaults; change them above to match your plan.</p>
+
+    <h2>How deep should the base and sand be?</h2>
+    <ul>
+      <li><strong>Gravel base:</strong> the Interlocking Concrete Pavement Institute's application guide (Tech Spec 10) says minimum aggregate bases should be <strong>4 to 6 inches for walks</strong> and <strong>6 to 8 inches for driveways</strong>, and that the right thickness depends on the soil, drainage, climate, and traffic. Compact it in layers no thicker than 6 inches. QUIKRETE's patio instructions for homeowners use 2 to 4 inches of compacted gravel under a patio; the calculator defaults to 4 inches, which meets both.</li>
+      <li><strong>Bedding sand:</strong> the Concrete Masonry &amp; Hardscapes Association guide specification says to screed bedding sand to a nominal <strong>1 inch</strong>, and not to use the sand to fill dips in the base. QUIKRETE's data sheet says 1 to 2 inches.</li>
+      <li><strong>Digging depth:</strong> add the paver thickness to the base and sand. For example, 4 inches of base, 1 inch of sand, and a 2 3/8 inch (60 mm) paver means digging about 7 3/8 inches below the finished surface.</li>
+    </ul>
+    <p>On clay soil, in cold climates with deep frost, or where cars will drive, follow the paver maker's or a local contractor's advice; those cases often need a thicker base.</p>
+
+    <h2>How the calculator works</h2>
+    <p>With the defaults, a 12 &times; 10 ft patio is 120 square feet. A 6 &times; 9 paver covers 54 square inches, or 0.375 square feet, so the patio takes 120 &divide; 0.375 = 320 pavers; 10% extra makes 352. The base extends 6 inches past each edge, so it covers 13 &times; 11 = 143 square feet. At 4 inches that's 47.7 cubic feet, plus 10% for compaction = 52.4 cubic feet, or 1.94 cubic yards (&divide; 27), which is 2.62 tons at 1.35 tons per yard. One inch of bedding sand over 120 square feet is 10 cubic feet (0.37 cubic yards).</p>
+    <p>The extras are judgment calls, not standards. A plain rectangle in a running-bond pattern needs few cuts; herringbone, diagonal layouts, and curves create more offcuts, so many installers allow more. Loose gravel shrinks when it's compacted, which is why the base gets an allowance too. Set either one to 0 to see the bare quantity.</p>
+    <p>Sand bags: the calculator assumes each 50 lb bag holds about 0.5 cubic feet. Check the volume printed on the bag you buy and divide the cubic feet above by it.</p>
+
+    <h2>FAQ</h2>
+    <details><summary>How many pavers do I need for a 10 &times; 10 patio?</summary><p>100 square feet takes 450 pavers of 4 &times; 8 in, or about 267 of 6 &times; 9 in. With 10% extra for cuts, buy about 495 or 294.</p></details>
+    <details><summary>How much gravel do I need under pavers?</summary><p>For a 10 &times; 10 ft patio with 4 inches of base extended 6 inches past the edges, about 1.64 cubic yards (2.22 tons at 1.35 tons per yard), including 10% for compaction. See the <a href="../gravel-calculator/">gravel calculator</a> for other areas and stone weights.</p></details>
+    <details><summary>Why does the base extend past the edges?</summary><p>The edge restraint that holds the pavers in place sits on the base, so the base has to be wider than the pavers. The CMHA guide specification says that for edging staked with spikes, the distance from the outside edge of the base to the spikes should be at least the thickness of the base. Six inches is a common allowance; check your edging's instructions.</p></details>
+    <details><summary>Can I use this for a walkway or a fire pit area?</summary><p>Yes, for any rectangle, or enter the square footage for other shapes. For a circle, area is &pi; &times; radius&sup2;. When you enter square feet directly, the base is calculated over the same area, so add a little for the edges.</p></details>
+    <details><summary>What about a concrete slab instead?</summary><p>Use the <a href="../concrete-calculator/">concrete calculator</a> for bags or cubic yards of concrete.</p></details>
+    <p class="small muted">Sources: Interlocking Concrete Pavement Institute, <a href="https://images.thdstatic.com/catalog/pdfImages/9b/9bd64158-3fcc-4d0e-a70c-132350410bbf.pdf">Tech Spec 10: Application Guide for Interlocking Concrete Pavements</a> (aggregate base section); Concrete Masonry &amp; Hardscapes Association, <a href="https://rochestercp.com/resources/cmha-tech-notes/PAV-TEC-009-13.pdf">PAV-TEC-009: Guide Specification for the Construction of Interlocking Concrete Pavement</a> (bedding sand, joints, edge restraints); QUIKRETE, <a href="https://www.quikrete.com/pdfs/data_sheet-patio%20paver%20sands%201150-49%20-59.pdf">Patio Paver Sands data sheet</a> and <a href="https://www.quikrete.com/athome/video-paver-or-natural-stone-patio.asp">Paver or Natural Stone Patio instructions</a>. Default base weight: see the <a href="../gravel-calculator/">gravel calculator</a>.</p>
+  </article>
+</div></main>
+<footer class="site"><div class="wrap">
+  <a href="../">Home</a><a href="../gravel-calculator/">Gravel calculator</a><a href="../concrete-calculator/">Concrete calculator</a><a href="../mulch-calculator/">Mulch calculator</a><a href="../topsoil-calculator/">Topsoil calculator</a><a href="../about/">About &amp; privacy</a>
+  <p>&copy; <span data-year></span> DIY Project Calculators</p>
+</div></footer>
+<script src="../assets/config.js"></script>
+<script src="../assets/diy-engine.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const E = window.DiyEngine;
+  const num = id => Math.max(0, parseFloat($(id).value) || 0);
+  const fmt = (n, d = 2) => n.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d });
+  const stat = (k, v, win) => `<div class="stat${win ? ' win' : ''}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
+
+  function render() {
+    const rect = $('shape').value === 'rect', custom = $('size').value === 'custom';
+    document.querySelectorAll('.s-rect').forEach(el => el.classList.toggle('hidden', !rect));
+    document.querySelectorAll('.s-area').forEach(el => el.classList.toggle('hidden', rect));
+    document.querySelectorAll('.s-custom').forEach(el => el.classList.toggle('hidden', !custom));
+    const [pl, pw] = custom ? [num('plen'), num('pwid')] : $('size').value.split('x').map(Number);
+    const area = rect ? num('len') * num('wid') : num('area');
+    const baseArea = rect ? E.baseArea(num('len'), num('wid'), num('extend')) : area;
+    if (area <= 0 || pl <= 0 || pw <= 0) {
+      $('stats').innerHTML = '';
+      $('summary').textContent = 'Enter the patio size and the paver size to see what to buy.';
+      return;
+    }
+    const r = E.pavers({ areaFt2: area, paverLenIn: pl, paverWidIn: pw, wastePct: num('waste'), baseAreaFt2: baseArea,
+      baseIn: num('base'), sandIn: num('sand'), tonsPerYd3: num('density'), baseExtraPct: num('extra') });
+    $('stats').innerHTML = stat('Pavers to buy', r.count.toLocaleString(), true) +
+      stat('Gravel base', `${fmt(r.base.tons)} tons`) + stat('Base, cubic yards', fmt(r.base.yd3)) +
+      stat('Bedding sand', `${fmt(r.sand.ft3, 1)} cu ft`) + stat('Sand, 50 lb bags (0.5 cu ft)', r.sand.bags.toLocaleString()) +
+      stat('Paved area', `${fmt(area, 0)} sq ft`);
+    $('summary').textContent = `${fmt(area, 0)} sq ft at ${fmt(r.perFt2)} pavers per sq ft = ${fmt(r.exact, 0)} pavers` +
+      (num('waste') > 0 ? `, plus ${num('waste')}% = ${r.count.toLocaleString()}` : '') + '. ' +
+      (r.base.ft3 > 0 ? `Base: ${fmt(baseArea, 0)} sq ft at ${num('base')} in = ${fmt(r.base.baseFt3, 1)} cu ft` +
+        (num('extra') > 0 ? `, plus ${num('extra')}% for compaction = ${fmt(r.base.ft3, 1)} cu ft` : '') +
+        ` (${fmt(r.base.yd3)} cubic yards, ${fmt(r.base.tons)} tons). ` : '') +
+      (r.sand.ft3 > 0 ? `Sand: ${num('sand')} in over ${fmt(area, 0)} sq ft = ${fmt(r.sand.ft3, 1)} cu ft (${fmt(r.sand.yd3)} cubic yards).` : '');
+  }
+  document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', render));
+  render();
+})();
+</script>
+</body>
+</html>
