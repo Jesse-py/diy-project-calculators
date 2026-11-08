@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Topsoil Calculator: Cubic Yards and Bags for Lawns and Raised Beds</title>
+<meta name="description" content="Free topsoil calculator. Enter the area and depth to get cubic yards and how many bags of topsoil or raised-bed soil to buy, with extra for settling.">
+<link rel="canonical" href="https://jesse-py.github.io/diy-project-calculators/topsoil-calculator/">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Topsoil Calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="../">DIY <span>Project</span> Calculators</a>
+  <nav class="top"><a href="../#calculators">Calculators</a><a href="../about/">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <h1>Topsoil Calculator</h1>
+  <p class="lede">Work out how much topsoil, garden soil, or raised-bed mix to buy, in bulk cubic yards or bags. Add a little extra because loose soil settles. Everything runs in your browser.</p>
+
+  <section class="card">
+    <div class="fields">
+      <div><label for="shape">Area shape</label>
+        <select id="shape">
+          <option value="rect">Rectangle</option>
+          <option value="circle">Circle</option>
+          <option value="area">I know the square feet</option>
+        </select></div>
+      <div class="s-rect"><label for="len">Length (ft)</label><input id="len" type="number" min="0" step="0.5" value="20" inputmode="decimal"></div>
+      <div class="s-rect"><label for="wid">Width (ft)</label><input id="wid" type="number" min="0" step="0.5" value="10" inputmode="decimal"></div>
+      <div class="s-circle hidden"><label for="diam">Diameter (ft)</label><input id="diam" type="number" min="0" step="0.5" value="8" inputmode="decimal"></div>
+      <div class="s-area hidden"><label for="area">Area (sq ft)</label><input id="area" type="number" min="0" step="1" value="1000" inputmode="decimal"></div>
+      <div><label for="qty">How many areas this size?</label><input id="qty" type="number" min="1" step="1" value="1" inputmode="numeric"></div>
+      <div><label for="depth">Depth (inches)</label><input id="depth" type="number" min="0" max="36" step="0.5" value="4" inputmode="decimal"></div>
+      <div><label for="extra">Extra for settling (%)</label><input id="extra" type="number" min="0" max="50" step="1" value="10" inputmode="decimal"></div>
+    </div>
+    <p class="small muted">Recommended depths are settled depths, so loose soil needs a bit more. 10% is our starting allowance, not a standard; set it to 0 if your depth already allows for settling.</p>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <h2 style="margin-top:0">Soil needed</h2>
+    <div class="stats" id="stats"></div>
+    <p id="summary"></p>
+    <h3>Bags to buy</h3>
+    <div class="table-scroll"><table id="bags"></table></div>
+    <p class="small muted">The bag size in cubic feet is printed on the bag. Bulk topsoil is sold by the cubic yard (27 cubic feet); ask your supplier whether their price includes delivery.</p>
+  </section>
+
+  <article>
+    <h2>How much topsoil per square foot?</h2>
+<div class="table-scroll"><table id="depth-table">
+<!--table:topsoil-depths-->
+<thead><tr><th>Depth</th><th class="num">1 cubic yard covers</th><th class="num">Cubic yards per 1,000 sq ft</th><th class="num">1 cu ft bags per 100 sq ft</th></tr></thead><tbody>
+<tr><td>1 inch</td><td class="num">324 sq ft</td><td class="num">3.09</td><td class="num">9</td></tr>
+<tr><td>2 inches</td><td class="num">162 sq ft</td><td class="num">6.17</td><td class="num">17</td></tr>
+<tr><td>3 inches</td><td class="num">108 sq ft</td><td class="num">9.26</td><td class="num">25</td></tr>
+<tr><td>4 inches</td><td class="num">81 sq ft</td><td class="num">12.35</td><td class="num">34</td></tr>
+<tr><td>6 inches</td><td class="num">54 sq ft</td><td class="num">18.52</td><td class="num">50</td></tr>
+<tr><td>8 inches</td><td class="num">41 sq ft</td><td class="num">24.69</td><td class="num">67</td></tr>
+<tr><td>12 inches</td><td class="num">27 sq ft</td><td class="num">37.04</td><td class="num">100</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p>These figures are exact volume, with no allowance for settling. A layer 6 inches deep over 1,000 square feet takes about 18.5 cubic yards, which is why topsoil for a new lawn is almost always bought in bulk.</p>
+
+    <h2>How deep should topsoil be?</h2>
+    <ul>
+      <li><strong>New lawn: 4 to 6 inches.</strong> Penn State Extension recommends a minimum of 4 to 6 inches (firmed or settled depth) of good-quality topsoil for good turf, and suggests working about 2 inches of it into the top 2 to 3 inches of the subsoil underneath so the layers blend. If you're adding several inches, lower the subgrade first so the finished lawn meets paths and doorways at the right height.</li>
+      <li><strong>Raised vegetable beds: 8 to 12 inches</strong> when the ground below is poor. Colorado State University Extension says that where the soil below isn't suitable for crop growth, 8 to 12 inches of soil is considered minimal. If roots can grow down into decent soil under the bed, a lower bed works too.</li>
+      <li><strong>Let it settle before you seed.</strong> Penn State notes that rain or irrigation can settle new soil instead of rolling it; spread a little extra, water it, and rake it level before seeding or sodding.</li>
+    </ul>
+
+    <h2>How much soil for a raised bed?</h2>
+<div class="table-scroll"><table id="bed-table">
+<!--table:raised-beds-->
+<thead><tr><th>Bed</th><th class="num">Cubic feet</th><th class="num">Cubic yards</th><th class="num">1.5 cu ft bags</th><th class="num">2 cu ft bags</th></tr></thead><tbody>
+<tr><td>3 &times; 6 ft, 10 in deep</td><td class="num">15.0</td><td class="num">0.56</td><td class="num">10</td><td class="num">8</td></tr>
+<tr><td>4 &times; 4 ft, 10 in deep</td><td class="num">13.3</td><td class="num">0.49</td><td class="num">9</td><td class="num">7</td></tr>
+<tr><td>4 &times; 8 ft, 6 in deep</td><td class="num">16.0</td><td class="num">0.59</td><td class="num">11</td><td class="num">8</td></tr>
+<tr><td>4 &times; 8 ft, 10 in deep</td><td class="num">26.7</td><td class="num">0.99</td><td class="num">18</td><td class="num">14</td></tr>
+<tr><td>4 &times; 8 ft, 12 in deep</td><td class="num">32.0</td><td class="num">1.19</td><td class="num">22</td><td class="num">16</td></tr>
+<tr><td>4 &times; 12 ft, 12 in deep</td><td class="num">48.0</td><td class="num">1.78</td><td class="num">32</td><td class="num">24</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p>Fill to the depth of soil you want, not the height of the boards; most people leave an inch or two of the frame showing. For several beds, one cubic yard of bulk mix is usually cheaper than 14 to 18 bags.</p>
+
+    <h2>How the calculator works</h2>
+    <p>Volume is area &times; depth, with the depth converted from inches to feet. A 20 &times; 10 ft area is 200 square feet; at 4 inches that's 200 &times; 4 &divide; 12 = 66.7 cubic feet. Adding 10% for settling gives 73.3 cubic feet. Divide by 27 for cubic yards (2.72) or by the bag size for bags (74 bags of 1 cubic foot). Bags are rounded up. For a circle, the area is &pi; &times; radius&sup2;.</p>
+
+    <h2>FAQ</h2>
+    <details><summary>How many bags of topsoil are in a yard?</summary><p>A cubic yard is 27 cubic feet: 36 bags of 0.75 cubic feet, 27 bags of 1 cubic foot, 18 bags of 1.5 cubic feet, or 13.5 bags of 2 cubic feet.</p></details>
+    <details><summary>How much topsoil do I need for 1,000 square feet?</summary><p>At 4 inches, 12.35 cubic yards; at 6 inches, 18.52 cubic yards. Add your settling allowance on top (10% makes those about 13.6 and 20.4 yards).</p></details>
+    <details><summary>How much soil for a 4 &times; 8 raised bed?</summary><p>At 10 inches deep, 26.7 cubic feet, or just under 1 cubic yard: 18 bags of 1.5 cubic feet or 14 bags of 2 cubic feet. At 12 inches it's 32 cubic feet.</p></details>
+    <details><summary>Topsoil, garden soil, or raised-bed mix?</summary><p>The volume math is the same for all of them. Topsoil is for filling and grading lawns and beds; bagged garden soil and raised-bed mixes usually have compost or other organic matter mixed in. Check the bag for what's in it.</p></details>
+    <details><summary>How much does a yard of topsoil weigh?</summary><p>It depends heavily on how wet the soil is and what's in it, so ask your supplier before you plan to haul it in a pickup. This calculator works in volume, which is how topsoil is sold. For stone sold by the ton, use the <a href="../gravel-calculator/">gravel calculator</a>.</p></details>
+    <p class="small muted">Sources: Penn State Extension, <a href="https://extension.psu.edu/lawn-establishment">Lawn Establishment</a> (topsoil depth, blending, settling); Colorado State University Extension, <a href="https://extension.colostate.edu/resource/block-style-layout-in-raised-bed-vegetable-gardens/">Block Style Layout in Raised Bed Vegetable Gardens</a> (CMG GardenNotes #713, raised bed soil depth).</p>
+  </article>
+</div></main>
+<footer class="site"><div class="wrap">
+  <a href="../">Home</a><a href="../concrete-calculator/">Concrete calculator</a><a href="../gravel-calculator/">Gravel calculator</a><a href="../mulch-calculator/">Mulch calculator</a><a href="../paint-calculator/">Paint calculator</a><a href="../about/">About &amp; privacy</a>
+  <p>&copy; <span data-year></span> DIY Project Calculators</p>
+</div></footer>
+<script src="../assets/config.js"></script>
+<script src="../assets/diy-engine.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const E = window.DiyEngine;
+  const num = id => Math.max(0, parseFloat($(id).value) || 0);
+  const fmt = (n, d = 2) => n.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d });
+  const stat = (k, v, win) => `<div class="stat${win ? ' win' : ''}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
+
+  function render() {
+    const shape = $('shape').value;
+    ['rect', 'circle', 'area'].forEach(s => document.querySelectorAll('.s-' + s).forEach(el => el.classList.toggle('hidden', s !== shape)));
+    const qty = Math.max(1, Math.round(num('qty')) || 1);
+    const one = shape === 'rect' ? num('len') * num('wid') : shape === 'circle' ? Math.PI * Math.pow(num('diam') / 2, 2) : num('area');
+    const area = one * qty, depth = num('depth'), extra = num('extra');
+    if (area <= 0 || depth <= 0) {
+      $('stats').innerHTML = ''; $('bags').innerHTML = '';
+      $('summary').textContent = 'Enter the area and depth to see how much soil you need.';
+      return;
+    }
+    const s = E.soil(area, depth, extra);
+    const bag1 = s.bags.find(x => x.size === 1).count;
+    $('stats').innerHTML = stat('Cubic yards', fmt(s.yd3), true) + stat('Cubic feet', fmt(s.ft3, 1)) +
+      stat('1 cu ft bags', bag1.toLocaleString()) + stat('Area', `${fmt(area, 0)} sq ft`);
+    $('summary').textContent = `${fmt(area, 0)} square feet at ${depth} inch${depth === 1 ? '' : 'es'} = ${fmt(s.baseFt3, 1)} cubic feet` +
+      (extra > 0 ? `, plus ${extra}% for settling = ${fmt(s.ft3, 1)} cubic feet (${fmt(s.yd3)} cubic yards).` : ` (${fmt(s.yd3)} cubic yards).`);
+    $('bags').innerHTML = '<thead><tr><th>Bag size</th><th class="num">Bags needed</th></tr></thead><tbody>' +
+      s.bags.map(x => `<tr><td>${x.size} cu ft</td><td class="num">${x.count.toLocaleString()}</td></tr>`).join('') + '</tbody>';
+  }
+  document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', render));
+  render();
+})();
+</script>
+</body>
+</html>

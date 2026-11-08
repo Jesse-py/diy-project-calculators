@@ -51,6 +51,15 @@
   // Area one cubic yard covers at a depth (square feet).
   const yardCovers = depthIn => (pos(depthIn) ? FT3_PER_YD3 * 12 / depthIn : 0);
 
+  // Topsoil, garden soil, raised-bed mix: same volume math plus an allowance for settling (percent), since
+  // recommended depths (e.g. Penn State's 4-6 in for lawns) are settled depths. Common bag sizes, cubic feet.
+  const SOIL_BAGS = [0.75, 1, 1.5, 2];
+  function soil(areaFt2, depthIn, extraPct = 0, bagSizes = SOIL_BAGS) {
+    const baseFt3 = pos(areaFt2) * pos(depthIn) / 12;
+    const ft3 = baseFt3 * (1 + pos(extraPct) / 100);
+    return { baseFt3, ft3, yd3: ft3 / FT3_PER_YD3, bags: bagSizes.map(s => ({ size: s, count: bagsFor(ft3, s) })) };
+  }
+
   // Gravel and crushed stone: sold by the ton in bulk, by the 50 lb bag in stores.
   // Default weight: a 50 lb bag of all-purpose gravel fills 0.5 cu ft (as retailers list QUIKRETE No. 1151),
   // i.e. 100 lb/ft3 = 2,700 lb = 1.35 short tons per cubic yard. Suppliers' figures vary; the user can override it.
@@ -93,7 +102,7 @@
   const perimeter = (lengthFt, widthFt) => 2 * (pos(lengthFt) + pos(widthFt));
 
   root.DiyEngine = {
-    FT3_PER_YD3, CONCRETE_BAGS, CONCRETE_LB_PER_FT3, BULK_BAGS, GRAVEL_BAG, GRAVEL_TONS_PER_YD3,
-    slab, circleSlab, cylinder, bagsFor, concrete, bulk, yardCovers, gravel, tonCovers, paint, buyPaint, perimeter,
+    FT3_PER_YD3, CONCRETE_BAGS, CONCRETE_LB_PER_FT3, BULK_BAGS, SOIL_BAGS, GRAVEL_BAG, GRAVEL_TONS_PER_YD3,
+    slab, circleSlab, cylinder, bagsFor, concrete, bulk, yardCovers, soil, gravel, tonCovers, paint, buyPaint, perimeter,
   };
 })(typeof window !== 'undefined' ? window : module.exports);
