@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fence Calculator: Posts, Rails, Pickets, and Concrete for a Wood Fence</title>
+<meta name="description" content="Free fence calculator for a wood picket or privacy fence. Get the number of posts, backer rails, and pickets, plus bags of concrete and gravel for the post holes.">
+<link rel="canonical" href="https://jesse-py.github.io/diy-project-calculators/fence-calculator/">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Fence Calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="../">DIY <span>Project</span> Calculators</a>
+  <nav class="top"><a href="../#calculators">Calculators</a><a href="../about/">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <h1>Fence Calculator</h1>
+  <p class="lede">Plan a wood picket or privacy fence: how many posts, backer rails, and pickets to buy, and how much concrete and gravel the post holes take. Everything runs in your browser.</p>
+
+  <section class="card">
+    <div class="fields">
+      <div><label for="sides">Length of each side (ft)</label><input id="sides" type="text" value="50, 100, 50" inputmode="decimal" aria-describedby="sides-note"></div>
+      <div><label for="ends">Layout</label>
+        <select id="ends">
+          <option value="open">Open run (has two ends)</option>
+          <option value="closed">Closed loop (comes back to the start)</option>
+        </select></div>
+      <div><label for="gates">Gates</label><input id="gates" type="number" min="0" max="20" step="1" value="1" inputmode="numeric"></div>
+      <div><label for="height">Fence height (ft)</label>
+        <select id="height">
+          <option>3</option><option>4</option><option>5</option><option selected>6</option><option>8</option>
+        </select></div>
+      <div><label for="spacing">Post spacing, on center (ft)</label><input id="spacing" type="number" min="1" max="12" step="0.5" value="8" inputmode="decimal"></div>
+      <div><label for="rails">Backer rails per section</label><input id="rails" type="number" min="1" max="6" step="1" value="3" inputmode="numeric"></div>
+      <div><label for="pw">Picket width, actual (in)</label><input id="pw" type="number" min="0" max="12" step="0.25" value="5.5" inputmode="decimal"></div>
+      <div><label for="gap">Gap between pickets (in)</label><input id="gap" type="number" min="0" max="12" step="0.25" value="0" inputmode="decimal"></div>
+      <div><label for="pextra">Extra pickets (%)</label><input id="pextra" type="number" min="0" max="50" step="1" value="10" inputmode="decimal"></div>
+      <div><label for="post">Post size</label>
+        <select id="post">
+          <option value="3.5">4 &times; 4 (3.5 in actual)</option>
+          <option value="5.5">6 &times; 6 (5.5 in actual)</option>
+        </select></div>
+      <div><label for="bury">Post depth in the ground (in)</label><input id="bury" type="number" min="0" max="72" step="1" value="36" inputmode="decimal"></div>
+      <div><label for="cextra">Extra concrete (%)</label><input id="cextra" type="number" min="0" max="50" step="1" value="10" inputmode="decimal"></div>
+    </div>
+    <p class="small muted" id="sides-note">Enter each straight side separated by commas, like <code>50, 100, 50</code> for a back yard with a house at the fourth side. Sides are assumed to meet at shared corner posts. Changing the height resets the rails and post depth to the suggested values. A 1&times;6 picket is 5.5 in wide, a 1&times;4 is 3.5 in.</p>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <h2 style="margin-top:0">What to buy</h2>
+    <div class="stats" id="stats"></div>
+    <p id="summary"></p>
+    <p id="holes"></p>
+  </section>
+
+  <article>
+    <h2>Materials for a straight 6 ft fence</h2>
+<div class="table-scroll"><table id="length-table">
+<!--table:fence-lengths-->
+<thead><tr><th>Fence length</th><th class="num">Posts</th><th class="num">Rails</th><th class="num">Pickets (+10%)</th><th class="num">80 lb concrete bags</th><th class="num">50 lb gravel bags</th></tr></thead><tbody>
+<tr><td>25 ft</td><td class="num">5</td><td class="num">12</td><td class="num">60</td><td class="num">14</td><td class="num">4</td></tr>
+<tr><td>50 ft</td><td class="num">8</td><td class="num">21</td><td class="num">120</td><td class="num">21</td><td class="num">5</td></tr>
+<tr><td>100 ft</td><td class="num">14</td><td class="num">39</td><td class="num">240</td><td class="num">37</td><td class="num">9</td></tr>
+<tr><td>150 ft</td><td class="num">20</td><td class="num">57</td><td class="num">360</td><td class="num">53</td><td class="num">13</td></tr>
+<tr><td>200 ft</td><td class="num">26</td><td class="num">75</td><td class="num">480</td><td class="num">68</td><td class="num">16</td></tr>
+<tr><td>300 ft</td><td class="num">39</td><td class="num">114</td><td class="num">720</td><td class="num">102</td><td class="num">24</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p>One straight side, no gates, posts 8 feet apart, 3 backer rails per section, 5.5 inch pickets with no gap plus 10%, and 4&times;4 posts set 36 inches deep. Add one post for each gate, and count each side separately for an L-shaped or U-shaped fence (the calculator does this for you).</p>
+
+    <h2>Concrete per fence post</h2>
+<div class="table-scroll"><table id="post-table">
+<!--table:fence-posts-->
+<thead><tr><th>Post and fence height</th><th class="num">Hole (across &times; deep)</th><th class="num">Post length</th><th class="num">Concrete, cu ft</th><th class="num">80 lb bags</th><th class="num">60 lb bags</th></tr></thead><tbody>
+<tr><td>4 &times; 4, 4 ft fence</td><td class="num">10.5 in &times; 30 in</td><td class="num">6 ft</td><td class="num">0.90</td><td class="num">2</td><td class="num">3</td></tr>
+<tr><td>4 &times; 4, 5 ft fence</td><td class="num">10.5 in &times; 36 in</td><td class="num">7.5 ft</td><td class="num">1.16</td><td class="num">3</td><td class="num">3</td></tr>
+<tr><td>4 &times; 4, 6 ft fence</td><td class="num">10.5 in &times; 42 in</td><td class="num">9 ft</td><td class="num">1.42</td><td class="num">3</td><td class="num">4</td></tr>
+<tr><td>4 &times; 4, 8 ft fence</td><td class="num">10.5 in &times; 54 in</td><td class="num">12 ft</td><td class="num">1.94</td><td class="num">4</td><td class="num">5</td></tr>
+<tr><td>6 &times; 6, 4 ft fence</td><td class="num">16.5 in &times; 30 in</td><td class="num">6 ft</td><td class="num">2.23</td><td class="num">5</td><td class="num">6</td></tr>
+<tr><td>6 &times; 6, 5 ft fence</td><td class="num">16.5 in &times; 36 in</td><td class="num">7.5 ft</td><td class="num">2.87</td><td class="num">6</td><td class="num">8</td></tr>
+<tr><td>6 &times; 6, 6 ft fence</td><td class="num">16.5 in &times; 42 in</td><td class="num">9 ft</td><td class="num">3.51</td><td class="num">7</td><td class="num">9</td></tr>
+<tr><td>6 &times; 6, 8 ft fence</td><td class="num">16.5 in &times; 54 in</td><td class="num">12 ft</td><td class="num">4.78</td><td class="num">9</td><td class="num">12</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p>Holes are sized by QUIKRETE's rule (see below), with 10% extra concrete. Bags are rounded up per post; if you pour several posts from a pallet, the total in the calculator above is usually a few bags less, because partial bags carry over to the next hole. QUIKRETE Fast-Setting Concrete Mix yields the same 0.45 cubic feet per 60 lb bag as its standard Concrete Mix, so the 60 lb column works for either.</p>
+
+    <h2>How the calculator counts</h2>
+    <p>The counts follow the fence worksheet that Outdoor Essentials (a Universal Forest Products brand) publishes for its picket fences:</p>
+    <ul>
+      <li><strong>Sections:</strong> each side's length divided by the post spacing, rounded up. A 50 ft side at 8 ft spacing is 6.25, so 7 sections; the last one is shorter.</li>
+      <li><strong>Posts:</strong> one per section, plus one to end the run, plus one for each gate. A closed loop doesn't need the extra end post. Corner posts are shared by the two sides that meet there.</li>
+      <li><strong>Backer rails:</strong> 2 per section for a 4 ft fence, 3 per section for a 6 ft fence. Rails are usually 2&times;4 lumber, and spacing posts 6, 8, or 10 feet apart lets you use precut rail lengths with little waste (QUIKRETE's fence guide).</li>
+      <li><strong>Pickets:</strong> the fence length in inches divided by the picket width plus any gap. The worksheet recommends adding 10%.</li>
+      <li><strong>Post caps:</strong> one per post.</li>
+    </ul>
+    <p>With the defaults, sides of 50, 100, and 50 ft make 200 ft of fence. That's 7 + 13 + 7 = 27 sections, so 27 posts + 1 to end the run + 1 for the gate = 29 posts, and 27 &times; 3 = 81 rails. 200 ft is 2,400 inches; 2,400 &divide; 5.5 = 436.4 pickets, plus 10% = 480.</p>
+    <p>Gates: the worksheet adds one post per gate and doesn't subtract the gate opening, so the pickets and rails cover gates built from the same lumber. If you buy a ready-made gate, you'll have some pickets left over. A gate in the middle of a side can need one more post than a gate next to a corner, depending on where the posts fall.</p>
+
+    <h2>How deep to set fence posts</h2>
+    <p>QUIKRETE's "Setting Posts" guide says the hole should be <strong>3 times the post's width</strong> across and <strong>one third of the post's overall length</strong> deep, plus <strong>6 inches</strong> for a gravel base that helps drainage. Burying one third of the post's length is the same as burying half its height above ground, so:</p>
+    <ul>
+      <li>A 6 ft fence: 3 ft (36 in) in the ground, a 9 ft post, and a hole 42 inches deep. For a 4&times;4 post (3.5 in actual), the hole is 10.5 inches across.</li>
+      <li>A 4 ft fence: 2 ft in the ground, a 6 ft post, and a hole 30 inches deep.</li>
+    </ul>
+    <p>Fill with concrete to 3 to 4 inches below the ground, then top off with soil. The calculator uses 3 inches, which errs on the high side, and subtracts the space the post takes up. Posts that hold up a structure, like a deck, must go at least 6 inches below the frost line, and local codes or your HOA may have their own rules for fence posts, height, and location, so check them before you dig. Call 811 before digging to have buried utility lines marked.</p>
+    <p>You can set a shallower depth in the calculator if that's your plan; it will recompute the post length, hole depth, and concrete.</p>
+
+    <h2>FAQ</h2>
+    <details><summary>How many pickets do I need for 100 feet of fence?</summary><p>With 5.5 inch pickets (1&times;6) and no gap, 1,200 inches &divide; 5.5 = 218.2, so 240 with 10% extra. With 3.5 inch pickets and a 2 inch gap, 1,200 &divide; (3.5 + 2) is the same 218.2, so the same 240.</p></details>
+    <details><summary>How many posts for a 100 ft fence?</summary><p>At 8 ft spacing, 100 &divide; 8 = 12.5, so 13 sections and 14 posts for a straight run with no gates. Add one per gate.</p></details>
+    <details><summary>How many bags of concrete per fence post?</summary><p>For a 4&times;4 post on a 6 ft fence set QUIKRETE's way (a 10.5 inch hole, 36 inches of post in the ground, 6 inches of gravel at the bottom), the concrete fills about 1.42 cubic feet, or 1.56 with 10% extra: 3 bags of 80 lb mix or 4 bags of 60 lb. For other hole sizes, the <a href="../concrete-calculator/">concrete calculator</a> handles any diameter and depth.</p></details>
+    <details><summary>How far apart should fence posts be?</summary><p>QUIKRETE's fence guide suggests 6, 8, or 10 feet so precut rails fit with little waste; the Outdoor Essentials worksheet uses 6 or 8 feet, and 8 feet is the calculator's default. Closer posts make a stiffer fence. Follow your panel or picket maker's spacing if it gives one.</p></details>
+    <details><summary>How much gravel goes in the post holes?</summary><p>QUIKRETE recommends 6 inches of all-purpose gravel or crushed stone at the bottom of each hole. For a 10.5 inch hole that's about 0.3 cubic feet per post, so a 50 lb bag (about 0.5 cubic feet) covers one or two holes. For gravel paths and driveways, use the <a href="../gravel-calculator/">gravel calculator</a>.</p></details>
+    <p class="small muted">Estimates for planning. Sources: Outdoor Essentials / Universal Forest Products, <a href="https://pdf.lowes.com/productdocuments/d27b01be-ea65-4de6-aa9c-7a485c4bab31/43237730.pdf">Fence Calculator: Building with Pickets</a> worksheet (posts, rails, pickets); QUIKRETE, <a href="https://www.quikrete.com/PDFs/Projects/SettingPosts.pdf">Setting Posts</a> (hole width and depth, gravel base, frost line) and <a href="https://www.quikrete.com/PDFs/Projects/FenceAndTrellisDesigns.pdf">Fence and Trellis Designs</a> (post spacing, rail lumber); QUIKRETE <a href="https://www.quikrete.com/PDFs/DATA_SHEET-Fast%20Setting%20Concrete%20Mix%20%201004-60.pdf">Fast-Setting Concrete Mix data sheet</a> and <a href="https://www.quikrete.com/PDFs/DATA_SHEET-Concrete%20Mix%201101.pdf">Concrete Mix No. 1101 data sheet</a> (bag yields). Gravel bag volume: see the <a href="../gravel-calculator/">gravel calculator</a>.</p>
+  </article>
+</div></main>
+<footer class="site"><div class="wrap">
+  <a href="../">Home</a><a href="../concrete-calculator/">Concrete calculator</a><a href="../gravel-calculator/">Gravel calculator</a><a href="../paver-calculator/">Paver calculator</a><a href="../paint-calculator/">Paint calculator</a><a href="../about/">About &amp; privacy</a>
+  <p>&copy; <span data-year></span> DIY Project Calculators</p>
+</div></footer>
+<script src="../assets/config.js"></script>
+<script src="../assets/diy-engine.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const E = window.DiyEngine;
+  const num = id => Math.max(0, parseFloat($(id).value) || 0);
+  const fmt = (n, d = 2) => n.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d });
+  const stat = (k, v, win) => `<div class="stat${win ? ' win' : ''}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
+  const bag = (r, lb) => r.concrete.bags.find(b => b.lb === lb).count.toLocaleString();
+
+  $('height').addEventListener('change', () => {
+    const h = num('height');
+    $('rails').value = E.fenceRails(h);
+    $('bury').value = h * 6;
+  });
+
+  function render() {
+    const sides = $('sides').value.split(/[\s,;]+/).map(parseFloat).filter(x => x > 0);
+    const r = E.fence({ sidesFt: sides, spacingFt: num('spacing'), gates: num('gates'), closed: $('ends').value === 'closed',
+      railsPerSection: num('rails'), picketWidthIn: num('pw'), gapIn: num('gap'), picketExtraPct: num('pextra'),
+      heightFt: num('height'), postWidthIn: num('post'), buryIn: num('bury'), concreteWastePct: num('cextra') });
+    if (!r.sections || !r.pickets) {
+      $('stats').innerHTML = '';
+      $('summary').textContent = 'Enter the length of each side, the post spacing, and the picket width to see what to buy.';
+      $('holes').textContent = '';
+      return;
+    }
+    $('stats').innerHTML = stat('Posts', `${r.posts} &times; ${r.buyPostFt} ft`, true) +
+      stat('Backer rails (2&times;4)', `${r.rails} &times; ${fmt(num('spacing'), num('spacing') % 1 ? 1 : 0)} ft`) +
+      stat('Pickets', r.pickets.toLocaleString()) +
+      stat('Concrete, 80 lb bags', bag(r, 80)) + stat('Concrete, 60 lb bags', bag(r, 60)) +
+      stat('Gravel, 50 lb bags', r.gravel.bags.toLocaleString());
+    const ends = $('ends').value === 'closed' ? '' : ' + 1 to end the run';
+    $('summary').textContent = `${fmt(r.lengthFt, r.lengthFt % 1 ? 1 : 0)} ft of fence in ${sides.length} side${sides.length > 1 ? 's' : ''} = ` +
+      `${r.sections} sections at ${num('spacing')} ft, so ${r.sections} posts${ends}` +
+      (num('gates') ? ` + ${Math.floor(num('gates'))} for gates` : '') + ` = ${r.posts} posts (and ${r.postCaps} post caps), ` +
+      `and ${r.sections} × ${Math.floor(num('rails'))} = ${r.rails} rails. Pickets: ${fmt(r.lengthFt * 12, 0)} in ÷ ${num('pw') + num('gap')} in = ` +
+      `${fmt(r.exactPickets, 1)}` + (num('pextra') ? `, plus ${num('pextra')}% = ${r.pickets.toLocaleString()}.` : ` = ${r.pickets.toLocaleString()}.`);
+    $('holes').textContent = r.holeDepthIn ? `Each post is ${fmt(r.postLengthFt, r.postLengthFt % 1 ? 1 : 0)} ft long (${num('height')} ft above ground + ${num('bury')} in below), ` +
+      `so buy ${r.buyPostFt} ft posts and cut to height. Holes: ${fmt(r.holeDiamIn, 1)} in across and ${fmt(r.holeDepthIn, 0)} in deep, ` +
+      `with 6 in of gravel at the bottom. Concrete: ${fmt(r.perPostFt3)} cu ft per post, ${fmt(r.concrete.ft3, 1)} cu ft in all` +
+      (num('cextra') ? ` with ${num('cextra')}% extra` : '') + ` (${fmt(r.concrete.yd3)} cubic yards; ${bag(r, 50)} bags of 50 lb). ` +
+      `Gravel: ${fmt(r.gravel.ft3, 1)} cu ft.` : '';
+  }
+  document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', render));
+  $('height').addEventListener('change', render);
+  render();
+})();
+</script>
+</body>
+</html>

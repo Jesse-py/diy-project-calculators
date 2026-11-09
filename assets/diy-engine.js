@@ -96,6 +96,40 @@
   // Base area for a rectangle when the base extends `extendIn` inches past every edge.
   const baseArea = (lengthFt, widthFt, extendIn) => (pos(lengthFt) + pos(extendIn) / 6) * (pos(widthFt) + pos(extendIn) / 6);
 
+  // Wood picket fence: posts, backer rails, pickets, and concrete + gravel for the post holes.
+  // Counting follows the Outdoor Essentials (UFP) "Fence calculator: building with pickets" worksheet: 1 post per section,
+  // +1 to end the run, +1 per gate; 2 rails per section for a 4 ft fence, 3 for 6 ft; pickets = length in inches /
+  // (picket width + gap), +10% recommended. Sections are counted per side (rounded up), so a short side still gets a full
+  // section; corner posts are shared, and a fence that closes on itself needs no end post.
+  // Post holes follow QUIKRETE's "Setting Posts" guide: hole diameter 3x the post width, depth = 1/3 of the post's overall
+  // length (which is half its height above ground) plus 6 in of gravel; concrete stops 3-4 in below grade (we use 3 in,
+  // which errs high) and the post's own volume is subtracted. Square posts only (4x4 = 3.5 in, 6x6 = 5.5 in actual).
+  const POST_TOP_SOIL_IN = 3, POST_GRAVEL_IN = 6;
+  function fence({ sidesFt, spacingFt = 8, gates = 0, closed = false, railsPerSection = 3, picketWidthIn = 5.5, gapIn = 0,
+    picketExtraPct = 10, heightFt = 6, postWidthIn = 3.5, buryIn = pos(heightFt) * 6, concreteWastePct = 10 }) {
+    const sides = (sidesFt || []).map(pos).filter(x => x > 0);
+    const lengthFt = sides.reduce((a, x) => a + x, 0);
+    const sections = pos(spacingFt) ? sides.reduce((a, x) => a + Math.ceil(x / spacingFt - 1e-9), 0) : 0;
+    const posts = sections ? sections + (closed ? 0 : 1) + Math.floor(pos(gates)) : 0;
+    const exactPickets = pos(picketWidthIn) ? lengthFt * 12 / (picketWidthIn + pos(gapIn)) : 0;
+    const pickets = exactPickets ? Math.ceil(exactPickets * (1 + pos(picketExtraPct) / 100) - 1e-9) : 0;
+    const w = pos(postWidthIn), bury = pos(buryIn);
+    const holeDiamIn = 3 * w, holeDepthIn = bury ? bury + POST_GRAVEL_IN : 0;
+    const fillFt = Math.max(0, bury - POST_TOP_SOIL_IN) / 12;
+    const perPostFt3 = Math.max(0, cylinder(holeDiamIn, fillFt) - (w / 12) ** 2 * fillFt);
+    const gravelPerPostFt3 = cylinder(holeDiamIn, POST_GRAVEL_IN / 12);
+    const postLengthFt = pos(heightFt) + bury / 12;
+    return {
+      lengthFt, sections, posts, rails: sections * Math.floor(pos(railsPerSection)), exactPickets, pickets, postCaps: posts,
+      postLengthFt, buyPostFt: postLengthFt ? 2 * Math.ceil(postLengthFt / 2 - 1e-9) : 0,
+      holeDiamIn, holeDepthIn, perPostFt3,
+      concrete: concrete(perPostFt3 * posts, concreteWastePct),
+      gravel: { ft3: gravelPerPostFt3 * posts, bags: bagsFor(gravelPerPostFt3 * posts, GRAVEL_BAG.ft3) },
+    };
+  }
+  // Rails per section suggested by the worksheet: 2 up to 4 ft tall, 3 above that.
+  const fenceRails = heightFt => (pos(heightFt) <= 4 ? 2 : 3);
+
   // Wall paint. Openings are subtracted; ceiling optional. Returns gallons needed (not rounded)
   // and a buy suggestion in gallons + quarts.
   function paint({ perimeterFt, heightFt, doors = 0, windows = 0, doorFt2 = 20, windowFt2 = 15,
@@ -124,6 +158,6 @@
   root.DiyEngine = {
     FT3_PER_YD3, CONCRETE_BAGS, CONCRETE_LB_PER_FT3, BULK_BAGS, SOIL_BAGS, GRAVEL_BAG, GRAVEL_TONS_PER_YD3,
     slab, circleSlab, cylinder, bagsFor, concrete, bulk, yardCovers, soil, gravel, tonCovers, paint, buyPaint, perimeter,
-    SAND_BAG_FT3, pavers, baseArea,
+    SAND_BAG_FT3, pavers, baseArea, fence, fenceRails,
   };
 })(typeof window !== 'undefined' ? window : module.exports);

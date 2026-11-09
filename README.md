@@ -7,6 +7,7 @@ spelled out. Everything runs in your browser.
 
 - [Concrete calculator](https://jesse-py.github.io/diy-project-calculators/concrete-calculator/): slabs, round columns, and post holes, in cubic yards and 40 to 90 lb bags
 - [Gravel calculator](https://jesse-py.github.io/diy-project-calculators/gravel-calculator/): tons, cubic yards, and 50 lb bags, with your supplier's density
+- [Fence calculator](https://jesse-py.github.io/diy-project-calculators/fence-calculator/): posts, backer rails, and pickets for a wood fence, plus concrete and gravel for the post holes
 - [Paver calculator](https://jesse-py.github.io/diy-project-calculators/paver-calculator/): pavers per patio with a cutting allowance, gravel base, and bedding sand
 - [Mulch calculator](https://jesse-py.github.io/diy-project-calculators/mulch-calculator/): cubic yards and bags, including topping up old mulch
 - [Paint calculator](https://jesse-py.github.io/diy-project-calculators/paint-calculator/): gallons and quarts for walls, minus doors and windows, by number of coats
