@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grass Seed Calculator: Pounds and Bags for a New Lawn</title>
+<meta name="description" content="Free grass seed calculator: pounds of seed and bags for your lawn by grass type (fescue, bluegrass, ryegrass, bermuda, zoysia), using university extension seeding rates.">
+<link rel="canonical" href="https://jesse-py.github.io/diy-project-calculators/grass-seed-calculator/">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Grass Seed Calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="../">DIY <span>Project</span> Calculators</a>
+  <nav class="top"><a href="../#calculators">Calculators</a><a href="../about/">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <h1>Grass Seed Calculator</h1>
+  <p class="lede">How much grass seed to buy for a new lawn: pounds of seed for your area and grass type, how many bags that is, and how to split it between spreader passes. The rates come from university extension guides (Purdue, Penn State, NC State). Everything runs in your browser.</p>
+
+  <section class="card">
+    <div class="fields">
+      <div><label for="shape">Lawn shape</label>
+        <select id="shape">
+          <option value="rect">Rectangle</option>
+          <option value="circle">Circle</option>
+          <option value="area">I know the square feet</option>
+        </select></div>
+      <div class="s-rect"><label for="len">Length (ft)</label><input id="len" type="number" min="0" step="0.5" value="50" inputmode="decimal"></div>
+      <div class="s-rect"><label for="wid">Width (ft)</label><input id="wid" type="number" min="0" step="0.5" value="30" inputmode="decimal"></div>
+      <div class="s-circle hidden"><label for="diam">Diameter (ft)</label><input id="diam" type="number" min="0" step="0.5" value="20" inputmode="decimal"></div>
+      <div class="s-area hidden"><label for="area">Lawn area (sq ft)</label><input id="area" type="number" min="0" step="1" value="1000" inputmode="decimal"></div>
+      <div><label for="minus">Minus beds, paths, patios (sq ft)</label><input id="minus" type="number" min="0" step="1" value="0" inputmode="decimal"></div>
+      <div><label for="grass">Grass</label><select id="grass">
+        <optgroup label="Cool-season (North)">
+          <option value="tall-fescue">Tall fescue (turf-type)</option>
+          <option value="kbg">Kentucky bluegrass</option>
+          <option value="kbg-rye">Kentucky bluegrass + 10&ndash;15% perennial ryegrass</option>
+          <option value="kbg-fine">Kentucky bluegrass + 30&ndash;50% fine fescue</option>
+          <option value="rye">Perennial ryegrass (turf-type)</option>
+          <option value="fine-fescue">Fine fescues</option>
+        </optgroup>
+        <optgroup label="Warm-season (South)">
+          <option value="bermuda">Bermudagrass</option>
+          <option value="zoysia">Zoysiagrass</option>
+          <option value="centipede">Centipedegrass</option>
+          <option value="bahia">Bahiagrass</option>
+          <option value="st-augustine">St. Augustinegrass</option>
+        </optgroup>
+        <option value="custom">Rate from my seed bag</option>
+      </select></div>
+      <div class="s-custom hidden"><label for="rate">Rate on the bag (lb per 1,000 sq ft)</label><input id="rate" type="number" min="0" step="0.25" value="5" inputmode="decimal"></div>
+      <div><label for="bag">Bag size (lb)</label><input id="bag" type="number" min="0" step="1" value="5" inputmode="decimal"></div>
+      <div><label for="price">Price per bag ($, optional)</label><input id="price" type="number" min="0" step="0.01" value="" placeholder="e.g. 24.99" inputmode="decimal"></div>
+    </div>
+    <p class="small muted">Measure the lawn as simple shapes and add them up, or measure the whole lot and subtract the house, drive, and beds. Overseeding a thin lawn? Pick "Rate from my seed bag" and use the overseeding rate printed on the label.</p>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <h2 style="margin-top:0">How much seed to buy</h2>
+    <div class="stats" id="stats"></div>
+    <p id="summary"></p>
+    <p id="passes"></p>
+    <p id="cost"></p>
+    <p id="straw"></p>
+  </section>
+
+  <article>
+    <h2 id="how-much-seed">How much grass seed do I need?</h2>
+    <p>Seeding rates are given in pounds of seed per 1,000 square feet, and they differ a lot by grass, because seed size does. Tall fescue has big seeds and goes down at about 6 to 9 lb per 1,000 sq ft; Kentucky bluegrass seed is tiny, so 1.5 to 2 lb covers the same area. Divide your lawn's square feet by 1,000 and multiply by the rate.</p>
+    <p>For example, a 50 &times; 30 ft lawn is 1,500 sq ft, or 1.5 thousand sq ft. In tall fescue at 6 to 9 lb per 1,000 sq ft, that's <strong>9 to 13.5 lb</strong> of seed: 3 bags of 5 lb at the top of the range. In Kentucky bluegrass it's 2.25 to 3 lb.</p>
+    <p>More seed isn't better. NC State Extension warns that seeding tall fescue or Kentucky bluegrass heavier than recommended can give weak, thin stands that are more prone to disease and heat stress.</p>
+
+    <h2>Seeding rates by grass type</h2>
+    <div class="table-scroll"><table id="seed-table">
+<!--table:grass-seed-rates-->
+<thead><tr><th>Grass</th><th class="num">Lb per 1,000 sq ft</th><th class="num">2,000 sq ft</th><th class="num">5,000 sq ft</th><th class="num">10,000 sq ft</th><th>Source</th></tr></thead><tbody>
+<tr><td>Tall fescue (turf-type)</td><td class="num">6&ndash;9</td><td class="num">12&ndash;18 lb</td><td class="num">30&ndash;45 lb</td><td class="num">60&ndash;90 lb</td><td>Purdue</td></tr>
+<tr><td>Kentucky bluegrass</td><td class="num">1.5&ndash;2</td><td class="num">3&ndash;4 lb</td><td class="num">7.5&ndash;10 lb</td><td class="num">15&ndash;20 lb</td><td>Purdue</td></tr>
+<tr><td>Kentucky bluegrass + 10-15% perennial ryegrass</td><td class="num">3&ndash;4</td><td class="num">6&ndash;8 lb</td><td class="num">15&ndash;20 lb</td><td class="num">30&ndash;40 lb</td><td>Purdue</td></tr>
+<tr><td>Kentucky bluegrass + 30-50% fine fescue</td><td class="num">4&ndash;5</td><td class="num">8&ndash;10 lb</td><td class="num">20&ndash;25 lb</td><td class="num">40&ndash;50 lb</td><td>Purdue</td></tr>
+<tr><td>Perennial ryegrass (turf-type)</td><td class="num">4&ndash;5</td><td class="num">8&ndash;10 lb</td><td class="num">20&ndash;25 lb</td><td class="num">40&ndash;50 lb</td><td>Penn State</td></tr>
+<tr><td>Fine fescues</td><td class="num">4&ndash;5</td><td class="num">8&ndash;10 lb</td><td class="num">20&ndash;25 lb</td><td class="num">40&ndash;50 lb</td><td>Penn State</td></tr>
+<tr><td>Bermudagrass</td><td class="num">1&ndash;2</td><td class="num">2&ndash;4 lb</td><td class="num">5&ndash;10 lb</td><td class="num">10&ndash;20 lb</td><td>NC State</td></tr>
+<tr><td>Zoysiagrass</td><td class="num">1&ndash;2</td><td class="num">2&ndash;4 lb</td><td class="num">5&ndash;10 lb</td><td class="num">10&ndash;20 lb</td><td>NC State</td></tr>
+<tr><td>Centipedegrass</td><td class="num">0.25&ndash;0.5</td><td class="num">0.5&ndash;1 lb</td><td class="num">1.25&ndash;2.5 lb</td><td class="num">2.5&ndash;5 lb</td><td>NC State</td></tr>
+<tr><td>Bahiagrass</td><td class="num">5</td><td class="num">10 lb</td><td class="num">25 lb</td><td class="num">50 lb</td><td>NC State</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p class="small muted">New lawns, pounds of seed as sold (bulk weight). Coated seed weighs more per seed, so NC State notes coated bermudagrass needs a higher rate; follow the bag. St. Augustinegrass isn't sold as seed; use sod or plugs.</p>
+
+    <h2>Pick a grass that fits your region</h2>
+    <p>Cool-season grasses (tall fescue, Kentucky bluegrass, ryegrass, fine fescues) are for the northern half of the country and the transition zone; warm-season grasses (bermuda, zoysia, centipede, bahia, St. Augustine) are for the South. Fine fescues handle shade better than other cool-season grasses. NC State notes that only a few zoysiagrass varieties can be grown from seed; most zoysia lawns are sodded or plugged. Your state's extension service lists the grasses and varieties that do best locally.</p>
+
+    <h2 id="seed-cost">Cheaper seed per pound isn't always cheaper per lawn</h2>
+    <p>Because the rates differ so much, compare the cost of seeding 1,000 sq ft, not the price per pound. Purdue Extension's example: Kentucky bluegrass at $3.50 a pound and 2 lb per 1,000 sq ft costs <strong>$7.00</strong> per 1,000 sq ft, while turf-type tall fescue at $2.00 a pound and 6 to 9 lb costs <strong>$12.00 to $18.00</strong>. Check the label too: Purdue suggests seed with a germination test dated within the last 9 months, and avoiding bulk bins.</p>
+
+    <h2>Sowing it</h2>
+    <ul>
+      <li><strong>Two passes at right angles.</strong> Purdue and NC State both say to spread half the seed walking one way and the other half crosswise, with the spreader set low. Purdue prefers a drop spreader because rotary spreaders don't spread seed evenly.</li>
+      <li><strong>Rake lightly and roll.</strong> Purdue: a light raking, then a light rolling (an empty water-fill roller is fine) for good seed-to-soil contact.</li>
+      <li><strong>Mulch lightly.</strong> About one bale of clean, weed-free straw per 1,000 sq ft, thin enough that you still see about half the soil. Too much shades the seedlings.</li>
+      <li><strong>Keep the top &frac12; to 1 inch moist.</strong> Purdue: water two to four times a day until seedlings are about 2 inches tall, then water less often and more deeply.</li>
+      <li><strong>Time it.</strong> Cool-season grasses do best seeded in late summer to early fall (NC State: mid-August to mid-October, depending on the region); warm-season grasses in spring and early summer once the soil is warm (NC State: March or April to July).</li>
+    </ul>
+
+    <h2>FAQ</h2>
+    <details><summary>How many square feet does a 5 lb bag of grass seed cover?</summary><p>It depends on the grass. At the top of the extension ranges, 5 lb of tall fescue covers about 556 sq ft (9 lb per 1,000), Kentucky bluegrass about 2,500 sq ft (2 lb per 1,000), and bermudagrass about 2,500 sq ft (2 lb per 1,000). Most bags print their own coverage on the label; use that if it's different.</p></details>
+    <details><summary>How much seed do I need to overseed a thin lawn?</summary><p>Less than for a bare-soil lawn, since some grass is already there, but how much less depends on how thin it is. Follow the overseeding rate on your seed bag and enter it with "Rate from my seed bag".</p></details>
+    <details><summary>Should I add topsoil before seeding?</summary><p>If the soil is thin or poor, yes. The <a href="../topsoil-calculator/">topsoil calculator</a> works out cubic yards for the depth you want; let it settle (water it and rake it level) before you seed.</p></details>
+    <details><summary>Seed or sod?</summary><p>Seed costs much less; sod gives an instant lawn and can go down over more of the year. For sod, the <a href="../sod-calculator/">sod calculator</a> works out square yards, pallets, and weight.</p></details>
+    <p class="small muted">Sources: Purdue Extension, <a href="https://www.extension.purdue.edu/extmedia/ay/ay-3-w.pdf">Establishing Turfgrass Areas From Seed (AY-3-W)</a> (Table 2 rates for Kentucky bluegrass, mixes, and tall fescue; two passes; drop spreader; raking and rolling; straw; watering) and <a href="https://www.extension.purdue.edu/extmedia/ay/ay-25-w.pdf">Purchasing Quality Grass Seed for Your Lawn (AY-25-W)</a> (cost comparison, seed labels); Penn State Extension, <a href="https://extension.psu.edu/turfgrass-seed-and-seed-mixtures">Turfgrass Seed and Seed Mixtures</a> (perennial ryegrass and fine fescue rates); NC State Extension, <a href="https://content.ces.ncsu.edu/carolina-lawns">Carolina Lawns (AG-69)</a> (Table 2b warm-season rates, planting dates, seeded zoysia cultivars, St. Augustinegrass, coated seed, heavy-seeding caution).</p>
+  </article>
+</div></main>
+<footer class="site"><div class="wrap">
+  <a href="../">Home</a><a href="../sod-calculator/">Sod calculator</a><a href="../topsoil-calculator/">Topsoil calculator</a><a href="../mulch-calculator/">Mulch calculator</a><a href="../cubic-yard-calculator/">Cubic yard calculator</a><a href="../about/">About &amp; privacy</a>
+  <p>&copy; <span data-year></span> DIY Project Calculators</p>
+</div></footer>
+<script src="../assets/config.js"></script>
+<script src="../assets/diy-engine.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const E = window.DiyEngine;
+  const lb = n => n.toLocaleString('en-US', { maximumFractionDigits: 2 });
+  const int = n => n.toLocaleString('en-US');
+  const usd = n => n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  const stat = (k, v, win) => `<div class="stat${win ? ' win' : ''}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
+  const num = id => Math.max(0, parseFloat($(id).value) || 0);
+  const range = (a, b) => (Math.abs(a - b) < 1e-9 ? lb(a) : `${lb(a)}–${lb(b)}`);
+
+  function render() {
+    const shape = $('shape').value, grass = $('grass').value;
+    ['rect', 'circle', 'area'].forEach(s => document.querySelectorAll('.s-' + s).forEach(el => el.classList.toggle('hidden', s !== shape)));
+    document.querySelectorAll('.s-custom').forEach(el => el.classList.toggle('hidden', grass !== 'custom'));
+    const gross = shape === 'rect' ? num('len') * num('wid') : shape === 'circle' ? Math.PI * Math.pow(num('diam') / 2, 2) : num('area');
+    const area = Math.max(0, gross - num('minus'));
+    const clear = () => { $('stats').innerHTML = ''; ['passes', 'cost', 'straw'].forEach(id => { $(id).textContent = ''; }); };
+    if (grass === 'st-augustine') {
+      clear();
+      $('summary').innerHTML = 'St. Augustinegrass isn\'t sold as seed (NC State Extension), so it\'s planted as sod, plugs, or sprigs. The <a href="../sod-calculator/">sod calculator</a> works out how much to order.';
+      return;
+    }
+    const g = E.GRASS_SEED[grass], rate = num('rate');
+    const [lo, hi] = g ? g.lb : [rate, rate];
+    const r = E.grassSeed({ areaFt2: area, lbLow: lo, lbHigh: hi, bagLb: num('bag'), bagPrice: num('price') });
+    if (!area || !r.high) {
+      clear();
+      $('summary').textContent = 'Enter the lawn size and a seeding rate to see how much seed to buy.';
+      return;
+    }
+    const name = g ? g.name.toLowerCase().replace('kentucky', 'Kentucky') : 'your seed';
+    const bag = num('bag');
+    $('stats').innerHTML = stat('Seed', `${range(r.low, r.high)} lb`, true) + stat('Lawn area', `${int(Math.round(area))} sq ft`) +
+      (bag ? stat(`${lb(bag)} lb bags`, int(r.bagsHigh)) : '') + stat('Rate', `${range(lo, hi)} lb / 1,000 sq ft`);
+    $('summary').textContent = `${int(Math.round(area))} sq ft ÷ 1,000 × ${range(lo, hi)} lb = ${range(r.low, r.high)} lb of ${name}.` +
+      (bag ? ` In ${lb(bag)} lb bags that's ${r.bagsLow === r.bagsHigh ? int(r.bagsHigh) : `${int(r.bagsLow)} at the low rate or ${int(r.bagsHigh)} at the high rate`}` +
+        (r.leftoverLb > 0.005 ? `, with ${lb(r.leftoverLb)} lb left over at the high rate.` : '.') : '');
+    $('passes').textContent = `Spread it in two passes at right angles: about ${lb(r.perPassHigh)} lb each way at the ${g && lo !== hi ? 'high ' : ''}rate, with the spreader set low.`;
+    $('cost').textContent = num('price') && bag ? `Cost: ${usd(r.cost)} for ${int(r.bagsHigh)} bag${r.bagsHigh === 1 ? '' : 's'} at ${usd(num('price'))}.` : '';
+    $('straw').textContent = `Straw mulch: about ${int(r.strawBales)} bale${r.strawBales === 1 ? '' : 's'} of weed-free straw (Purdue: one per 1,000 sq ft, spread thin).`;
+  }
+  document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', render));
+  render();
+})();
+</script>
+</body>
+</html>
