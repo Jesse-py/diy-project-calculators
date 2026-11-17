@@ -194,10 +194,41 @@
   // Whole bags of a given weight the cargo capacity allows.
   const bagsByWeight = (cargoLb, bagLb) => (pos(bagLb) ? Math.floor(pos(cargoLb) / bagLb + 1e-9) : 0);
 
+  // Segmental (dry-stacked) retaining wall, built the way Allan Block's residential "Basic installation" guide describes:
+  // a base trench 24 in wide, 6 in of compacted wall rock, the first course buried 1 in per foot of wall height, and wall
+  // rock 12 in behind the block up to the height of the block. Block sizes are the face length and height (inches).
+  // Caps (optional, capLenIn > 0) sit on top and count toward the exposed height. Hollow cores aren't filled in the
+  // gravel total (solid garden blocks have none); the waste allowance covers cut blocks at the ends.
+  const RW_BURY_IN_PER_FT = 1, RW_BASE_WIDTH_IN = 24, RW_BASE_DEPTH_IN = 6, RW_DRAIN_IN = 12, RW_DRAIN_PIPE_OVER_IN = 48;
+  function retainingWall({ lengthFt, heightIn, blockLenIn, blockHtIn, wastePct = 5, capLenIn = 0, capHtIn = 0,
+    buryIn = pos(heightIn) / 12 * RW_BURY_IN_PER_FT, baseWidthIn = RW_BASE_WIDTH_IN, baseDepthIn = RW_BASE_DEPTH_IN,
+    drainIn = RW_DRAIN_IN, tonsPerYd3 = GRAVEL_TONS_PER_YD3 }) {
+    const L = pos(lengthFt), bl = pos(blockLenIn), bh = pos(blockHtIn), capH = pos(capLenIn) ? pos(capHtIn) : 0;
+    const stackIn = Math.max(0, pos(heightIn) - capH) + pos(buryIn);
+    const courses = bh && L && stackIn ? Math.ceil(stackIn / bh - 1e-9) : 0;
+    const perCourse = bl && courses ? Math.ceil(L * 12 / bl - 1e-9) : 0;
+    const exactBlocks = courses * perCourse;
+    const blocks = Math.ceil(exactBlocks * (1 + pos(wastePct) / 100) - 1e-9);
+    const caps = pos(capLenIn) && courses ? Math.ceil(L * 12 / capLenIn * (1 + pos(wastePct) / 100) - 1e-9) : 0;
+    const blockHeightIn = courses * bh;
+    const baseFt3 = L * pos(baseWidthIn) / 12 * pos(baseDepthIn) / 12;
+    const drainFt3 = L * pos(drainIn) / 12 * blockHeightIn / 12;
+    const trenchDepthIn = courses ? pos(baseDepthIn) + pos(buryIn) : 0;
+    return {
+      courses, perCourse, exactBlocks, blocks, caps, blockHeightIn,
+      exposedIn: courses ? blockHeightIn - pos(buryIn) + capH : 0,
+      faceFt2: L * blockHeightIn / 12,
+      trenchDepthIn, digFt3: L * pos(baseWidthIn) / 12 * trenchDepthIn / 12,
+      baseFt3, drainFt3, gravel: gravel(courses ? (baseFt3 + drainFt3) * 12 : 0, 1, tonsPerYd3),
+      drainPipe: pos(heightIn) > RW_DRAIN_PIPE_OVER_IN,
+    };
+  }
+
   root.DiyEngine = {
     FT3_PER_YD3, CONCRETE_BAGS, CONCRETE_LB_PER_FT3, BULK_BAGS, SOIL_BAGS, GRAVEL_BAG, GRAVEL_TONS_PER_YD3,
     slab, circleSlab, cylinder, bagsFor, concrete, bulk, yardCovers, soil, gravel, tonCovers, paint, buyPaint, perimeter,
     SAND_BAG_FT3, pavers, baseArea, fence, fenceRails,
     M3_PER_YD3, partArea, cubicYards, truckBed, truckLoad, bagsByWeight,
+    RW_BASE_WIDTH_IN, RW_BASE_DEPTH_IN, RW_DRAIN_IN, retainingWall,
   };
 })(typeof window !== 'undefined' ? window : module.exports);

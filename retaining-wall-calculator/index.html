@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retaining Wall Calculator: Blocks, Caps, and Gravel</title>
+<meta name="description" content="Free retaining wall block calculator: blocks per course, total blocks and caps, the buried course, and tons of gravel for the base and drainage zone.">
+<link rel="canonical" href="https://jesse-py.github.io/diy-project-calculators/retaining-wall-calculator/">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Retaining Wall Calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="../">DIY <span>Project</span> Calculators</a>
+  <nav class="top"><a href="../#calculators">Calculators</a><a href="../about/">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <h1>Retaining Wall Calculator</h1>
+  <p class="lede">How many blocks a dry-stacked garden or landscape wall needs, including the course you bury, plus the caps and the gravel for the base trench and the drainage zone behind the wall. Everything runs in your browser.</p>
+
+  <section class="card">
+    <div class="fields">
+      <div><label for="len">Wall length (ft)</label><input id="len" type="number" min="0" step="1" value="30" inputmode="decimal"></div>
+      <div><label for="height">Height above ground (in)</label><input id="height" type="number" min="0" step="1" value="24" inputmode="decimal"></div>
+      <div><label for="size">Block face (length &times; height)</label><select id="size">
+        <option value="12x4">12 &times; 4 in (small garden block)</option>
+        <option value="16x6">16 &times; 6 in</option>
+        <option value="18x8">18 &times; 8 in</option>
+        <option value="custom">Other size</option>
+      </select></div>
+      <div class="s-custom hidden"><label for="blen">Block length (in)</label><input id="blen" type="number" min="0" step="0.25" value="12" inputmode="decimal"></div>
+      <div class="s-custom hidden"><label for="bht">Block height (in)</label><input id="bht" type="number" min="0" step="0.25" value="4" inputmode="decimal"></div>
+      <div><label for="waste">Extra for cuts (%)</label><input id="waste" type="number" min="0" step="1" value="5" inputmode="decimal"></div>
+      <div><label for="caps">Cap blocks on top</label><select id="caps"><option value="no">No caps</option><option value="yes">Yes</option></select></div>
+      <div class="s-caps hidden"><label for="clen">Cap length (in)</label><input id="clen" type="number" min="0" step="0.25" value="12" inputmode="decimal"></div>
+      <div class="s-caps hidden"><label for="cht">Cap height (in)</label><input id="cht" type="number" min="0" step="0.25" value="3" inputmode="decimal"></div>
+    </div>
+    <details><summary>Base, burial, and drainage (Allan Block defaults)</summary>
+      <div class="fields">
+        <div><label for="bury">Buried depth (in)</label><input id="bury" type="number" min="0" step="0.5" value="" placeholder="1 in per ft of height" inputmode="decimal"></div>
+        <div><label for="bwid">Base trench width (in)</label><input id="bwid" type="number" min="0" step="1" value="24" inputmode="decimal"></div>
+        <div><label for="bdep">Base rock depth (in)</label><input id="bdep" type="number" min="0" step="1" value="6" inputmode="decimal"></div>
+        <div><label for="drain">Wall rock behind the block (in)</label><input id="drain" type="number" min="0" step="1" value="12" inputmode="decimal"></div>
+        <div><label for="density">Gravel weight (tons per cu yd)</label><input id="density" type="number" min="0" step="0.05" value="1.35" inputmode="decimal"></div>
+      </div>
+    </details>
+    <p class="small muted">Measure the length along the front face. Block sizes are nominal; a block sold as 12 in long is often 11&frac34; in, which the cut allowance covers. Check the label for your block's face size.</p>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <h2 style="margin-top:0">What to buy</h2>
+    <div class="stats" id="stats"></div>
+    <p id="summary"></p>
+    <p id="gravel-summary"></p>
+    <div id="warning" class="note hidden"></div>
+  </section>
+
+  <article>
+    <h2 id="how-many-blocks">How many retaining wall blocks do I need?</h2>
+    <p>Blocks per course = wall length in inches &divide; block length, rounded up. Courses = (height above ground + buried depth) &divide; block height, rounded up. Multiply the two and add a little for cut blocks at the ends and corners.</p>
+    <p>Example: a 30 ft wall, 24 in tall, in 12 &times; 4 in blocks. Each course is 360 &divide; 12 = 30 blocks. Burying 2 in (1 in per foot of height) means stacking 26 in, which takes 26 &divide; 4 = 6.5, so <strong>7 courses</strong>. 7 &times; 30 = 210 blocks, plus 5% = <strong>221 blocks</strong>. The finished wall stands 26 in above ground.</p>
+
+    <h2>Blocks for common walls</h2>
+    <div class="table-scroll"><table id="walls-table">
+<!--table:retaining-wall-blocks-->
+<thead><tr><th>Wall</th><th class="num">12 &times; 4 in blocks</th><th class="num">16 &times; 6 in blocks</th><th class="num">18 &times; 8 in blocks</th></tr></thead><tbody>
+<tr><td>10 ft long, 1 ft tall</td><td class="num">42</td><td class="num">26</td><td class="num">15</td></tr>
+<tr><td>10 ft long, 2 ft tall</td><td class="num">74</td><td class="num">42</td><td class="num">30</td></tr>
+<tr><td>20 ft long, 2 ft tall</td><td class="num">147</td><td class="num">79</td><td class="num">59</td></tr>
+<tr><td>20 ft long, 3 ft tall</td><td class="num">210</td><td class="num">111</td><td class="num">74</td></tr>
+<tr><td>30 ft long, 2 ft tall</td><td class="num">221</td><td class="num">121</td><td class="num">84</td></tr>
+<tr><td>50 ft long, 3 ft tall</td><td class="num">525</td><td class="num">280</td><td class="num">179</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p class="small muted">Height above ground, no caps, buried 1 in per foot of height, plus 5% for cuts. Bigger blocks need fewer pieces but each one is much heavier; check the weight before you plan to carry a few hundred.</p>
+
+    <h2 id="gravel">How much gravel for a retaining wall?</h2>
+    <p>Allan Block's residential <a href="https://allanblock.com/installation/residential-installation/basic-installation">installation guide</a> uses gravel ("wall rock") in two places:</p>
+    <ul>
+      <li><strong>The base:</strong> a trench 24 in wide with at least 6 in of wall rock, compacted with at least two passes of a plate compactor. The trench is 6 in deep plus 1 in for each foot of wall height, because that much block is buried. (For walls under 4 ft, the guide also gives an 18 in wide, 4 in deep trench; the calculator's 24 &times; 6 in default errs high.)</li>
+      <li><strong>The drainage zone:</strong> wall rock in the block cores and 12 in behind the block, up to the height of the block, with soil backfilled behind that in lifts of 8 in or less.</li>
+    </ul>
+    <p>For the example wall above: the base is 30 &times; 2 ft &times; 0.5 ft = 30 cu ft, the drainage zone is 30 &times; 1 ft &times; 28 in tall = 70 cu ft, so <strong>100 cu ft = 3.70 cubic yards, about 5.0 tons</strong> at the 1.35 tons per yard our <a href="../gravel-calculator/">gravel calculator</a> uses. Hollow-core blocks need a bit more to fill their cores. The guide recommends a well-graded crushed rock from &frac14; to 1&frac12; in with no more than 10% fines, not pea gravel or sand.</p>
+
+    <h2>How deep to bury the first course</h2>
+    <p>One inch for every foot of wall height, per the same guide, on top of the base rock. A 3 ft wall buries 3 in of block. The calculator rounds the courses up, so with 4 in blocks you'll often bury a little more than that or end up with a slightly taller wall. Some block makers set a minimum burial (for example half a block or a full course); if yours does, enter it under <em>Base, burial, and drainage</em>.</p>
+
+    <h2>Walls over 4 feet</h2>
+    <p>Allan Block's guide requires a drain pipe at the back of the trench for any gravity wall over 4 ft, any wall reinforced with geogrid, and any site with poor drainage, vented to daylight every 50 ft. Taller walls, walls holding back a slope, a driveway, or a building, and walls on soft or clay soil may need geogrid and an engineered design. Follow your block maker's height chart, and ask your local building department whether your wall needs a permit before you dig.</p>
+
+    <h2>FAQ</h2>
+    <details><summary>How many blocks per square foot of wall?</summary><p>144 &divide; (block length &times; height in inches): 3 for a 12 &times; 4 in face, 1.5 for 16 &times; 6 in, 1 for 18 &times; 8 in. Count the buried course too; it's part of the wall, just below grade.</p></details>
+    <details><summary>Do I need cap blocks?</summary><p>They aren't structural on a short garden wall, but they finish the top and hide the block cores. Caps are sold by the piece and usually run their own length; pick <em>Yes</em> above and enter the cap's length and height, and the calculator counts them and stacks one fewer inch of block for every inch of cap.</p></details>
+    <details><summary>Can I use sand for the base?</summary><p>Not for the base itself. The guide calls for compacted wall rock and allows up to &frac12; in of coarse sand under the base course only to level individual blocks.</p></details>
+    <details><summary>How do I stagger the courses?</summary><p>Offset the vertical seams by at least a quarter of the block length from the course below. That doesn't change the count much; the cut allowance covers the half blocks at the ends.</p></details>
+    <details><summary>How do I get the gravel home?</summary><p>5 tons is several pickup loads at best. The <a href="../truck-bed-capacity-calculator/">truck bed capacity calculator</a> shows how much your truck can legally carry; for more than a yard or two, delivery is usually simpler. The <a href="../cubic-yard-calculator/">cubic yard calculator</a> handles odd-shaped areas.</p></details>
+    <p>Building steps or a patio at the top of the wall? The <a href="../paver-calculator/">paver calculator</a> counts pavers, base, and sand.</p>
+    <p class="small">Run a landscape supply yard? <a href="https://jesse-py.github.io/landscape-material-calculator/?utm_source=diy">Put a material calculator on your own website</a>: a free WordPress plugin with your prices, rounding, and a quote button.</p>
+    <p class="small muted">Source: Allan Block, <a href="https://allanblock.com/installation/residential-installation/basic-installation">Residential installation: basic installation</a> (base trench, burial, wall rock, drain pipe, backfill lifts, seam offset). This calculator isn't affiliated with any block maker; follow the instructions for the block you buy.</p>
+  </article>
+</div></main>
+<footer class="site"><div class="wrap">
+  <a href="../">Home</a><a href="../gravel-calculator/">Gravel calculator</a><a href="../paver-calculator/">Paver calculator</a><a href="../cubic-yard-calculator/">Cubic yard calculator</a><a href="../truck-bed-capacity-calculator/">Truck bed capacity</a><a href="../about/">About &amp; privacy</a>
+  <p>&copy; <span data-year></span> DIY Project Calculators</p>
+</div></footer>
+<script src="../assets/config.js"></script>
+<script src="../assets/diy-engine.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const E = window.DiyEngine;
+  const fmt = (n, d = 2) => n.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d });
+  const int = n => n.toLocaleString(undefined);
+  const stat = (k, v, win) => `<div class="stat${win ? ' win' : ''}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
+  const num = id => Math.max(0, parseFloat($(id).value) || 0);
+
+  function render() {
+    const size = $('size').value, caps = $('caps').value === 'yes';
+    document.querySelectorAll('.s-custom').forEach(el => el.classList.toggle('hidden', size !== 'custom'));
+    document.querySelectorAll('.s-caps').forEach(el => el.classList.toggle('hidden', !caps));
+    const [bl, bh] = size === 'custom' ? [num('blen'), num('bht')] : size.split('x').map(Number);
+    const opts = {
+      lengthFt: num('len'), heightIn: num('height'), blockLenIn: bl, blockHtIn: bh, wastePct: num('waste'),
+      capLenIn: caps ? num('clen') : 0, capHtIn: caps ? num('cht') : 0,
+      baseWidthIn: num('bwid'), baseDepthIn: num('bdep'), drainIn: num('drain'), tonsPerYd3: num('density'),
+    };
+    if ($('bury').value.trim() !== '') opts.buryIn = num('bury');
+    const r = E.retainingWall(opts);
+    const warn = $('warning');
+    if (!r.courses || !r.perCourse) {
+      $('stats').innerHTML = ''; $('gravel-summary').textContent = ''; warn.classList.add('hidden');
+      $('summary').textContent = 'Enter the wall length, its height, and the block size to see what to buy.';
+      return;
+    }
+    const bury = opts.buryIn === undefined ? opts.heightIn / 12 : opts.buryIn;
+    $('stats').innerHTML = stat('Blocks', int(r.blocks), true) + (caps ? stat('Caps', int(r.caps)) : '') +
+      stat('Courses', `${r.courses} (${r.perCourse} per course)`) +
+      stat('Gravel', `${fmt(r.gravel.tons)} tons`) + stat('Gravel, cubic yards', fmt(r.gravel.yd3)) +
+      stat('Trench', `${fmt(opts.baseWidthIn / 12, 1)} ft wide, ${fmt(r.trenchDepthIn, 1)} in deep`);
+    $('summary').textContent = `${int(Math.round(opts.lengthFt * 12))} in of wall ÷ ${bl} in = ${r.perCourse} blocks per course. ` +
+      `${fmt(Math.max(0, opts.heightIn - (caps ? opts.capHtIn : 0)), 1)} in of block above ground + ${fmt(bury, 1)} in buried = ` +
+      `${r.courses} courses of ${bh} in. ${r.courses} × ${r.perCourse} = ${int(r.exactBlocks)} blocks, plus ${opts.wastePct}% = ${int(r.blocks)}. ` +
+      `The finished wall stands about ${fmt(r.exposedIn, 1)} in above ground.`;
+    $('gravel-summary').textContent = `Gravel: base ${fmt(r.baseFt3, 1)} cu ft + drainage zone ${fmt(r.drainFt3, 1)} cu ft = ` +
+      `${fmt(r.gravel.ft3, 1)} cu ft, or ${int(r.gravel.bags)} bags of 0.5 cu ft. Dig about ${fmt(r.digFt3 / 27)} cubic yards of soil for the trench.`;
+    warn.textContent = r.drainPipe
+      ? `Over 4 ft: Allan Block's guide requires a drain pipe (about ${int(Math.ceil(opts.lengthFt))} ft, vented every 50 ft). Check your block maker's height chart for geogrid, and ask your building department about a permit and an engineered design.`
+      : '';
+    warn.classList.toggle('hidden', !r.drainPipe);
+  }
+  document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', render));
+  render();
+})();
+</script>
+</body>
+</html>
