@@ -224,11 +224,29 @@
     };
   }
 
+  // Sod, ordered the way Purdue Extension's "Establishing a Lawn from Sod" (AY-28-W) describes: vendors sell by the square
+  // yard (sq ft / 9), add about 10% for cutting and measuring errors, a pallet holds about 50 sq yd (450 sq ft), and sod
+  // weighs about 35-40 lb per sq yd. Slabs are typically 18 x 24 in; rolls 18 in x 6 ft or 24 in x 5 ft (piece size, inches).
+  const SOD_PALLET_FT2 = 450, SOD_LB_PER_YD2 = [35, 40];
+  function sod({ areaFt2, extraPct = 10, pieceWIn = 18, pieceLIn = 24, palletFt2 = SOD_PALLET_FT2 }) {
+    const yd2 = Math.ceil(pos(areaFt2) * (1 + pos(extraPct) / 100) / 9 - 1e-9);
+    const orderFt2 = yd2 * 9, pieceFt2 = pos(pieceWIn) * pos(pieceLIn) / 144, pallet = pos(palletFt2);
+    const pallets = pallet ? orderFt2 / pallet : 0;
+    const fullPallets = Math.floor(pallets + 1e-9), leftFt2 = Math.max(0, orderFt2 - fullPallets * pallet);
+    const per = n => (pieceFt2 && n ? Math.ceil(n / pieceFt2 - 1e-9) : 0);
+    return {
+      yd2, orderFt2, pieceFt2, pieces: per(orderFt2), pallets, palletsUp: Math.ceil(pallets - 1e-9),
+      fullPallets, leftFt2, leftPieces: per(leftFt2), perPallet: pieceFt2 ? Math.floor(pallet / pieceFt2 + 1e-9) : 0,
+      lbLow: yd2 * SOD_LB_PER_YD2[0], lbHigh: yd2 * SOD_LB_PER_YD2[1],
+    };
+  }
+
   root.DiyEngine = {
     FT3_PER_YD3, CONCRETE_BAGS, CONCRETE_LB_PER_FT3, BULK_BAGS, SOIL_BAGS, GRAVEL_BAG, GRAVEL_TONS_PER_YD3,
     slab, circleSlab, cylinder, bagsFor, concrete, bulk, yardCovers, soil, gravel, tonCovers, paint, buyPaint, perimeter,
     SAND_BAG_FT3, pavers, baseArea, fence, fenceRails,
     M3_PER_YD3, partArea, cubicYards, truckBed, truckLoad, bagsByWeight,
     RW_BASE_WIDTH_IN, RW_BASE_DEPTH_IN, RW_DRAIN_IN, retainingWall,
+    SOD_PALLET_FT2, SOD_LB_PER_YD2, sod,
   };
 })(typeof window !== 'undefined' ? window : module.exports);

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sod Calculator: Square Yards, Pallets, Pieces, and Cost</title>
+<meta name="description" content="Free sod calculator: square yards to order with 10% extra, slabs or rolls, pallets, weight, and cost, using Purdue Extension's ordering rules.">
+<link rel="canonical" href="https://jesse-py.github.io/diy-project-calculators/sod-calculator/">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Sod Calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="../">DIY <span>Project</span> Calculators</a>
+  <nav class="top"><a href="../#calculators">Calculators</a><a href="../about/">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <h1>Sod Calculator</h1>
+  <p class="lede">How much sod to order for a new lawn: square yards with extra for cuts, the number of slabs or rolls, how many pallets that is, what it weighs, and roughly what it costs. Everything runs in your browser.</p>
+
+  <section class="card">
+    <div class="fields">
+      <div><label for="shape">Lawn shape</label>
+        <select id="shape">
+          <option value="rect">Rectangle</option>
+          <option value="circle">Circle</option>
+          <option value="area">I know the square feet</option>
+        </select></div>
+      <div class="s-rect"><label for="len">Length (ft)</label><input id="len" type="number" min="0" step="0.5" value="50" inputmode="decimal"></div>
+      <div class="s-rect"><label for="wid">Width (ft)</label><input id="wid" type="number" min="0" step="0.5" value="30" inputmode="decimal"></div>
+      <div class="s-circle hidden"><label for="diam">Diameter (ft)</label><input id="diam" type="number" min="0" step="0.5" value="20" inputmode="decimal"></div>
+      <div class="s-area hidden"><label for="area">Lawn area (sq ft)</label><input id="area" type="number" min="0" step="1" value="1000" inputmode="decimal"></div>
+      <div><label for="minus">Minus beds, paths, patios (sq ft)</label><input id="minus" type="number" min="0" step="1" value="0" inputmode="decimal"></div>
+      <div><label for="extra">Extra for cuts (%)</label><input id="extra" type="number" min="0" max="50" step="1" value="10" inputmode="decimal"></div>
+      <div><label for="piece">Piece size</label><select id="piece">
+        <option value="18x24">Slabs, 18 &times; 24 in</option>
+        <option value="18x72">Rolls, 18 in &times; 6 ft</option>
+        <option value="24x60">Rolls, 24 in &times; 5 ft</option>
+        <option value="custom">Other size</option>
+      </select></div>
+      <div class="s-custom hidden"><label for="pw">Piece width (in)</label><input id="pw" type="number" min="0" step="1" value="16" inputmode="decimal"></div>
+      <div class="s-custom hidden"><label for="pl">Piece length (in)</label><input id="pl" type="number" min="0" step="1" value="24" inputmode="decimal"></div>
+      <div><label for="pallet">Square feet per pallet</label><input id="pallet" type="number" min="0" step="10" value="450" inputmode="decimal"></div>
+      <div><label for="price">Your price per sq yd ($, optional)</label><input id="price" type="number" min="0" step="0.05" value="" placeholder="e.g. 2.25" inputmode="decimal"></div>
+    </div>
+    <p class="small muted">Measure the lawn as simple shapes and add them up, or measure the whole lot and subtract the house, drive, and beds. Piece and pallet sizes vary with the farm's cutting machine; ask your supplier and change them here.</p>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <h2 style="margin-top:0">What to order</h2>
+    <div class="stats" id="stats"></div>
+    <p id="summary"></p>
+    <p id="weight"></p>
+    <p id="cost"></p>
+    <p id="soil"></p>
+  </section>
+
+  <article>
+    <h2 id="how-much-sod">How much sod do I need?</h2>
+    <p>Sod is sold by the square yard. Purdue Extension's guide to <a href="https://www.extension.purdue.edu/extmedia/ay/ay-28-w.pdf">establishing a lawn from sod</a> says to divide the lawn's square feet by 9 and order about 10% more for measuring mistakes and the pieces you cut away at edges and corners.</p>
+    <p>Purdue's own example: a lawn of 3,779 sq ft is 3,779 &divide; 9 &asymp; 420 square yards, and 10% more makes <strong>462 square yards</strong>. That's 1,386 slabs of 18 &times; 24 in, or 9 pallets of 450 sq ft plus 108 sq ft more (36 slabs). To find the 3,779, Purdue measured the whole lot (6,000 sq ft) and took away the house, driveway, porch, and mulch beds (2,221 sq ft).</p>
+
+    <h2>Sod for common lawn sizes</h2>
+    <div class="table-scroll"><table id="sod-table">
+<!--table:sod-lawn-sizes-->
+<thead><tr><th>Lawn</th><th class="num">Sq yd to order</th><th class="num">18 &times; 24 in slabs</th><th class="num">Pallets</th><th class="num">Weight, lb</th></tr></thead><tbody>
+<tr><td>500 sq ft</td><td class="num">62</td><td class="num">186</td><td class="num">1.24</td><td class="num">2,170&ndash;2,480</td></tr>
+<tr><td>1,000 sq ft</td><td class="num">123</td><td class="num">369</td><td class="num">2.46</td><td class="num">4,305&ndash;4,920</td></tr>
+<tr><td>2,000 sq ft</td><td class="num">245</td><td class="num">735</td><td class="num">4.90</td><td class="num">8,575&ndash;9,800</td></tr>
+<tr><td>3,000 sq ft</td><td class="num">367</td><td class="num">1,101</td><td class="num">7.34</td><td class="num">12,845&ndash;14,680</td></tr>
+<tr><td>5,000 sq ft</td><td class="num">612</td><td class="num">1,836</td><td class="num">12.24</td><td class="num">21,420&ndash;24,480</td></tr>
+<tr><td>10,000 sq ft</td><td class="num">1,223</td><td class="num">3,669</td><td class="num">24.46</td><td class="num">42,805&ndash;48,920</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p class="small muted">With 10% extra, rounded up to whole square yards; pallets of 450 sq ft (50 sq yd) and 35&ndash;40 lb per sq yd, as in Purdue's guide.</p>
+
+    <h2 id="pallet-size">How much sod is on a pallet?</h2>
+    <p>Purdue says sod normally arrives on wooden pallets of about <strong>50 square yards (450 sq ft)</strong>. Slabs are typically 18 &times; 24 in (3 sq ft), so a pallet holds about 150 of them; rolls are typically 18 in &times; 6 ft (9 sq ft, about 50 a pallet) or 24 in &times; 5 ft (10 sq ft, about 45 a pallet). Both vary by farm, so check before you order. Many suppliers sell part pallets, and the price often includes a deposit on each pallet (Purdue: typically under $10).</p>
+
+    <h2 id="weight-heading">How much does sod weigh?</h2>
+    <p>About 35 to 40 lb per square yard, so a full 50-yard pallet is roughly <strong>1,750 to 2,000 lb</strong>. That's more than many half-ton pickups are rated to carry. The <a href="../truck-bed-capacity-calculator/">truck bed capacity calculator</a> works out your truck's limit from the door-jamb sticker; for more than a part pallet, delivery is usually simpler and puts the pallets near where you'll lay them.</p>
+
+    <h2 id="cost-heading">How much does sod cost?</h2>
+    <p>Purdue's guide lists about $1.50 to $3.00 per square yard for common lawn grasses in Indiana (Kentucky bluegrass and tall fescue $1.50&ndash;$3.00, bermudagrass $1.50&ndash;$2.50, zoysiagrass $2.00&ndash;$3.00), not counting installation. Prices vary with the grass, the farm, the amount, and retail versus wholesale, so enter a local quote above for a real figure. Delivery and pallet deposits are extra.</p>
+
+    <h2>Before the sod arrives</h2>
+    <ul>
+      <li><strong>Test the soil and add topsoil if it's thin.</strong> Penn State Extension recommends at least 4 to 6 inches of good topsoil under a lawn. The <a href="../topsoil-calculator/">topsoil calculator</a> works out the cubic yards; 6 inches over 1,000 sq ft takes about 18.5.</li>
+      <li><strong>Grade and firm the bed.</strong> Purdue: it should be firm enough to walk on with only the top &frac12; inch loose, and drives and walks should sit about &frac12; inch above the soil to allow for the soil on the sod.</li>
+      <li><strong>Water the soil a day or so ahead,</strong> so it's lightly moist but not muddy. Don't lay sod on dry, hot soil.</li>
+      <li><strong>Schedule delivery for the day you'll lay it.</strong> Purdue says sod should be delivered and installed within 24 hours of harvest; it deteriorates the longer it sits on the pallet.</li>
+    </ul>
+
+    <h2>Laying it</h2>
+    <p>Start along a straight edge such as a driveway (or a string line), and on a slope start at the bottom. Butt the pieces tightly without overlapping, and stagger the joints row to row like bricks. Avoid small pieces, which dry out: Purdue's rule of thumb is nothing narrower than 9 in or shorter than 18 in, with trimmed pieces kept on the inside. Roll the lawn lightly, then water it thoroughly, and keep watering daily in the morning until it roots, usually about 10 days (10 to 14 in good weather). To check, lift a corner; new roots are white.</p>
+
+    <h2>FAQ</h2>
+    <details><summary>Should I round up to whole pallets?</summary><p>Only if your supplier sells whole pallets only. The calculator shows both: whole pallets plus the leftover in square feet and pieces, and the count rounded up. The 10% extra already covers ordinary cutting, so a full extra pallet is usually more than you need.</p></details>
+    <details><summary>When is the best time to lay sod?</summary><p>Purdue: fall for cool-season grasses such as tall fescue and Kentucky bluegrass, so roots grow before summer; early summer for warm-season grasses such as bermudagrass and zoysiagrass. Sod laid in summer heat or in winter can work but needs much more care with watering.</p></details>
+    <details><summary>How do I measure an odd-shaped yard?</summary><p>Split it into rectangles, circles, and triangles, work out each area, and add them, or measure the whole lot and subtract what isn't lawn. Enter the total with <em>I know the square feet</em>. The <a href="../cubic-yard-calculator/">cubic yard calculator</a> adds up mixed shapes if you also need soil for them.</p></details>
+    <details><summary>Can I lay sod over existing grass?</summary><p>Purdue's guide prepares a bare, graded bed: control perennial weeds and undesirable grasses first, then grade, add topsoil, and fertilize as a soil test recommends. Sod on top of an old lawn roots poorly.</p></details>
+    <p>Edging the new lawn with beds? The <a href="../mulch-calculator/">mulch calculator</a> covers those.</p>
+    <p class="small muted">Sources: Purdue Extension, <a href="https://www.extension.purdue.edu/extmedia/ay/ay-28-w.pdf">Establishing a Lawn from Sod (AY-28-W)</a> (ordering by the square yard, 10% extra, pallet size, piece sizes, weight, cost table, site preparation, laying, watering, timing); Penn State Extension, <a href="https://extension.psu.edu/lawn-establishment">Lawn Establishment</a> (topsoil depth).</p>
+  </article>
+</div></main>
+<footer class="site"><div class="wrap">
+  <a href="../">Home</a><a href="../topsoil-calculator/">Topsoil calculator</a><a href="../mulch-calculator/">Mulch calculator</a><a href="../truck-bed-capacity-calculator/">Truck bed capacity</a><a href="../cubic-yard-calculator/">Cubic yard calculator</a><a href="../about/">About &amp; privacy</a>
+  <p>&copy; <span data-year></span> DIY Project Calculators</p>
+</div></footer>
+<script src="../assets/config.js"></script>
+<script src="../assets/diy-engine.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const E = window.DiyEngine;
+  const fmt = (n, d = 2) => n.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d });
+  const int = n => n.toLocaleString(undefined);
+  const usd = n => '$' + int(Math.round(n));
+  const stat = (k, v, win) => `<div class="stat${win ? ' win' : ''}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
+  const num = id => Math.max(0, parseFloat($(id).value) || 0);
+
+  function render() {
+    const shape = $('shape').value, piece = $('piece').value;
+    ['rect', 'circle', 'area'].forEach(s => document.querySelectorAll('.s-' + s).forEach(el => el.classList.toggle('hidden', s !== shape)));
+    document.querySelectorAll('.s-custom').forEach(el => el.classList.toggle('hidden', piece !== 'custom'));
+    const gross = shape === 'rect' ? num('len') * num('wid') : shape === 'circle' ? Math.PI * Math.pow(num('diam') / 2, 2) : num('area');
+    const area = Math.max(0, gross - num('minus'));
+    const [pw, pl] = piece === 'custom' ? [num('pw'), num('pl')] : piece.split('x').map(Number);
+    const extra = num('extra');
+    const r = E.sod({ areaFt2: area, extraPct: extra, pieceWIn: pw, pieceLIn: pl, palletFt2: num('pallet') });
+    if (!r.yd2 || !r.pieces) {
+      $('stats').innerHTML = ''; ['weight', 'cost', 'soil'].forEach(id => { $(id).textContent = ''; });
+      $('summary').textContent = 'Enter the lawn size and the piece size to see how much sod to order.';
+      return;
+    }
+    const kind = piece.startsWith('18x24') || (piece === 'custom' && pl < 48) ? 'slabs' : 'rolls';
+    const pieceName = piece === 'custom' ? `${pw} × ${pl} in` : piece === '18x24' ? '18 × 24 in' : piece === '18x72' ? '18 in × 6 ft' : '24 in × 5 ft';
+    const palletText = !r.pallets ? '' : r.leftFt2 > 1e-9
+      ? (r.fullPallets ? `${r.fullPallets} + ${int(Math.round(r.leftFt2))} sq ft` : `${int(Math.round(r.leftFt2))} sq ft (part pallet)`)
+      : `${r.fullPallets}`;
+    $('stats').innerHTML = stat('Order', `${int(r.yd2)} sq yd`, true) + stat('Square feet', int(r.orderFt2)) +
+      stat(kind[0].toUpperCase() + kind.slice(1), int(r.pieces)) +
+      (r.pallets ? stat('Pallets', palletText) + stat('Whole pallets, rounded up', int(r.palletsUp)) : '') +
+      stat('Weight', `${int(r.lbLow)}–${int(r.lbHigh)} lb`);
+    $('summary').textContent = `${int(Math.round(area))} sq ft of lawn` + (extra ? ` + ${extra}% = ${fmt(area * (1 + extra / 100), 1)} sq ft` : '') +
+      ` ÷ 9 = ${fmt(area * (1 + extra / 100) / 9, 1)}, so order ${int(r.yd2)} square yards (${int(r.orderFt2)} sq ft). ` +
+      `That's ${int(r.pieces)} ${kind} of ${pieceName} (${fmt(r.pieceFt2)} sq ft each)` +
+      (r.pallets ? (r.fullPallets
+        ? `, or ${r.fullPallets} pallet${r.fullPallets === 1 ? '' : 's'} of ${int(num('pallet'))} sq ft` + (r.leftFt2 > 1e-9 ? ` plus ${int(Math.round(r.leftFt2))} sq ft (${int(r.leftPieces)} ${kind}).` : '.')
+        : `, less than one ${int(num('pallet'))} sq ft pallet.`) : '.');
+    $('weight').textContent = `It weighs about ${int(r.lbLow)}–${int(r.lbHigh)} lb at 35–40 lb per square yard` +
+      (r.pallets ? `; a full ${int(num('pallet'))} sq ft pallet is about ${int(num('pallet') / 9 * 35)}–${int(num('pallet') / 9 * 40)} lb.` : '.');
+    const price = num('price');
+    $('cost').textContent = price
+      ? `Cost: ${usd(r.yd2 * price)} at $${fmt(price)} per square yard, before delivery, pallet deposits, and installation.`
+      : `Cost: about ${usd(r.yd2 * 1.5)}–${usd(r.yd2 * 3)} at Purdue's $1.50–$3.00 per square yard (Indiana, sod only). Enter your quote above for a closer figure.`;
+    $('soil').textContent = `Adding topsoil first? 4 in over ${int(Math.round(area))} sq ft is ${fmt(E.soil(area, 4).yd3)} cubic yards; 6 in is ${fmt(E.soil(area, 6).yd3)}.`;
+  }
+  document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', render));
+  render();
+})();
+</script>
+</body>
+</html>
