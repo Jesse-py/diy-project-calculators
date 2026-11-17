@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cubic Yard Calculator: Square Feet and Depth to Cubic Yards</title>
+<meta name="description" content="Free cubic yard calculator for mulch, soil, gravel, sand, or concrete. Add rectangles, circles, and triangles, enter the depth, and get cubic yards, feet, and meters.">
+<link rel="canonical" href="https://jesse-py.github.io/diy-project-calculators/cubic-yard-calculator/">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Cubic Yard Calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="../">DIY <span>Project</span> Calculators</a>
+  <nav class="top"><a href="../#calculators">Calculators</a><a href="../about/">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <h1>Cubic Yard Calculator</h1>
+  <p class="lede">Turn an area and a depth into cubic yards, the unit landscape yards and concrete plants sell by. Add as many areas as your project has (an L-shaped bed is two rectangles), each with its own depth. Everything runs in your browser.</p>
+
+  <section class="card">
+    <div id="parts"></div>
+    <p><button type="button" class="btn ghost" id="add">+ Add another area</button></p>
+    <p class="small muted">Lengths in feet, depth in inches. For a circle, enter the diameter (all the way across). For a triangle, the base and the height measured square to it.</p>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <h2 style="margin-top:0">Volume</h2>
+    <div class="stats" id="stats"></div>
+    <p id="summary"></p>
+    <div class="table-scroll"><table id="rows"></table></div>
+  </section>
+
+  <article>
+    <h2 id="formula">How to calculate cubic yards</h2>
+    <p>Cubic yards = length (ft) &times; width (ft) &times; depth (in) &divide; 324. The 324 is 12 inches per foot &times; 27 cubic feet per cubic yard. If you measured the depth in feet, divide by 27 instead.</p>
+    <p>Example: a 12 &times; 20 ft area at 4 inches deep is 12 &times; 20 &times; 4 &divide; 324 = <strong>2.96 cubic yards</strong> (80 cubic feet). A 10 ft circle at 3 inches is &pi; &times; 5&sup2; = 78.5 square feet, &times; 3 &divide; 324 = <strong>0.73 cubic yards</strong>.</p>
+
+    <h2>Cubic yards for common sizes</h2>
+    <div class="table-scroll"><table id="sizes-table">
+<!--table:cubic-yard-sizes-->
+<thead><tr><th>Area</th><th class="num">2 in</th><th class="num">3 in</th><th class="num">4 in</th><th class="num">6 in</th><th class="num">12 in</th></tr></thead><tbody>
+<tr><td>10 &times; 10 ft</td><td class="num">0.62</td><td class="num">0.93</td><td class="num">1.23</td><td class="num">1.85</td><td class="num">3.70</td></tr>
+<tr><td>10 &times; 20 ft</td><td class="num">1.23</td><td class="num">1.85</td><td class="num">2.47</td><td class="num">3.70</td><td class="num">7.41</td></tr>
+<tr><td>12 &times; 12 ft</td><td class="num">0.89</td><td class="num">1.33</td><td class="num">1.78</td><td class="num">2.67</td><td class="num">5.33</td></tr>
+<tr><td>20 &times; 20 ft</td><td class="num">2.47</td><td class="num">3.70</td><td class="num">4.94</td><td class="num">7.41</td><td class="num">14.81</td></tr>
+<tr><td>20 &times; 50 ft</td><td class="num">6.17</td><td class="num">9.26</td><td class="num">12.35</td><td class="num">18.52</td><td class="num">37.04</td></tr>
+<tr><td>50 &times; 100 ft</td><td class="num">30.86</td><td class="num">46.30</td><td class="num">61.73</td><td class="num">92.59</td><td class="num">185.19</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p>Volume grows in step with depth: double the depth, double the yards. One cubic yard covers 324 &divide; depth square feet, so 108 square feet at 3 inches or 81 at 4 inches.</p>
+
+    <h2>Use the right calculator for your material</h2>
+    <p>The volume is the same whatever you're filling, but each material has its own catch, so the material pages add it:</p>
+    <ul>
+      <li><a href="../mulch-calculator/">Mulch</a>: recommended depths, top-ups over old mulch, and bag counts.</li>
+      <li><a href="../topsoil-calculator/">Topsoil</a>: extra for settling, since recommended depths are settled depths.</li>
+      <li><a href="../gravel-calculator/">Gravel</a>: tons as well as yards, because bulk stone is often sold by weight.</li>
+      <li><a href="../concrete-calculator/">Concrete</a>: bags of premix and a waste allowance, plus post holes.</li>
+      <li>Picking it up yourself? The <a href="../truck-bed-capacity-calculator/">truck bed capacity calculator</a> shows how much fits and how much your truck can legally carry.</li>
+    </ul>
+
+    <h2>FAQ</h2>
+    <details><summary>How many cubic feet are in a cubic yard?</summary><p>27. A cubic yard is 3 ft &times; 3 ft &times; 3 ft. It's also about 0.765 cubic meters (a yard is exactly 0.9144 m).</p></details>
+    <details><summary>How many square feet does a cubic yard cover?</summary><p>324 divided by the depth in inches: 162 square feet at 2 inches, 108 at 3, 81 at 4, 54 at 6.</p></details>
+    <details><summary>How do I convert square feet to cubic yards?</summary><p>Multiply the square feet by the depth in inches and divide by 324. 500 square feet at 3 inches is 500 &times; 3 &divide; 324 = 4.63 cubic yards.</p></details>
+    <details><summary>How many tons is a cubic yard?</summary><p>It depends on the material. Gravel and crushed stone are roughly 1.35 tons per cubic yard by the bag figures our <a href="../gravel-calculator/">gravel calculator</a> uses, but suppliers' numbers vary; mulch is far lighter. Ask the yard for their weight per yard.</p></details>
+    <details><summary>Should I round up?</summary><p>Yes. Some yards sell only in half or whole cubic yards, and ground is rarely perfectly flat. Rounding up to the next half yard is a common cushion; for concrete, add a waste allowance (the <a href="../concrete-calculator/">concrete calculator</a> adds 10% by default).</p></details>
+    <p class="small">Run a landscape supply yard or garden center? <a href="https://jesse-py.github.io/landscape-material-calculator/?utm_source=diy">Put a calculator like this on your own website</a>: a free WordPress plugin with your prices, rounding, minimum order, and a quote button.</p>
+    <p class="small muted">Unit definitions: 1 yard = 3 feet = 0.9144 meters exactly (<a href="https://www.nist.gov/pml/owm/nist-handbook-44-current-edition">NIST Handbook 44</a>, Appendix C), so 1 cubic yard = 27 cubic feet = 0.764555 cubic meters.</p>
+  </article>
+</div></main>
+<footer class="site"><div class="wrap">
+  <a href="../">Home</a><a href="../concrete-calculator/">Concrete calculator</a><a href="../gravel-calculator/">Gravel calculator</a><a href="../mulch-calculator/">Mulch calculator</a><a href="../topsoil-calculator/">Topsoil calculator</a><a href="../truck-bed-capacity-calculator/">Truck bed capacity</a><a href="../about/">About &amp; privacy</a>
+  <p>&copy; <span data-year></span> DIY Project Calculators</p>
+</div></footer>
+<script src="../assets/config.js"></script>
+<script src="../assets/diy-engine.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const E = window.DiyEngine;
+  const MAX = 8;
+  const fmt = (n, d = 2) => n.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d });
+  const stat = (k, v, win) => `<div class="stat${win ? ' win' : ''}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
+  const LABELS = { rect: ['Length (ft)', 'Width (ft)'], circle: ['Diameter (ft)', ''], triangle: ['Base (ft)', 'Height (ft)'] };
+  let count = 0;
+
+  function addPart(shape = 'rect', a = 12, b = 20, depth = 4) {
+    if (count >= MAX) return;
+    const i = count++;
+    const div = document.createElement('div');
+    div.className = 'fields part'; div.dataset.i = i;
+    div.innerHTML =
+      `<div><label for="shape-${i}">Area ${i + 1} shape</label><select id="shape-${i}"><option value="rect">Rectangle</option><option value="circle">Circle</option><option value="triangle">Triangle</option></select></div>` +
+      `<div><label for="a-${i}" id="la-${i}">Length (ft)</label><input id="a-${i}" type="number" min="0" step="0.5" value="${a}" inputmode="decimal"></div>` +
+      `<div class="sb-${i}"><label for="b-${i}" id="lb-${i}">Width (ft)</label><input id="b-${i}" type="number" min="0" step="0.5" value="${b}" inputmode="decimal"></div>` +
+      `<div><label for="d-${i}">Depth (inches)</label><input id="d-${i}" type="number" min="0" step="0.5" value="${depth}" inputmode="decimal"></div>`;
+    $('parts').appendChild(div);
+    $('shape-' + i).value = shape;
+    div.querySelectorAll('input, select').forEach(el => el.addEventListener('input', render));
+    $('add').classList.toggle('hidden', count >= MAX);
+  }
+
+  function render() {
+    const parts = [];
+    for (let i = 0; i < count; i++) {
+      const shape = $('shape-' + i).value;
+      $('la-' + i).textContent = LABELS[shape][0];
+      $('lb-' + i).textContent = LABELS[shape][1];
+      document.querySelector('.sb-' + i).classList.toggle('hidden', shape === 'circle');
+      const v = id => Math.max(0, parseFloat($(id).value) || 0);
+      parts.push({ shape, a: v('a-' + i), b: v('b-' + i), depthIn: v('d-' + i) });
+    }
+    const r = E.cubicYards(parts);
+    if (r.ft3 <= 0) {
+      $('stats').innerHTML = ''; $('rows').innerHTML = '';
+      $('summary').textContent = 'Enter the size and depth of at least one area to see the volume.';
+      return;
+    }
+    $('stats').innerHTML = stat('Cubic yards', fmt(r.yd3), true) + stat('Cubic feet', fmt(r.ft3, 1)) +
+      stat('Cubic meters', fmt(r.m3)) + stat('Area', `${fmt(r.area, 0)} sq ft`);
+    const half = Math.ceil(r.yd3 * 2 - 1e-9) / 2;
+    $('summary').textContent = `${fmt(r.area, 0)} square feet in total = ${fmt(r.ft3, 1)} cubic feet, or ${fmt(r.yd3)} cubic yards. ` +
+      `Rounded up to the next half yard, order ${half % 1 ? fmt(half, 1) : half} cubic yard${half === 1 ? '' : 's'}.`;
+    $('rows').innerHTML = count < 2 ? '' : '<thead><tr><th>Area</th><th class="num">Sq ft</th><th class="num">Cubic yards</th></tr></thead><tbody>' +
+      r.rows.map((x, i) => `<tr><td>Area ${i + 1}</td><td class="num">${fmt(x.area, 0)}</td><td class="num">${fmt(x.yd3)}</td></tr>`).join('') + '</tbody>';
+  }
+  $('add').addEventListener('click', () => { addPart('rect', 0, 0, 4); render(); });
+  addPart();
+  render();
+})();
+</script>
+</body>
+</html>

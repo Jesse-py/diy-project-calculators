@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Truck Bed Capacity Calculator: Cubic Yards and Payload</title>
+<meta name="description" content="How many cubic yards of mulch, soil, or gravel fit in your pickup bed, and how much it can legally carry by weight. Measure the bed, read the door placard.">
+<link rel="canonical" href="https://jesse-py.github.io/diy-project-calculators/truck-bed-capacity-calculator/">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Truck Bed Capacity Calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="../">DIY <span>Project</span> Calculators</a>
+  <nav class="top"><a href="../#calculators">Calculators</a><a href="../about/">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <h1>Truck Bed Capacity Calculator</h1>
+  <p class="lede">Before you drive to the landscape yard: how many cubic yards of mulch, topsoil, or gravel fit in your pickup bed, and how much your truck can carry by weight. Space and weight are two different limits, and heavy materials hit the weight limit long before the bed is full. Everything runs in your browser.</p>
+
+  <section class="card">
+    <h2 style="margin-top:0">1. Measure the bed (inside, in inches)</h2>
+    <div class="fields">
+      <div><label for="len">Length at the floor (in)</label><input id="len" type="number" min="0" step="1" value="78" inputmode="decimal"></div>
+      <div><label for="wid">Width side to side (in)</label><input id="wid" type="number" min="0" step="1" value="60" inputmode="decimal"></div>
+      <div><label for="depth">Depth, floor to top of the sides (in)</label><input id="depth" type="number" min="0" step="0.5" value="20" inputmode="decimal"></div>
+      <div><label for="between">Width between the wheel wells (in)</label><input id="between" type="number" min="0" step="1" value="50" inputmode="decimal"></div>
+      <div><label for="wlen">Wheel well length (in)</label><input id="wlen" type="number" min="0" step="1" value="32" inputmode="decimal"></div>
+      <div><label for="wht">Wheel well height (in)</label><input id="wht" type="number" min="0" step="0.5" value="10" inputmode="decimal"></div>
+    </div>
+    <p class="small muted">The numbers filled in are only an example. Measure your own bed with a tape: length with the tailgate closed, depth from the floor to the top of the side rail. No wheel wells to subtract (a flatbed or a trailer with sides)? Set the width between the wells to 0.</p>
+
+    <h2>2. How much weight can it carry?</h2>
+    <div class="fields">
+      <div><label for="payload">Placard limit: occupants + cargo (lb)</label><input id="payload" type="number" min="0" step="10" value="1500" inputmode="decimal"></div>
+      <div><label for="people">Driver and passengers (lb)</label><input id="people" type="number" min="0" step="10" value="200" inputmode="decimal"></div>
+      <div><label for="material">Material</label>
+        <select id="material">
+          <option value="2700">Gravel or crushed stone (2,700 lb per cubic yard)</option>
+          <option value="custom">Something else: I'll enter its weight</option>
+        </select></div>
+      <div class="s-custom hidden"><label for="lbyd">Weight per cubic yard (lb)</label><input id="lbyd" type="number" min="0" step="50" value="1000" inputmode="decimal"></div>
+    </div>
+    <p class="small muted">The placard limit is printed on the tire and loading sticker on the driver's door pillar: &ldquo;The combined weight of occupants and cargo should never exceed XXX lbs.&rdquo; Mulch, compost, and soil weights vary a lot with moisture, so ask the yard what a cubic yard of their material weighs; many weigh it on a truck scale.</p>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <h2 style="margin-top:0">What your truck can take</h2>
+    <div id="warning" class="note hidden"></div>
+    <div class="stats" id="stats"></div>
+    <p id="summary"></p>
+    <h3>Bags by weight</h3>
+    <div class="table-scroll"><table id="bags"></table></div>
+    <p class="small muted">Bag counts use the weight printed on each bag and the cargo capacity above. Stack bags low and spread them out; space is rarely the limit for bags.</p>
+  </section>
+
+  <article>
+    <h2 id="how-much-fits">How much fits in a pickup bed?</h2>
+    <p>Multiply the inside length, width, and depth in inches and divide by 46,656 (the cubic inches in a cubic yard). The example bed above is 78 &times; 60 &times; 20 inches = 93,600 cubic inches, or <strong>2.01 cubic yards</strong> before the wheel wells. The two wheel wells together take (60 &minus; 50) &times; 32 &times; 10 = 3,200 cubic inches, so the bed holds about <strong>1.94 cubic yards</strong> loaded level with the top of the sides.</p>
+    <p>That's what fits. Whether you can actually carry it depends on how heavy the material is, which is the next question.</p>
+
+    <h2>Space or weight: which runs out first?</h2>
+    <p>Divide the truck's cargo capacity by the material's weight per cubic yard. With the example's 1,300 lb of cargo capacity (a 1,500 lb placard limit minus a 200 lb driver):</p>
+    <div class="table-scroll"><table id="limits-table">
+<!--table:truck-limits-->
+<thead><tr><th>Material weight per cubic yard</th><th class="num">Cubic yards by weight</th><th class="num">Fits in the example bed</th><th class="num">You can take</th><th>Limit</th></tr></thead><tbody>
+<tr><td>500 lb</td><td class="num">2.60</td><td class="num">1.94</td><td class="num">1.94</td><td>Space</td></tr>
+<tr><td>800 lb</td><td class="num">1.63</td><td class="num">1.94</td><td class="num">1.63</td><td>Weight</td></tr>
+<tr><td>1,000 lb</td><td class="num">1.30</td><td class="num">1.94</td><td class="num">1.30</td><td>Weight</td></tr>
+<tr><td>2,000 lb</td><td class="num">0.65</td><td class="num">1.94</td><td class="num">0.65</td><td>Weight</td></tr>
+<tr><td>2,700 lb</td><td class="num">0.48</td><td class="num">1.94</td><td class="num">0.48</td><td>Weight</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p>So the same truck that can take a level-full bed of a material weighing 500 lb per cubic yard can safely carry less than half a yard of gravel. A full bed of gravel would weigh about 1.94 &times; 2,700 &asymp; 5,200 lb, four times this example's capacity. Ask the yard to load by weight (they can stop the loader bucket short), and tell them your cargo capacity.</p>
+
+    <h2>Finding your truck's payload</h2>
+    <p>Federal rules (49 CFR 571.110) require cars and light trucks up to 10,000 lb GVWR to carry a placard, usually on the driver's door pillar, stating the combined weight of occupants and cargo the vehicle should never exceed. The owner's manual steps (49 CFR 575.6) are:</p>
+    <ol>
+      <li>Find &ldquo;The combined weight of occupants and cargo should never exceed XXX lbs&rdquo; on the placard.</li>
+      <li>Add up the weight of the driver and passengers.</li>
+      <li>Subtract that from the placard number. What's left is your cargo capacity.</li>
+      <li>Keep the load (material, plus tools or anything else in the bed) under that figure. If you're also towing, the trailer's tongue weight comes out of it too; your manual explains how much.</li>
+    </ol>
+    <p>The calculator does steps 2 and 3 for you. It doesn't account for a toolbox, a bed liner, or anything else already in the truck: add their weight to the driver and passengers.</p>
+
+    <h2>How to load it</h2>
+    <ul>
+      <li>Level-full is the safe measure. A heaped load can slide or blow out on the road; tarp loose mulch and soil.</li>
+      <li>Put heavy material forward, over or just ahead of the rear axle, and spread it evenly side to side.</li>
+      <li>Wet material is heavier. Rain-soaked mulch or soil can weigh much more than the same yard dry, so leave a margin.</li>
+    </ul>
+
+    <h2>FAQ</h2>
+    <details><summary>How many yards of mulch fit in a pickup truck?</summary><p>Measure your bed and enter it above. The example 78 &times; 60 &times; 20 inch bed holds about 1.94 cubic yards loaded level. Whether you can carry that much depends on the mulch's weight per cubic yard, which changes a lot with moisture: ask the yard for their figure and enter it as &ldquo;Something else&rdquo;.</p></details>
+    <details><summary>How much gravel can a pickup carry?</summary><p>Cargo capacity divided by the gravel's weight. At 2,700 lb per cubic yard, every 1,000 lb of cargo capacity is about 0.37 cubic yards (1,000 &divide; 2,700). For more, use a trailer rated for the weight or have it delivered.</p></details>
+    <details><summary>How many 80 lb bags of concrete can my truck carry?</summary><p>Cargo capacity divided by 80, rounded down. With 1,300 lb of capacity that's 16 bags (1,280 lb). The <a href="../concrete-calculator/">concrete calculator</a> tells you how many bags your project needs.</p></details>
+    <details><summary>How do I convert my bed size to cubic yards?</summary><p>Inches: length &times; width &times; depth &divide; 46,656. Feet: length &times; width &times; depth &divide; 27. For a project area instead of a truck, the <a href="../cubic-yard-calculator/">cubic yard calculator</a> does the same math for rectangles, circles, and triangles.</p></details>
+    <details><summary>How much do I need for my project?</summary><p>Work that out first, then see if it fits: <a href="../mulch-calculator/">mulch</a>, <a href="../topsoil-calculator/">topsoil</a>, or <a href="../gravel-calculator/">gravel</a>. If you need more than one load, compare the cost of the trips with the yard's delivery fee.</p></details>
+    <p class="small">Run a landscape supply yard or garden center? <a href="https://jesse-py.github.io/landscape-material-calculator/?utm_source=diy">Put a calculator like this on your own website</a>: a free WordPress plugin with your prices, rounding, minimum order, and a quote button.</p>
+    <p class="small muted">Sources: <a href="https://www.ecfr.gov/current/title-49/subtitle-B/chapter-V/part-571/subpart-B/section-571.110">49 CFR 571.110</a> (FMVSS 110, S2 and S4.3: the vehicle placard and its location); <a href="https://www.ecfr.gov/current/title-49/subtitle-B/chapter-V/part-575/subpart-A/section-575.6">49 CFR 575.6</a> (&ldquo;Steps for Determining Correct Load Limit&rdquo;). Gravel weight: a 50 lb bag of QUIKRETE All-Purpose Gravel fills 0.5 cubic feet, i.e. 100 lb per cubic foot or 2,700 lb per cubic yard (see the <a href="../gravel-calculator/">gravel calculator</a>'s sources); suppliers' figures vary, so use theirs if you have it.</p>
+  </article>
+</div></main>
+<footer class="site"><div class="wrap">
+  <a href="../">Home</a><a href="../concrete-calculator/">Concrete calculator</a><a href="../gravel-calculator/">Gravel calculator</a><a href="../mulch-calculator/">Mulch calculator</a><a href="../topsoil-calculator/">Topsoil calculator</a><a href="../cubic-yard-calculator/">Cubic yard calculator</a><a href="../about/">About &amp; privacy</a>
+  <p>&copy; <span data-year></span> DIY Project Calculators</p>
+</div></footer>
+<script src="../assets/config.js"></script>
+<script src="../assets/diy-engine.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const E = window.DiyEngine;
+  const num = id => Math.max(0, parseFloat($(id).value) || 0);
+  const fmt = (n, d = 2) => n.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d });
+  const stat = (k, v, win) => `<div class="stat${win ? ' win' : ''}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
+
+  function render() {
+    const custom = $('material').value === 'custom';
+    document.querySelectorAll('.s-custom').forEach(el => el.classList.toggle('hidden', !custom));
+    const lbPerYd3 = custom ? num('lbyd') : parseFloat($('material').value);
+    const bed = E.truckBed({ lengthIn: num('len'), widthIn: num('wid'), depthIn: num('depth'),
+      betweenWellsIn: num('between'), wellLengthIn: num('wlen'), wellHeightIn: num('wht') });
+    const warn = $('warning');
+    if (bed.ft3 <= 0 || num('payload') <= 0 || lbPerYd3 <= 0) {
+      $('stats').innerHTML = ''; $('bags').innerHTML = ''; warn.classList.add('hidden');
+      $('summary').textContent = 'Enter the bed size, the placard limit, and the material weight to see what you can carry.';
+      return;
+    }
+    const load = E.truckLoad({ bedYd3: bed.yd3, payloadLb: num('payload'), peopleLb: num('people'), lbPerYd3 });
+    warn.classList.toggle('hidden', load.cargoLb > 0);
+    warn.textContent = load.cargoLb > 0 ? '' : 'The driver and passengers already use the whole placard limit, so there is no capacity left for cargo.';
+    $('stats').innerHTML = stat('You can take', `${fmt(load.yd3)} cu yd`, true) + stat('Fits in the bed', `${fmt(bed.yd3)} cu yd`) +
+      stat('Allowed by weight', `${fmt(load.byWeight)} cu yd`) + stat('Cargo capacity', `${Math.round(load.cargoLb).toLocaleString()} lb`);
+    const wells = bed.wellsFt3 > 0 ? ` (${fmt(bed.grossFt3, 1)} cu ft minus ${fmt(bed.wellsFt3, 1)} for the wheel wells)` : '';
+    $('summary').textContent = `The bed holds ${fmt(bed.ft3, 1)} cubic feet${wells}, or ${fmt(bed.yd3)} cubic yards level-full. ` +
+      `At ${Math.round(lbPerYd3).toLocaleString()} lb per cubic yard, ${Math.round(load.cargoLb).toLocaleString()} lb of cargo capacity allows ${fmt(load.byWeight)} cubic yards. ` +
+      (load.limit === 'weight'
+        ? `Weight is the limit: take ${fmt(load.yd3)} cubic yards (about ${Math.round(load.lb).toLocaleString()} lb), and the bed won't be full.`
+        : `Space is the limit: a level-full bed (${fmt(load.yd3)} cubic yards, about ${Math.round(load.lb).toLocaleString()} lb) stays under the weight limit.`);
+    $('bags').innerHTML = '<thead><tr><th>Bag weight</th><th class="num">Bags you can carry</th></tr></thead><tbody>' +
+      [40, 50, 60, 80].map(lb => `<tr><td>${lb} lb</td><td class="num">${E.bagsByWeight(load.cargoLb, lb).toLocaleString()}</td></tr>`).join('') + '</tbody>';
+  }
+  document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', render));
+  render();
+})();
+</script>
+</body>
+</html>

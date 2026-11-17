@@ -155,9 +155,49 @@
   // Room (rectangular): perimeter from length and width.
   const perimeter = (lengthFt, widthFt) => 2 * (pos(lengthFt) + pos(widthFt));
 
+  // Cubic yards for any mix of areas: each part is { shape: 'rect' | 'circle' | 'triangle', a, b, depthIn },
+  // with a = length / diameter / base and b = width / (unused) / height, all in feet. Returns per-part and total volume.
+  const M3_PER_YD3 = 0.764554857984; // 1 yd = 0.9144 m exactly, so 1 yd3 = 0.9144^3 m3
+  function partArea({ shape, a, b }) {
+    if (shape === 'circle') return Math.PI * Math.pow(pos(a) / 2, 2);
+    if (shape === 'triangle') return pos(a) * pos(b) / 2;
+    return pos(a) * pos(b);
+  }
+  function cubicYards(parts) {
+    const rows = (parts || []).map(p => {
+      const area = partArea(p), ft3 = area * pos(p.depthIn) / 12;
+      return { area, ft3, yd3: ft3 / FT3_PER_YD3 };
+    });
+    const ft3 = rows.reduce((s, r) => s + r.ft3, 0);
+    return { rows, area: rows.reduce((s, r) => s + r.area, 0), ft3, yd3: ft3 / FT3_PER_YD3, m3: ft3 / FT3_PER_YD3 * M3_PER_YD3 };
+  }
+
+  // Pickup bed, loaded level with the top of the sides. Inside measurements in inches. The wheel wells are treated as
+  // two boxes: together they take (width - width between the wells) x well length x well height (capped at the bed depth).
+  function truckBed({ lengthIn, widthIn, depthIn, betweenWellsIn = 0, wellLengthIn = 0, wellHeightIn = 0 }) {
+    const L = pos(lengthIn), W = pos(widthIn), D = pos(depthIn);
+    const gross = L * W * D;
+    const wellW = pos(betweenWellsIn) && pos(betweenWellsIn) < W ? W - betweenWellsIn : 0;
+    const wells = wellW * Math.min(pos(wellLengthIn), L) * Math.min(pos(wellHeightIn), D);
+    const ft3 = (gross - wells) / 1728;
+    return { grossFt3: gross / 1728, wellsFt3: wells / 1728, ft3, yd3: ft3 / FT3_PER_YD3 };
+  }
+  // What the truck can legally carry: the placard's "combined weight of occupants and cargo" minus the people
+  // (49 CFR 575.6 steps 1-4), then the smaller of what fits by weight and what fits by space.
+  function truckLoad({ bedYd3, payloadLb, peopleLb = 0, lbPerYd3 }) {
+    const cargoLb = Math.max(0, pos(payloadLb) - pos(peopleLb));
+    const byWeight = pos(lbPerYd3) ? cargoLb / lbPerYd3 : Infinity;
+    const bySpace = pos(bedYd3);
+    const yd3 = Math.min(byWeight, bySpace);
+    return { cargoLb, byWeight, bySpace, yd3, lb: yd3 * pos(lbPerYd3), limit: byWeight < bySpace ? 'weight' : 'space' };
+  }
+  // Whole bags of a given weight the cargo capacity allows.
+  const bagsByWeight = (cargoLb, bagLb) => (pos(bagLb) ? Math.floor(pos(cargoLb) / bagLb + 1e-9) : 0);
+
   root.DiyEngine = {
     FT3_PER_YD3, CONCRETE_BAGS, CONCRETE_LB_PER_FT3, BULK_BAGS, SOIL_BAGS, GRAVEL_BAG, GRAVEL_TONS_PER_YD3,
     slab, circleSlab, cylinder, bagsFor, concrete, bulk, yardCovers, soil, gravel, tonCovers, paint, buyPaint, perimeter,
     SAND_BAG_FT3, pavers, baseArea, fence, fenceRails,
+    M3_PER_YD3, partArea, cubicYards, truckBed, truckLoad, bagsByWeight,
   };
 })(typeof window !== 'undefined' ? window : module.exports);
