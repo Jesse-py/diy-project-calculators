@@ -49,6 +49,21 @@
     <p class="small muted">The bag size in cubic feet is printed on the front of the bag. Bulk mulch is sold by the cubic yard (27 cubic feet).</p>
   </section>
 
+  <section class="card" aria-live="polite">
+    <h2 style="margin-top:0" id="cost">Bags or bulk: which is cheaper?</h2>
+    <p class="small muted">Optional. Enter the prices at your store or landscape yard to compare the total cost for the amount above.</p>
+    <div class="fields">
+      <div><label for="bagsize">Bag size</label>
+        <select id="bagsize"><option value="2">2 cu ft</option><option value="3">3 cu ft</option><option value="1.5">1.5 cu ft</option></select></div>
+      <div><label for="bagprice">Price per bag ($)</label><input id="bagprice" type="number" min="0" step="0.01" inputmode="decimal" placeholder="e.g. 4.50"></div>
+      <div><label for="yardprice">Bulk price per cubic yard ($)</label><input id="yardprice" type="number" min="0" step="1" inputmode="decimal" placeholder="e.g. 40"></div>
+      <div><label for="delivery">Bulk delivery fee ($)</label><input id="delivery" type="number" min="0" step="1" value="0" inputmode="decimal"></div>
+    </div>
+    <div class="stats" id="cost-stats"></div>
+    <p id="cost-summary"></p>
+    <p class="small muted">Bulk is counted in half-yard steps, rounded up, because many yards sell it that way; ask yours. Use a delivery fee of 0 if you'll haul it yourself.</p>
+  </section>
+
   <article>
     <h2>How much does a yard of mulch cover?</h2>
 <div class="table-scroll"><table id="coverage-table">
@@ -64,6 +79,22 @@
     </table></div>
     <p>So at the usual 3 inches, a cubic yard covers about 108 square feet, roughly a 4 &times; 27 ft bed. A 2 cubic foot bag covers 8 square feet at 3 inches.</p>
 
+    <h2 id="bed-sizes">How much mulch for common bed sizes</h2>
+    <p>Cubic yards for bulk, and the number of 2 cubic foot bags (rounded up), at 2, 3, and 4 inches deep.</p>
+<div class="table-scroll"><table id="bed-table">
+<!--table:mulch-bed-sizes-->
+<thead><tr><th>Bed</th><th class="num">2 inches</th><th class="num">3 inches</th><th class="num">4 inches</th></tr></thead><tbody>
+<tr><td>10 &times; 3 ft bed (30 sq ft)</td><td class="num">0.19 yd&sup3;<br><span class="small muted">3 bags</span></td><td class="num">0.28 yd&sup3;<br><span class="small muted">4 bags</span></td><td class="num">0.37 yd&sup3;<br><span class="small muted">5 bags</span></td></tr>
+<tr><td>20 &times; 4 ft bed (80 sq ft)</td><td class="num">0.49 yd&sup3;<br><span class="small muted">7 bags</span></td><td class="num">0.74 yd&sup3;<br><span class="small muted">10 bags</span></td><td class="num">0.99 yd&sup3;<br><span class="small muted">14 bags</span></td></tr>
+<tr><td>10 &times; 10 ft bed (100 sq ft)</td><td class="num">0.62 yd&sup3;<br><span class="small muted">9 bags</span></td><td class="num">0.93 yd&sup3;<br><span class="small muted">13 bags</span></td><td class="num">1.23 yd&sup3;<br><span class="small muted">17 bags</span></td></tr>
+<tr><td>25 &times; 5 ft bed (125 sq ft)</td><td class="num">0.77 yd&sup3;<br><span class="small muted">11 bags</span></td><td class="num">1.16 yd&sup3;<br><span class="small muted">16 bags</span></td><td class="num">1.54 yd&sup3;<br><span class="small muted">21 bags</span></td></tr>
+<tr><td>50 &times; 4 ft border (200 sq ft)</td><td class="num">1.23 yd&sup3;<br><span class="small muted">17 bags</span></td><td class="num">1.85 yd&sup3;<br><span class="small muted">25 bags</span></td><td class="num">2.47 yd&sup3;<br><span class="small muted">34 bags</span></td></tr>
+<tr><td>4 ft tree ring (13 sq ft)</td><td class="num">0.08 yd&sup3;<br><span class="small muted">2 bags</span></td><td class="num">0.12 yd&sup3;<br><span class="small muted">2 bags</span></td><td class="num">0.16 yd&sup3;<br><span class="small muted">3 bags</span></td></tr>
+<tr><td>6 ft tree ring (28 sq ft)</td><td class="num">0.17 yd&sup3;<br><span class="small muted">3 bags</span></td><td class="num">0.26 yd&sup3;<br><span class="small muted">4 bags</span></td><td class="num">0.35 yd&sup3;<br><span class="small muted">5 bags</span></td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+
     <h2>How deep should mulch be?</h2>
     <p>The University of Illinois Extension recommends a layer of <strong>2 to 4 inches</strong> on well-drained sites: 2 to 3 inches for composted material and 3 to 4 inches for coarse mulch like wood chips or shredded bark. More is not better: thick layers mat down and keep water and air from reaching roots, and mulch piled against a tree trunk ("volcano mulching") is one of the most common causes of tree decline.</p>
     <ul>
@@ -76,11 +107,12 @@
     <p>Volume is area &times; depth, with the depth converted from inches to feet. A 20 &times; 4 ft bed is 80 square feet; at 3 inches deep that's 80 &times; 3 &divide; 12 = 20 cubic feet. Divide by 27 for cubic yards (0.74), or by the bag size for bags (10 bags of 2 cubic feet). Bags are rounded up. For a circle, the area is &pi; &times; radius&sup2;, so a 6-foot tree ring is about 28 square feet.</p>
 
     <h2>Bags or bulk?</h2>
-    <p>One cubic yard equals 13.5 bags of 2 cubic feet, or 9 bags of 3 cubic feet. Bagged mulch is easy to carry and store; bulk is usually cheaper per yard for big jobs but often comes with a delivery charge, so compare the total price for your amount. Hauling bulk mulch yourself? The <a href="../truck-bed-capacity-calculator/">truck bed capacity calculator</a> shows how many yards fit in your pickup.</p>
+    <p>One cubic yard equals 13.5 bags of 2 cubic feet, or 9 bags of 3 cubic feet. Bagged mulch is easy to carry and store; bulk is usually cheaper per yard for big jobs but often comes with a delivery charge, so compare the total price for your amount with the <a href="#cost">cost comparison</a> above. As a rule of thumb, bulk is cheaper per yard whenever 13.5 bags of 2 cubic feet cost more than a yard, but on a small job the delivery fee can wipe that out. Hauling bulk mulch yourself? The <a href="../truck-bed-capacity-calculator/">truck bed capacity calculator</a> shows how many yards fit in your pickup.</p>
 
     <h2>FAQ</h2>
     <details><summary>How many bags of mulch are in a yard?</summary><p>13.5 bags of 2 cubic feet, 9 bags of 3 cubic feet, or 18 bags of 1.5 cubic feet. A cubic yard is 27 cubic feet.</p></details>
     <details><summary>How many bags of mulch do I need for 100 square feet?</summary><p>At 3 inches deep, 100 square feet takes 25 cubic feet: 13 bags of 2 cubic feet (12.5, rounded up), or 0.93 cubic yards bulk.</p></details>
+    <details><summary>How much mulch fits in a pickup truck bed?</summary><p>It depends on the bed. For example, a 78 &times; 60 &times; 20 inch bed holds about 1.94 cubic yards loaded level with the sides, after the wheel wells. Wet mulch is heavy, so check your truck's payload too. The <a href="../truck-bed-capacity-calculator/">truck bed capacity calculator</a> works out both for your bed.</p></details>
     <details><summary>Does this work for soil, compost, or gravel?</summary><p>Yes. It's the same volume math for anything sold by the cubic foot or cubic yard. Use the depth you need: raised beds and new lawns are usually deeper than mulch, so the <a href="../topsoil-calculator/">topsoil calculator</a> adds an allowance for settling. For gravel sold by the ton, use the <a href="../gravel-calculator/">gravel calculator</a>.</p></details>
     <details><summary>Does mulch settle?</summary><p>Fluffy mulches like shredded bark settle a bit after watering and break down over the season, which is why most beds need a top-up each year or two. If you want a full 3 inches after settling, add a little extra.</p></details>
     <p class="small">Run a landscape supply yard or garden center? <a href="https://jesse-py.github.io/landscape-material-calculator/?utm_source=diy">Put a calculator like this on your own website</a>: a free WordPress plugin with your prices, rounding, minimum order, and a quote button.</p>
@@ -115,11 +147,13 @@
     if (area <= 0 || target <= 0) {
       $('stats').innerHTML = ''; $('bags').innerHTML = '';
       $('summary').textContent = 'Enter your bed size and depth to see how much mulch you need.';
+      cost(0);
       return;
     }
     if (add <= 0) {
       $('stats').innerHTML = stat('Mulch to add', 'None', true); $('bags').innerHTML = '';
       $('summary').textContent = `Your existing ${existing}-inch layer already reaches ${target} inches. Rake it to freshen it up instead of adding more.`;
+      cost(0);
       return;
     }
     const b = E.bulk(area, add);
@@ -129,6 +163,25 @@
     $('summary').textContent = `${fmt(area, 0)} square feet at ${add} inch${add === 1 ? '' : 'es'}${existing > 0 ? ` (topping ${existing} in. up to ${target} in.)` : ''} = ${fmt(b.ft3, 1)} cubic feet, or ${fmt(b.yd3)} cubic yards.`;
     $('bags').innerHTML = '<thead><tr><th>Bag size</th><th class="num">Bags needed</th></tr></thead><tbody>' +
       b.bags.map(x => `<tr><td>${x.size} cu ft</td><td class="num">${x.count.toLocaleString()}</td></tr>`).join('') + '</tbody>';
+    cost(b.ft3);
+  }
+  // Bags vs bulk: total cost for the volume above. Bulk is ordered in half-yard steps, rounded up.
+  function cost(ft3) {
+    const size = parseFloat($('bagsize').value), bagPrice = num('bagprice'), yardPrice = num('yardprice'), fee = num('delivery');
+    $('cost-stats').innerHTML = ''; $('cost-summary').textContent = '';
+    if (!(ft3 > 0) || !(bagPrice > 0) || !(yardPrice > 0)) {
+      $('cost-summary').textContent = ft3 > 0 ? 'Enter a bag price and a bulk price per yard to compare.' : '';
+      return;
+    }
+    const bags = E.bulk(ft3 * 12, 1, [size]).bags[0].count;
+    const yards = Math.ceil(ft3 / 27 * 2 - 1e-9) / 2;
+    const bagTotal = bags * bagPrice, bulkTotal = yards * yardPrice + fee;
+    const money = n => n.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
+    const bulkWins = bulkTotal < bagTotal;
+    $('cost-stats').innerHTML = stat(`${bags.toLocaleString()} bags of ${size} cu ft`, money(bagTotal), !bulkWins && bagTotal !== bulkTotal) +
+      stat(`${fmt(yards, 1)} yd bulk${fee > 0 ? ' + delivery' : ''}`, money(bulkTotal), bulkWins);
+    $('cost-summary').textContent = bagTotal === bulkTotal ? 'Both cost the same.' :
+      `${bulkWins ? 'Bulk' : 'Bags'} ${bulkWins ? 'is' : 'are'} cheaper by ${money(Math.abs(bagTotal - bulkTotal))}.`;
   }
   document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', render));
   render();
