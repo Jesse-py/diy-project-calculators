@@ -241,6 +241,38 @@
     };
   }
 
+  // Grass seed for a new lawn, in lb of seed per 1,000 sq ft (new seedings, not overseeding):
+  // Purdue Extension AY-3-W Table 2 (Indiana/Illinois): Kentucky bluegrass 1.5-2, KBG + 10-15% perennial rye 3-4,
+  // KBG + 30-50% fine fescue 4-5, tall fescue 6-9. Penn State Extension "Turfgrass Seed and Seed Mixtures": turf-type
+  // perennial ryegrass 4-5, fine fescues 4-5. NC State Extension AG-69 "Carolina Lawns" Table 2b: bermudagrass 1-2,
+  // zoysiagrass 1-2 (only a few cultivars come as seed), centipedegrass 0.25-0.5, bahiagrass 5; St. Augustinegrass has no seed.
+  // Purdue and NC State both say to sow half the seed in one direction and half at right angles; Purdue AY-3-W: one bale of
+  // straw per 1,000 sq ft as a light mulch.
+  const GRASS_SEED = {
+    'tall-fescue': { name: 'Tall fescue (turf-type)', lb: [6, 9], src: 'purdue' },
+    'kbg': { name: 'Kentucky bluegrass', lb: [1.5, 2], src: 'purdue' },
+    'kbg-rye': { name: 'Kentucky bluegrass + 10-15% perennial ryegrass', lb: [3, 4], src: 'purdue' },
+    'kbg-fine': { name: 'Kentucky bluegrass + 30-50% fine fescue', lb: [4, 5], src: 'purdue' },
+    'rye': { name: 'Perennial ryegrass (turf-type)', lb: [4, 5], src: 'psu' },
+    'fine-fescue': { name: 'Fine fescues', lb: [4, 5], src: 'psu' },
+    'bermuda': { name: 'Bermudagrass', lb: [1, 2], src: 'ncsu' },
+    'zoysia': { name: 'Zoysiagrass', lb: [1, 2], src: 'ncsu' },
+    'centipede': { name: 'Centipedegrass', lb: [0.25, 0.5], src: 'ncsu' },
+    'bahia': { name: 'Bahiagrass', lb: [5, 5], src: 'ncsu' },
+  };
+  const STRAW_FT2_PER_BALE = 1000;
+  function grassSeed({ areaFt2, lbLow, lbHigh = lbLow, bagLb = 0, bagPrice = 0 }) {
+    const k = pos(areaFt2) / 1000, bag = pos(bagLb);
+    const low = k * pos(lbLow), high = k * Math.max(pos(lbLow), pos(lbHigh));
+    const bags = n => (bag && n ? Math.ceil(n / bag - 1e-9) : 0);
+    const bagsHigh = bags(high);
+    return {
+      low, high, perPassHigh: high / 2, bagsLow: bags(low), bagsHigh,
+      cost: pos(bagPrice) * bagsHigh, leftoverLb: bagsHigh ? bagsHigh * bag - high : 0,
+      strawBales: k ? Math.ceil(pos(areaFt2) / STRAW_FT2_PER_BALE - 1e-9) : 0,
+    };
+  }
+
   root.DiyEngine = {
     FT3_PER_YD3, CONCRETE_BAGS, CONCRETE_LB_PER_FT3, BULK_BAGS, SOIL_BAGS, GRAVEL_BAG, GRAVEL_TONS_PER_YD3,
     slab, circleSlab, cylinder, bagsFor, concrete, bulk, yardCovers, soil, gravel, tonCovers, paint, buyPaint, perimeter,
@@ -248,5 +280,6 @@
     M3_PER_YD3, partArea, cubicYards, truckBed, truckLoad, bagsByWeight,
     RW_BASE_WIDTH_IN, RW_BASE_DEPTH_IN, RW_DRAIN_IN, retainingWall,
     SOD_PALLET_FT2, SOD_LB_PER_YD2, sod,
+    GRASS_SEED, STRAW_FT2_PER_BALE, grassSeed,
   };
 })(typeof window !== 'undefined' ? window : module.exports);
