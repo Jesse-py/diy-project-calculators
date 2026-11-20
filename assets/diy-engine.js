@@ -273,6 +273,37 @@
     };
   }
 
+  // Firewood. NIST Handbook 130 (2026), Method of Sale 2.4.1.2: a cord is the wood in 128 ft3 "ranked and well stowed"
+  // (pieces in a row, touching, parallel, stacked compactly). A stack's volume is its length x height x piece length.
+  const CORD_FT3 = 128;
+  function woodStack({ lengthFt, heightFt, pieceIn, rows = 1 }) {
+    const n = Math.max(1, Math.floor(pos(rows)));
+    const ft3 = pos(lengthFt) * pos(heightFt) * pos(pieceIn) / 12 * n;
+    return { ft3, cords: ft3 / CORD_FT3 };
+  }
+  // What a quoted price works out to per full cord.
+  const pricePerCord = (price, cords) => (pos(price) && pos(cords) ? price / cords : 0);
+  // Clemson University Forestry Bulletin 30 (Marsinko & Wooten, 1982), Table 1, 18-inch wood: box volume (wheel wells
+  // subtracted) and the stacked volume each load measured once restacked on a rack, by loading method (ft3).
+  const PICKUP_STUDY = [
+    { truck: '1975 Dodge short bed', box: 48.5, randomTop: 29.80, stackedTop: 40.83, randomAbove: 37.89, stackedAbove: 51.52 },
+    { truck: '1981 Ford short bed', box: 62.1, randomTop: 38.16, stackedTop: 49.47, randomAbove: 48.00, stackedAbove: 61.23 },
+    { truck: '1975-76 Datsun', box: 38.6, randomTop: 23.62, stackedTop: 31.23, randomAbove: 29.64, stackedAbove: 39.57 },
+    { truck: '1978 Dodge long bed', box: 72.8, randomTop: 45.23, stackedTop: 60.59, randomAbove: 56.54, stackedAbove: 73.98 },
+  ];
+  const WELLS_FT3 = 2.8; // the study's wheel-well allowance for the full-size trucks
+  // Share of the box volume a loading method actually held: [lowest, highest] across the study's 4 trucks.
+  const pickupFill = method => {
+    const r = PICKUP_STUDY.map(t => t[method] / t.box);
+    return [Math.min(...r), Math.max(...r)];
+  };
+  function pickupWood({ lengthIn, widthIn, depthIn, wells = false, method }) {
+    const gross = pos(lengthIn) * pos(widthIn) * pos(depthIn) / 1728;
+    const box = Math.max(0, gross - (wells ? WELLS_FT3 : 0));
+    const [lo, hi] = pickupFill(method);
+    return { box, lowFt3: box * lo, highFt3: box * hi, lowCords: box * lo / CORD_FT3, highCords: box * hi / CORD_FT3 };
+  }
+
   root.DiyEngine = {
     FT3_PER_YD3, CONCRETE_BAGS, CONCRETE_LB_PER_FT3, BULK_BAGS, SOIL_BAGS, GRAVEL_BAG, GRAVEL_TONS_PER_YD3,
     slab, circleSlab, cylinder, bagsFor, concrete, bulk, yardCovers, soil, gravel, tonCovers, paint, buyPaint, perimeter,
@@ -281,5 +312,6 @@
     RW_BASE_WIDTH_IN, RW_BASE_DEPTH_IN, RW_DRAIN_IN, retainingWall,
     SOD_PALLET_FT2, SOD_LB_PER_YD2, sod,
     GRASS_SEED, STRAW_FT2_PER_BALE, grassSeed,
+    CORD_FT3, woodStack, pricePerCord, PICKUP_STUDY, WELLS_FT3, pickupFill, pickupWood,
   };
 })(typeof window !== 'undefined' ? window : module.exports);
