@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jesse-py.github.io/diy-project-calculators/sitemap.xml
+Sitemap: https://simpletoolshop.com/diy-project-calculators/sitemap.xml
