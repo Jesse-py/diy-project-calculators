@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Retaining Wall Calculator: Blocks, Caps, and Gravel</title>
-<meta name="description" content="Free retaining wall block calculator: blocks per course, total blocks and caps, the buried course, and tons of gravel for the base and drainage zone.">
+<title>Retaining Wall Block Calculator: Straight or Circular Walls, Caps, Gravel</title>
+<meta name="description" content="Free retaining wall block calculator for straight walls and circles (tree rings, fire pits): blocks per course, total blocks, caps, and tons of gravel.">
 <link rel="canonical" href="https://simpletoolshop.com/diy-project-calculators/retaining-wall-calculator/">
 <link rel="stylesheet" href="../assets/style.css">
 <script type="application/ld+json">
@@ -22,7 +22,12 @@
 
   <section class="card">
     <div class="fields">
-      <div><label for="len">Wall length (ft)</label><input id="len" type="number" min="0" step="1" value="30" inputmode="decimal"></div>
+      <div><label for="shape">Wall shape</label><select id="shape">
+        <option value="line">Straight or curved run</option>
+        <option value="circle">Full circle (tree ring, fire pit)</option>
+      </select></div>
+      <div class="s-line"><label for="len">Wall length (ft)</label><input id="len" type="number" min="0" step="1" value="30" inputmode="decimal"></div>
+      <div class="s-circle hidden"><label for="dia">Outside diameter (ft)</label><input id="dia" type="number" min="0" step="0.5" value="6" inputmode="decimal"></div>
       <div><label for="height">Height above ground (in)</label><input id="height" type="number" min="0" step="1" value="24" inputmode="decimal"></div>
       <div><label for="size">Block face (length &times; height)</label><select id="size">
         <option value="12x4">12 &times; 4 in (small garden block)</option>
@@ -46,7 +51,7 @@
         <div><label for="density">Gravel weight (tons per cu yd)</label><input id="density" type="number" min="0" step="0.05" value="1.35" inputmode="decimal"></div>
       </div>
     </details>
-    <p class="small muted">Measure the length along the front face. Block sizes are nominal; a block sold as 12 in long is often 11&frac34; in, which the cut allowance covers. Check the label for your block's face size.</p>
+    <p class="small muted">Measure the length along the front face; for a circle whose blocks face out, measure across the outside. Block sizes are nominal; a block sold as 12 in long is often 11&frac34; in, which the cut allowance covers. Check the label for your block's face size.</p>
   </section>
 
   <section class="card" aria-live="polite">
@@ -76,6 +81,30 @@
 <!--/table-->
     </table></div>
     <p class="small muted">Height above ground, no caps, buried 1 in per foot of height, plus 5% for cuts. Bigger blocks need fewer pieces but each one is much heavier; check the weight before you plan to carry a few hundred.</p>
+
+    <h2 id="circle">Circular walls: tree rings, fire pits, and round beds</h2>
+    <p>A circle is one wall with no ends. Measure the diameter across the front faces (the outside, when the blocks face out), multiply by &pi; (3.1416) to get the length around, and divide by the block length for one course. Pick <em>Full circle</em> above and the calculator does this for you.</p>
+    <p>Example: a ring 6 ft across the outside, 12 in tall, in 12 &times; 4 in blocks. Around the outside is 6 &times; 3.1416 = 18.85 ft, or 226.2 in, so each course takes 226.2 &divide; 12 = 18.85, <strong>19 blocks</strong>. With 1 in buried you stack 13 in, which rounds up to <strong>4 courses</strong>: 76 blocks, plus 5% = <strong>80 blocks</strong>. The ring stands about 15 in above ground; drop a course for 11 in instead.</p>
+    <div class="table-scroll"><table id="circles-table">
+<!--table:retaining-wall-circles-->
+<thead><tr><th>Outside diameter</th><th class="num">Around the outside</th><th class="num">12 in blocks</th><th class="num">16 in blocks</th><th class="num">18 in blocks</th></tr></thead><tbody>
+<tr><td>3 ft</td><td class="num">9.42 ft</td><td class="num">10</td><td class="num">8</td><td class="num">7</td></tr>
+<tr><td>4 ft</td><td class="num">12.57 ft</td><td class="num">13</td><td class="num">10</td><td class="num">9</td></tr>
+<tr><td>5 ft</td><td class="num">15.71 ft</td><td class="num">16</td><td class="num">12</td><td class="num">11</td></tr>
+<tr><td>6 ft</td><td class="num">18.85 ft</td><td class="num">19</td><td class="num">15</td><td class="num">13</td></tr>
+<tr><td>8 ft</td><td class="num">25.13 ft</td><td class="num">26</td><td class="num">19</td><td class="num">17</td></tr>
+<tr><td>10 ft</td><td class="num">31.42 ft</td><td class="num">32</td><td class="num">24</td><td class="num">21</td></tr>
+<tr><td>12 ft</td><td class="num">37.70 ft</td><td class="num">38</td><td class="num">29</td><td class="num">26</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p class="small muted">Blocks in one course, rounded up, before any extra for cuts. Multiply by the number of courses.</p>
+    <ul>
+      <li><strong>Tapered blocks turn the curve.</strong> Most garden wall blocks are narrower at the back so the front faces can sit tight around a circle. Each block has a smallest circle it can make without cutting; the maker lists it, and a smaller ring means cutting or a smaller block.</li>
+      <li><strong>Square-backed blocks</strong> leave wedge-shaped gaps at the back of a ring that faces out, and won't close up at all on a ring that faces in without cutting. The count is the same; only the fit changes.</li>
+      <li><strong>Setback shrinks each course.</strong> Blocks with a lip step back a little each course, so on a ring that faces out every course is a slightly smaller circle and may take one block fewer. The calculator counts every course at full size, so it errs a block or two high.</li>
+      <li><strong>Curves that face in</strong> (a wall wrapping a patio) follow the same rule: measure along the front face, which there is the inside of the curve, and use <em>Straight or curved run</em>.</li>
+    </ul>
 
     <h2 id="gravel">How much gravel for a retaining wall?</h2>
     <p>Allan Block's residential <a href="https://allanblock.com/installation/residential-installation/basic-installation">installation guide</a> uses gravel ("wall rock") in two places:</p>
@@ -118,12 +147,14 @@
   const num = id => Math.max(0, parseFloat($(id).value) || 0);
 
   function render() {
-    const size = $('size').value, caps = $('caps').value === 'yes';
+    const size = $('size').value, caps = $('caps').value === 'yes', circle = $('shape').value === 'circle';
+    document.querySelectorAll('.s-line').forEach(el => el.classList.toggle('hidden', circle));
+    document.querySelectorAll('.s-circle').forEach(el => el.classList.toggle('hidden', !circle));
     document.querySelectorAll('.s-custom').forEach(el => el.classList.toggle('hidden', size !== 'custom'));
     document.querySelectorAll('.s-caps').forEach(el => el.classList.toggle('hidden', !caps));
     const [bl, bh] = size === 'custom' ? [num('blen'), num('bht')] : size.split('x').map(Number);
     const opts = {
-      lengthFt: num('len'), heightIn: num('height'), blockLenIn: bl, blockHtIn: bh, wastePct: num('waste'),
+      lengthFt: circle ? E.ringWallFt(num('dia')) : num('len'), heightIn: num('height'), blockLenIn: bl, blockHtIn: bh, wastePct: num('waste'),
       capLenIn: caps ? num('clen') : 0, capHtIn: caps ? num('cht') : 0,
       baseWidthIn: num('bwid'), baseDepthIn: num('bdep'), drainIn: num('drain'), tonsPerYd3: num('density'),
     };
@@ -132,7 +163,7 @@
     const warn = $('warning');
     if (!r.courses || !r.perCourse) {
       $('stats').innerHTML = ''; $('gravel-summary').textContent = ''; warn.classList.add('hidden');
-      $('summary').textContent = 'Enter the wall length, its height, and the block size to see what to buy.';
+      $('summary').textContent = `Enter the wall ${circle ? 'diameter' : 'length'}, its height, and the block size to see what to buy.`;
       return;
     }
     const bury = opts.buryIn === undefined ? opts.heightIn / 12 : opts.buryIn;
@@ -140,12 +171,14 @@
       stat('Courses', `${r.courses} (${r.perCourse} per course)`) +
       stat('Gravel', `${fmt(r.gravel.tons)} tons`) + stat('Gravel, cubic yards', fmt(r.gravel.yd3)) +
       stat('Trench', `${fmt(opts.baseWidthIn / 12, 1)} ft wide, ${fmt(r.trenchDepthIn, 1)} in deep`);
-    $('summary').textContent = `${int(Math.round(opts.lengthFt * 12))} in of wall ÷ ${bl} in = ${r.perCourse} blocks per course. ` +
+    $('summary').textContent = (circle ? `A circle ${fmt(num('dia'), 1)} ft across is ${fmt(opts.lengthFt)} ft around (× 3.1416). ` : '') +
+      `${int(Math.round(opts.lengthFt * 12))} in of wall ÷ ${bl} in = ${r.perCourse} blocks per course. ` +
       `${fmt(Math.max(0, opts.heightIn - (caps ? opts.capHtIn : 0)), 1)} in of block above ground + ${fmt(bury, 1)} in buried = ` +
       `${r.courses} courses of ${bh} in. ${r.courses} × ${r.perCourse} = ${int(r.exactBlocks)} blocks, plus ${opts.wastePct}% = ${int(r.blocks)}. ` +
       `The finished wall stands about ${fmt(r.exposedIn, 1)} in above ground.`;
     $('gravel-summary').textContent = `Gravel: base ${fmt(r.baseFt3, 1)} cu ft + drainage zone ${fmt(r.drainFt3, 1)} cu ft = ` +
-      `${fmt(r.gravel.ft3, 1)} cu ft, or ${int(r.gravel.bags)} bags of 0.5 cu ft. Dig about ${fmt(r.digFt3 / 27)} cubic yards of soil for the trench.`;
+      `${fmt(r.gravel.ft3, 1)} cu ft, or ${int(r.gravel.bags)} bags of 0.5 cu ft. Dig about ${fmt(r.digFt3 / 27)} cubic yards of soil for the trench.` +
+      (circle ? ' On a ring the trench and drainage rock follow the same outside line, so these run a little high.' : '');
     warn.textContent = r.drainPipe
       ? `Over 4 ft: Allan Block's guide requires a drain pipe (about ${int(Math.ceil(opts.lengthFt))} ft, vented every 50 ft). Check your block maker's height chart for geogrid, and ask your building department about a permit and an engineered design.`
       : '';

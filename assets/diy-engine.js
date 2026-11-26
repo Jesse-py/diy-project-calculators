@@ -224,6 +224,10 @@
     };
   }
 
+  // A circular wall (tree ring, fire pit, round bed) is one long run: the length along the front face is pi x the diameter
+  // measured across the front faces (the outside of a ring whose blocks face out).
+  const ringWallFt = diameterFt => Math.PI * pos(diameterFt);
+
   // Sod, ordered the way Purdue Extension's "Establishing a Lawn from Sod" (AY-28-W) describes: vendors sell by the square
   // yard (sq ft / 9), add about 10% for cutting and measuring errors, a pallet holds about 50 sq yd (450 sq ft), and sod
   // weighs about 35-40 lb per sq yd. Slabs are typically 18 x 24 in; rolls 18 in x 6 ft or 24 in x 5 ft (piece size, inches).
@@ -309,7 +313,7 @@
     slab, circleSlab, cylinder, bagsFor, concrete, bulk, yardCovers, soil, gravel, tonCovers, paint, buyPaint, perimeter,
     SAND_BAG_FT3, pavers, baseArea, fence, fenceRails,
     M3_PER_YD3, partArea, cubicYards, truckBed, truckLoad, bagsByWeight,
-    RW_BASE_WIDTH_IN, RW_BASE_DEPTH_IN, RW_DRAIN_IN, retainingWall,
+    RW_BASE_WIDTH_IN, RW_BASE_DEPTH_IN, RW_DRAIN_IN, retainingWall, ringWallFt,
     SOD_PALLET_FT2, SOD_LB_PER_YD2, sod,
     GRASS_SEED, STRAW_FT2_PER_BALE, grassSeed,
     CORD_FT3, woodStack, pricePerCord, PICKUP_STUDY, WELLS_FT3, pickupFill, pickupWood,
