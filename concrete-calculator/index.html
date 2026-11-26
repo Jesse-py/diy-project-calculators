@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Concrete Calculator: Bags and Cubic Yards for a Slab or Post Holes</title>
-<meta name="description" content="Free concrete calculator for slabs, round pads, and post holes. Get cubic yards and how many 40, 60, or 80 lb bags of concrete mix to buy, with a waste allowance.">
+<title>Concrete Calculator: Bags per Yard, per Post Hole, and for a Slab</title>
+<meta name="description" content="Concrete calculator for slabs, round pads, and post holes: cubic yards and 40, 60, or 80 lb bags to buy, plus cubic feet per bag and bags per post hole.">
 <link rel="canonical" href="https://simpletoolshop.com/diy-project-calculators/concrete-calculator/">
 <link rel="stylesheet" href="../assets/style.css">
 <script type="application/ld+json">
@@ -86,19 +86,38 @@
     </table></div>
     <p>For other sizes, use the calculator above. The thickness for a driveway, footing, or slab under a building is often set by local building code, so check before you order.</p>
 
+    <h2 id="post-holes">How much concrete per post hole?</h2>
+    <p>A round hole holds &pi; &times; radius&sup2; &times; depth. Work in feet: a 10-inch hole has a radius of 5 inches, or 0.417 ft, so a 3 ft deep hole holds 3.1416 &times; 0.417&sup2; &times; 3 = 1.64 cubic feet. Add 10% and divide by 0.60 (what an 80 lb bag makes), and that's 3 bags. Here's one hole, filled to the top, with 10% extra:</p>
+    <div class="table-scroll"><table id="post-hole-table">
+<!--table:concrete-post-holes-->
+<thead><tr><th>Hole</th><th class="num">2 ft deep</th><th class="num">3 ft deep</th><th class="num">4 ft deep</th></tr></thead><tbody>
+<tr><td>6 in wide</td><td class="num">0.4 cu ft<br><span class="small muted">1 &times; 80 lb or 1 &times; 60 lb</span></td><td class="num">0.6 cu ft<br><span class="small muted">2 &times; 80 lb or 2 &times; 60 lb</span></td><td class="num">0.9 cu ft<br><span class="small muted">2 &times; 80 lb or 2 &times; 60 lb</span></td></tr>
+<tr><td>8 in wide</td><td class="num">0.8 cu ft<br><span class="small muted">2 &times; 80 lb or 2 &times; 60 lb</span></td><td class="num">1.2 cu ft<br><span class="small muted">2 &times; 80 lb or 3 &times; 60 lb</span></td><td class="num">1.5 cu ft<br><span class="small muted">3 &times; 80 lb or 4 &times; 60 lb</span></td></tr>
+<tr><td>10 in wide</td><td class="num">1.2 cu ft<br><span class="small muted">2 &times; 80 lb or 3 &times; 60 lb</span></td><td class="num">1.8 cu ft<br><span class="small muted">3 &times; 80 lb or 4 &times; 60 lb</span></td><td class="num">2.4 cu ft<br><span class="small muted">4 &times; 80 lb or 6 &times; 60 lb</span></td></tr>
+<tr><td>12 in wide</td><td class="num">1.7 cu ft<br><span class="small muted">3 &times; 80 lb or 4 &times; 60 lb</span></td><td class="num">2.6 cu ft<br><span class="small muted">5 &times; 80 lb or 6 &times; 60 lb</span></td><td class="num">3.5 cu ft<br><span class="small muted">6 &times; 80 lb or 8 &times; 60 lb</span></td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p>A post takes up some of the hole (a 4&times;4 is about 0.085 sq ft, so roughly 0.25 cubic feet over 3 ft), so these numbers leave you a little spare. Bags are rounded up for each hole; for several holes, multiply the cubic feet, then divide by the bag yield, or set the calculator to "Post holes" and enter how many. A 12-inch hole takes about 2.25 times the concrete of an 8-inch one ((12 A 12-inch hole is about 2.3 times the concrete of an 8-inch one, sodivide; 8)A 12-inch hole is about 2.3 times the concrete of an 8-inch one, sosup2;), so don't dig wider than you need.</p>
+
+    <h2 id="bag-yield">How many cubic feet are in a bag of concrete?</h2>
+    <p>An 80 lb bag of concrete mix makes about 0.60 cubic feet, a 60 lb bag about 0.45, and a 40 lb bag about 0.30, once mixed with water. That's what fills your forms, so it's the number to plan with. It takes 45 of the 80 lb bags, or 60 of the 60 lb bags, to make one cubic yard.</p>
+    <div class="table-scroll"><table id="bag-yield-table">
+<!--table:concrete-bag-yields-->
+<thead><tr><th>Bag size</th><th class="num">One bag makes</th><th class="num">Cubic yards per bag</th><th class="num">Bags per cubic foot</th><th class="num">Bags per cubic yard</th></tr></thead><tbody>
+<tr><td>40 lb</td><td class="num">0.30 cu ft</td><td class="num">0.011</td><td class="num">3.33</td><td class="num">90</td></tr>
+<tr><td>50 lb</td><td class="num">0.375 cu ft</td><td class="num">0.014</td><td class="num">2.67</td><td class="num">72</td></tr>
+<tr><td>60 lb</td><td class="num">0.45 cu ft</td><td class="num">0.017</td><td class="num">2.22</td><td class="num">60</td></tr>
+<tr><td>80 lb</td><td class="num">0.60 cu ft</td><td class="num">0.022</td><td class="num">1.67</td><td class="num">45</td></tr>
+<tr><td>90 lb</td><td class="num">0.675 cu ft</td><td class="num">0.025</td><td class="num">1.48</td><td class="num">40</td></tr>
+</tbody>
+<!--/table-->
+    </table></div>
+    <p>Yields are from the QUIKRETE Concrete Mix data sheet. Other brands' bags of the same weight make about the same amount, and the yield is printed on the bag. High-strength and fast-setting mixes can differ slightly, so check the bag if you're cutting it close.</p>
+
     <h2>How the calculator works</h2>
     <p>Volume is length &times; width &times; thickness, with the thickness converted from inches to feet (divide by 12). A 10 &times; 10 ft slab 4 inches thick is 10 &times; 10 &times; 4 &divide; 12 = 33.3 cubic feet. There are 27 cubic feet in a cubic yard, so that's 1.23 cubic yards before waste. A round pad uses &pi; &times; radius&sup2; &times; thickness, and a post hole uses the same formula with the hole's diameter and depth.</p>
-    <p>For bags, the calculator divides the volume (plus your waste allowance) by how much one bag makes, then rounds up. QUIKRETE's data sheet lists these yields:</p>
-    <div class="table-scroll"><table>
-      <thead><tr><th>Bag size</th><th class="num">Yield per bag</th><th class="num">Bags per cubic yard</th></tr></thead>
-      <tbody>
-        <tr><td>40 lb</td><td class="num">0.30 cu ft</td><td class="num">90</td></tr>
-        <tr><td>50 lb</td><td class="num">0.375 cu ft</td><td class="num">72</td></tr>
-        <tr><td>60 lb</td><td class="num">0.45 cu ft</td><td class="num">60</td></tr>
-        <tr><td>80 lb</td><td class="num">0.60 cu ft</td><td class="num">45</td></tr>
-        <tr><td>90 lb</td><td class="num">0.675 cu ft</td><td class="num">40</td></tr>
-      </tbody>
-    </table></div>
+    <p>For bags, the calculator divides the volume (plus your waste allowance) by how much one bag makes, then rounds up. The yields come from QUIKRETE's data sheet (<a href="#bag-yield">table below</a>).</p>
     <p>The weight shown uses the data sheet's density of about 140 lb per cubic foot of mixed concrete, which helps if you're hauling bags in a car or pickup.</p>
 
     <h2>Tips before you pour</h2>
@@ -111,6 +130,8 @@
 
     <h2>FAQ</h2>
     <details><summary>How many 80 lb bags of concrete are in a yard?</summary><p>45. One cubic yard is 27 cubic feet, and an 80 lb bag makes about 0.60 cubic feet (27 &divide; 0.60 = 45). With 60 lb bags it's 60 per yard.</p></details>
+    <details><summary>How many cubic feet is a 60 lb bag of concrete?</summary><p>About 0.45 cubic feet (QUIKRETE's figure), so 2.2 bags make a cubic foot and 60 bags make a cubic yard. An 80 lb bag makes about 0.60 cubic feet.</p></details>
+    <details><summary>How much of a yard is one bag of concrete?</summary><p>An 80 lb bag is about 0.022 cubic yards (0.60 &divide; 27), a 60 lb bag about 0.017. So one yard is 45 or 60 bags.</p></details>
     <details><summary>How many bags for a 10 &times; 10 slab?</summary><p>At 4 inches thick: 33.3 cubic feet, which is 56 bags of 80 lb mix with no extra, or 62 bags with 10% added for waste.</p></details>
     <details><summary>How much concrete per fence post?</summary><p>A 10-inch hole 3 feet deep holds about 1.6 cubic feet, which is 3 bags of 80 lb mix (with 10% extra). Set the shape to "Post holes" and enter your hole size and number of posts. The post itself takes up some of the space, so you'll have a bit to spare. Planning a whole fence? The <a href="../fence-calculator/">fence calculator</a> sizes the holes, subtracts the post, and counts posts, rails, and pickets too.</p></details>
     <details><summary>Does this work for other brands?</summary><p>Yes, if you know the yield. Most bags print it (for example "yields 0.6 cu ft"). Bag yields for the same weight are similar across brands, but check yours if you're ordering exactly.</p></details>
